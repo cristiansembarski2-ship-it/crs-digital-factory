@@ -1,0 +1,13 @@
+{
+  "product_id": "lpc-fitlab",
+  "brand": "CRS Digital",
+  "version": "1.0.0-lite",
+  "status": "new",
+  "cost_initial_brl": 0,
+  "cost_monthly_brl": 0,
+  "hypothesis": "A distribuição em canais Godot/LPC gera uso do Lite e interesse suficiente para uma versão Pro.",
+  "success_threshold": "100 usos Lite ou 500 views qualificadas e 3 vendas Pro em até 60 dias após Pro existir.",
+  "death_rule": "Com 500 views qualificadas e pelo menos 50 usos Lite, zero interesse/clique Pro após uma revisão de oferta indica monetização fraca.",
+  "payment_status": "not_connected",
+  "payment_note": "Não cobrar antes de existir entrega Pro automática e testada."
+}

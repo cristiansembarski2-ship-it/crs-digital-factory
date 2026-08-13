@@ -1,0 +1,3 @@
+Código deste protótipo: uso permitido pelo proprietário CRS Digital para testar, modificar e publicar.
+Nenhum sprite ou asset de terceiros é incluído. A demo é sintética e gerada em tempo de execução.
+Ao adicionar bibliotecas ou assets futuramente, verificar e preservar as licenças correspondentes.

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="LPC FitLab for Godot 4 — valide spritesheets localmente, visualize a grade e exporte uma base de SpriteFrames." />
+  <meta name="theme-color" content="#111827" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';" />
+  <title>LPC FitLab for Godot 4 — CRS Digital</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">CRS Digital <span>/ LPC FitLab</span></div>
+    <nav><a href="#tool">Ferramenta</a><a href="#docs">Compatibilidade</a><a href="#pro">Pro</a></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Ferramenta local • Godot 4 • sem upload</span>
+        <h1>Veja o spritesheet antes de perder tempo configurando animações.</h1>
+        <p>Carregue um PNG, escolha ou detecte a grade, veja frames vazios, alinhamento, transparência e exporte uma base de SpriteFrames para Godot 4.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#tool">Abrir FitLab</a>
+          <button class="button secondary" id="loadDemoTop">Usar demo sintética</button>
+        </div>
+        <p class="privacy">🔒 O arquivo é processado no seu navegador. Este app não envia o sprite para servidor algum.</p>
+      </div>
+      <div class="hero-card">
+        <strong>V1 Lite</strong>
+        <ul>
+          <li>PNG local</li>
+          <li>grade automática/manual</li>
+          <li>overlay e preview</li>
+          <li>diagnóstico de frames</li>
+          <li>export JSON + TRES</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="tool" id="tool">
+      <div class="panel controls">
+        <h2>1. Carregue o spritesheet</h2>
+        <label class="drop" for="fileInput">
+          <input id="fileInput" type="file" accept="image/png" />
+          <span><strong>Selecionar PNG</strong><br><small>ou arraste o arquivo para cá</small></span>
+        </label>
+        <div class="row buttons-row">
+          <button class="button secondary" id="loadDemo">Carregar demo sintética</button>
+          <button class="button ghost" id="resetAll">Limpar</button>
+        </div>
+        <div id="fileMeta" class="meta empty">Nenhum arquivo carregado.</div>
+
+        <h2>2. Defina a grade</h2>
+        <div class="grid2">
+          <label>Largura do frame<input id="frameW" type="number" min="8" max="1024" value="64" /></label>
+          <label>Altura do frame<input id="frameH" type="number" min="8" max="1024" value="64" /></label>
+        </div>
+        <div class="row buttons-row">
+          <button class="button secondary" id="autoGrid">Sugerir grade</button>
+          <button class="button ghost" id="applyGrid">Aplicar</button>
+        </div>
+        <div id="gridSuggestions" class="suggestions"></div>
+
+        <h2>3. Preview de animação</h2>
+        <div class="grid2">
+          <label>Frame inicial<input id="animStart" type="number" min="0" value="0" /></label>
+          <label>Quantidade<input id="animCount" type="number" min="1" value="4" /></label>
+          <label>FPS<input id="animFps" type="number" min="1" max="60" value="8" /></label>
+          <label>Nome<input id="animName" type="text" value="default" maxlength="40" /></label>
+        </div>
+        <div class="row buttons-row">
+          <button class="button secondary" id="playAnim">▶ Reproduzir</button>
+          <button class="button ghost" id="stopAnim">■ Parar</button>
+        </div>
+      </div>
+
+      <div class="panel workspace">
+        <div class="workspace-head">
+          <div><h2>Spritesheet</h2><span id="sheetInfo">Aguardando arquivo</span></div>
+          <label class="toggle"><input id="showGrid" type="checkbox" checked /> Mostrar grade</label>
+        </div>
+        <div class="canvas-wrap" id="canvasDropZone">
+          <canvas id="sheetCanvas" width="832" height="520"></canvas>
+          <div class="canvas-placeholder" id="canvasPlaceholder">Carregue um PNG ou use a demo.</div>
+        </div>
+        <div class="preview-strip">
+          <div><h3>Frame selecionado</h3><canvas id="frameCanvas" width="160" height="160"></canvas></div>
+          <div><h3>Preview animado</h3><canvas id="animCanvas" width="160" height="160"></canvas></div>
+        </div>
+      </div>
+
+      <div class="panel diagnostics">
+        <div class="workspace-head"><h2>Diagnóstico</h2><span id="scoreBadge" class="badge">—</span></div>
+        <div id="diagnosticList" class="diag-list"><p>O diagnóstico aparecerá após o carregamento.</p></div>
+        <div class="export-box">
+          <h3>Exportar</h3>
+          <p>O Lite exporta metadados da grade, diagnóstico e uma animação selecionada.</p>
+          <div class="stack-buttons">
+            <button class="button primary" id="exportJson" disabled>Baixar JSON</button>
+            <button class="button secondary" id="exportTres" disabled>Baixar SpriteFrames .tres</button>
+          </div>
+          <p class="tiny">A exportação TRES é uma base genérica. Revise nomes, looping e convenção do seu projeto antes de produção.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content" id="docs">
+      <h2>Compatibilidade e limites</h2>
+      <div class="cards">
+        <article><h3>O que a V1 detecta</h3><p>Dimensões do PNG, divisibilidade da grade, quantidade de células, frames totalmente transparentes e variação aproximada do centro visual entre frames não vazios.</p></article>
+        <article><h3>O que ela não adivinha</h3><p>Não existe uma única convenção universal de LPC. Você pode ajustar o tamanho do frame e escolher o trecho de animação manualmente.</p></article>
+        <article><h3>Privacidade</h3><p>Canvas e análise rodam localmente. Nenhum pixel do arquivo é enviado. As métricas da V1 ficam locais no navegador até conectarmos analytics anônimo.</p></article>
+      </div>
+    </section>
+
+    <section class="content pro" id="pro">
+      <span class="eyebrow">Próximo estágio</span>
+      <h2>LPC FitLab Pro</h2>
+      <p>A versão paga só será aberta quando o Lite provar uso real. O plano é adicionar processamento em lote, presets de convenções, múltiplas animações e exportação completa para Godot 4.</p>
+      <div class="pro-grid">
+        <div>✓ Lote de spritesheets</div><div>✓ Presets</div><div>✓ Múltiplas animações</div><div>✓ Export completo</div>
+      </div>
+      <button class="button primary" id="proInterest">Tenho interesse no Pro</button>
+      <p id="proThanks" class="tiny"></p>
+    </section>
+  </main>
+
+  <footer>CRS Digital • LPC FitLab V1 Lite • ferramenta experimental para fluxo de trabalho Godot/LPC.</footer>
+  <script src="app.js"></script>
+</body>
+</html>
