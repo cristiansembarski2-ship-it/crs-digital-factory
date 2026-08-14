@@ -11,6 +11,7 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 - **Guia de equalização de propostas:** https://crs-digital-factory.vercel.app/guias/equalizacao-de-propostas-fornecedores/
 - **Matriz de avaliação de fornecedores:** https://crs-digital-factory.vercel.app/guias/matriz-avaliacao-fornecedores/
 - **Mapa 3 Cotações Pro:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/
+- **Painel de Savings de Compras Pro:** https://crs-digital-factory.vercel.app/painel-savings-compras-pro/
 
 As ferramentas são voltadas a tarefas práticas: comparar fornecedores, gerar calendários de escala, conferir a estrutura de XML de NF-e/NFC-e e revisar spritesheets para Godot 4. Sempre que possível, o processamento ocorre no próprio navegador.
 
@@ -23,6 +24,7 @@ As ferramentas são voltadas a tarefas práticas: comparar fornecedores, gerar c
 | Plantão.ics | `/Plantao_ICS_V1/` | Geração de calendários de escalas recorrentes |
 | Mapa 3 Cotações | `/mapa-3-cotacoes/` | Comparação local de três propostas e exportação CSV |
 | Mapa 3 Cotações Pro | `/mapa-3-cotacoes-pro/` | Pacote profissional vendido e entregue automaticamente pela Kiwify |
+| Painel de Savings de Compras Pro | `/painel-savings-compras-pro/` | Gestão de iniciativas, metas e savings com entrega automática pela Kiwify |
 
 ## Estrutura
 
@@ -51,7 +53,7 @@ A branch de produção é `main`. Cada commit na `main` inicia um deploy automá
 
 ## Atribuição de vendas
 
-Os botões do Mapa 3 Cotações Pro adicionam apenas parâmetros de campanha aceitos pela Kiwify (`src`, UTMs, `s1` e `s2`). Isso permite identificar a página e o CTA que originaram uma venda sem coletar nome, CPF ou e-mail no site da CRS Digital.
+Os botões dos produtos profissionais adicionam apenas parâmetros de campanha aceitos pela Kiwify (`src`, UTMs, `s1` e `s2`). Isso permite identificar a página e o CTA que originaram uma venda sem coletar nome, CPF ou e-mail no site da CRS Digital.
 
 ## Fila operacional
 
