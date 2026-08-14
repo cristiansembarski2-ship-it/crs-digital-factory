@@ -1,0 +1,6 @@
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.purchase-box{display:grid;gap:12px;background:linear-gradient(135deg,#102b3d,#0b1d30);border:1px solid #2a6075;border-radius:22px;padding:26px;margin:34px 0}
+.purchase-box h2,.purchase-box p{margin:0}
+.purchase-box>strong{color:#5eead4;font-size:1.15rem}
+.purchase-box .button{justify-self:start;margin-top:4px}
+@media(max-width:640px){.purchase-box .button{justify-self:stretch}}
