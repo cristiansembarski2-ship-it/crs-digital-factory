@@ -28,6 +28,38 @@
 
   window.CRS_CONFIG = config;
 
+  function normalizeTrackingValue(value, fallback) {
+    const normalized = String(value || "")
+      .trim()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9._-]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80);
+    return normalized || fallback;
+  }
+
+  function pageSlug() {
+    return normalizeTrackingValue(window.location.pathname.replace(/^\/+|\/+$/g, "") || "home", "home");
+  }
+
+  function trackedCheckoutUrl(product, element) {
+    const checkout = new URL(product.checkoutUrl);
+    const incoming = new URLSearchParams(window.location.search);
+    const content = normalizeTrackingValue(element.dataset.crsTrackContent || element.textContent, "cta");
+    const route = pageSlug();
+
+    checkout.searchParams.set("src", "crs-site");
+    checkout.searchParams.set("utm_source", normalizeTrackingValue(incoming.get("utm_source"), "crs-digital"));
+    checkout.searchParams.set("utm_medium", normalizeTrackingValue(incoming.get("utm_medium"), "owned-site"));
+    checkout.searchParams.set("utm_campaign", normalizeTrackingValue(incoming.get("utm_campaign"), "mapa-3-cotacoes-pro"));
+    checkout.searchParams.set("utm_content", normalizeTrackingValue(incoming.get("utm_content"), route + "-" + content));
+    checkout.searchParams.set("s1", route);
+    checkout.searchParams.set("s2", content);
+    return checkout.toString();
+  }
+
   function applyConfig() {
     document.querySelectorAll("[data-crs-brand]").forEach((element) => {
       element.textContent = config.brandName;
@@ -44,7 +76,7 @@
     document.querySelectorAll("[data-crs-checkout-link]").forEach((element) => {
       const product = config.commerce[element.dataset.crsCheckoutLink];
       if (!product || !product.checkoutUrl) return;
-      element.href = product.checkoutUrl;
+      element.href = trackedCheckoutUrl(product, element);
       element.target = "_blank";
       element.rel = "noopener noreferrer sponsored";
     });
