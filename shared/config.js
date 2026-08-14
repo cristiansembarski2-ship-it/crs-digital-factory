@@ -14,6 +14,15 @@
         price: 49.90,
         currency: "BRL",
         checkoutUrl: "https://pay.kiwify.com.br/cNesrrZ",
+        campaign: "mapa-3-cotacoes-pro",
+        status: "Disponível"
+      }),
+      painelSavingsComprasPro: Object.freeze({
+        name: "Painel de Savings de Compras Pro",
+        price: 67.00,
+        currency: "BRL",
+        checkoutUrl: "https://pay.kiwify.com.br/8PCmyr9",
+        campaign: "painel-savings-compras-pro",
         status: "Disponível"
       })
     }),
@@ -22,7 +31,8 @@
       Object.freeze({ id: "fiscalsafe", name: "FiscalSafe XML", path: "/fiscalsafe/", status: "Disponível" }),
       Object.freeze({ id: "plantao-ics", name: "Plantão.ics", path: "/Plantao_ICS_V1/", status: "Disponível" }),
       Object.freeze({ id: "mapa-3-cotacoes", name: "Mapa 3 Cotações", path: "/mapa-3-cotacoes/", status: "Disponível" }),
-      Object.freeze({ id: "mapa-3-cotacoes-pro", name: "Mapa 3 Cotações Pro", path: "/mapa-3-cotacoes-pro/", status: "Disponível", price: 49.90 })
+      Object.freeze({ id: "mapa-3-cotacoes-pro", name: "Mapa 3 Cotações Pro", path: "/mapa-3-cotacoes-pro/", status: "Disponível", price: 49.90 }),
+      Object.freeze({ id: "painel-savings-compras-pro", name: "Painel de Savings de Compras Pro", path: "/painel-savings-compras-pro/", status: "Disponível", price: 67.00 })
     ])
   });
 
@@ -53,7 +63,7 @@
     checkout.searchParams.set("src", "crs-site");
     checkout.searchParams.set("utm_source", normalizeTrackingValue(incoming.get("utm_source"), "crs-digital"));
     checkout.searchParams.set("utm_medium", normalizeTrackingValue(incoming.get("utm_medium"), "owned-site"));
-    checkout.searchParams.set("utm_campaign", normalizeTrackingValue(incoming.get("utm_campaign"), "mapa-3-cotacoes-pro"));
+    checkout.searchParams.set("utm_campaign", normalizeTrackingValue(incoming.get("utm_campaign"), product.campaign || route));
     checkout.searchParams.set("utm_content", normalizeTrackingValue(incoming.get("utm_content"), route + "-" + content));
     checkout.searchParams.set("s1", route);
     checkout.searchParams.set("s2", content);
