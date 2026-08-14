@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FiscalSafe XML Lite V1 — CRS Digital</title>
+<style>
+:root{
+  --bg:#0b1020;--panel:#121a2b;--panel2:#172238;--text:#edf4ff;--muted:#9fb0c9;
+  --line:#283752;--accent:#6de3c1;--warn:#ffd166;--bad:#ff7b7b;--good:#73e0a9;
+}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#0a0f1d,#0e1526);color:var(--text);
+font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+.wrap{max-width:1200px;margin:auto;padding:28px 18px 60px}
+header{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:22px}
+h1{font-size:28px;margin:0 0 6px}.brand{color:var(--accent);font-weight:700}
+.muted{color:var(--muted)}
+.badge{border:1px solid var(--line);background:var(--panel);padding:8px 12px;border-radius:999px;color:var(--muted);white-space:nowrap}
+.card{background:rgba(18,26,43,.94);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:16px}
+.drop{border:2px dashed #3b557b;border-radius:14px;padding:30px;text-align:center;background:#0e1628;transition:.15s}
+.drop.drag{border-color:var(--accent);background:#102136}
+.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+button,.filelabel{border:1px solid #355071;background:#182742;color:var(--text);border-radius:10px;padding:10px 14px;cursor:pointer;font-weight:650}
+button.primary,.filelabel.primary{background:var(--accent);color:#06211a;border-color:transparent}
+.paybtn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;background:linear-gradient(135deg,#00a650,#38d178);color:#fff;border-radius:10px;padding:11px 15px;font-weight:800;border:0}
+.paybox{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:#102136;border:1px solid #2d5d50;border-radius:14px;padding:16px;margin-top:16px}
+button:disabled{opacity:.45;cursor:not-allowed}
+input[type=file]{display:none}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.stat{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stat b{display:block;font-size:24px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar input{flex:1;min-width:220px;background:#0d1525;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:10px}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:1050px;background:#0f1728}
+th,td{padding:10px;border-bottom:1px solid #20304a;text-align:left;vertical-align:top}
+th{position:sticky;top:0;background:#172238;z-index:1}
+tr:hover td{background:#111d31}
+.pill{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.ok{background:rgba(115,224,169,.15);color:var(--good)}
+.warn{background:rgba(255,209,102,.15);color:var(--warn)}
+.err{background:rgba(255,123,123,.14);color:var(--bad)}
+.small{font-size:12px}
+.note{border-left:3px solid var(--warn);padding-left:12px}
+footer{margin-top:24px;color:var(--muted);font-size:13px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,1fr)}header{flex-direction:column}}
+@media(max-width:520px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <div class="brand">CRS Digital</div>
+    <h1>FiscalSafe XML Lite</h1>
+    <div class="muted">Pré-auditoria local de XML de NF-e/NFC-e em lote — sem enviar seus arquivos para servidor.</div>
+  </div>
+  <div class="badge">V1.1 • pagamento integrado</div>
+</header>
+
+<div class="card">
+  <div id="drop" class="drop">
+    <h2 style="margin-top:0">Arraste XMLs aqui</h2>
+    <div class="muted">Ou selecione vários arquivos / uma pasta. Nada é enviado para a internet.</div>
+    <div class="actions">
+      <label class="filelabel primary">Selecionar XMLs
+        <input id="files" type="file" accept=".xml,text/xml,application/xml" multiple>
+      </label>
+      <label class="filelabel">Selecionar pasta
+        <input id="folder" type="file" webkitdirectory directory multiple>
+      </label>
+      <button id="demo">Carregar demo</button>
+      <button id="clear">Limpar</button>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="paybox">
+    <div>
+      <b style="font-size:17px">Uso profissional / apoio ao FiscalSafe</b>
+      <div class="muted">Valor sugerido: <strong style="color:var(--text)">R$ 29,90</strong>. A versão Lite pode ser testada gratuitamente.</div>
+    </div>
+    <a class="paybtn" href="https://link.mercadopago.com.br/crsdigital" target="_blank" rel="noopener noreferrer">💳 Pagar via Mercado Pago</a>
+  </div>
+</div>
+
+<div class="card">
+  <div class="grid">
+    <div class="stat"><span class="muted">Arquivos</span><b id="sFiles">0</b></div>
+    <div class="stat"><span class="muted">NF-e/NFC-e lidas</span><b id="sDocs">0</b></div>
+    <div class="stat"><span class="muted">OK básico</span><b id="sOk">0</b></div>
+    <div class="stat"><span class="muted">Com atenção</span><b id="sWarn">0</b></div>
+    <div class="stat"><span class="muted">Duplicidades</span><b id="sDup">0</b></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="toolbar">
+    <input id="search" placeholder="Filtrar por arquivo, chave, CNPJ, emitente, número...">
+    <select id="statusFilter" style="background:#0d1525;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:10px">
+      <option value="all">Todos</option>
+      <option value="ok">Somente OK</option>
+      <option value="warn">Com atenção</option>
+      <option value="dup">Duplicidades</option>
+    </select>
+    <button id="csv" disabled>Exportar CSV</button>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr>
+        <th>Status</th><th>Arquivo</th><th>Modelo</th><th>Número</th><th>Série</th>
+        <th>Emissão</th><th>CNPJ emitente</th><th>Emitente</th><th>Valor NF</th>
+        <th>Chave</th><th>Protocolo</th><th>Observações</th>
+      </tr></thead>
+      <tbody id="tbody"><tr><td colspan="12" class="muted">Nenhum XML analisado.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card note">
+  <b>Importante:</b> esta versão faz uma <b>pré-auditoria estrutural</b>. Ela não substitui validação oficial de schema,
+  consulta de situação na SEFAZ, assinatura digital, escrituração ou orientação contábil/fiscal.
+</div>
+
+<footer>
+FiscalSafe XML Lite • CRS Digital • V1.1<br>
+Objetivo: conferir lotes rapidamente, separar itens OK de itens com atenção, detectar duplicidades e gerar uma planilha de conferência.
+</footer>
+</div>
+
+<script>
+const rows = [];
+let totalFiles = 0;
+const $ = s => document.querySelector(s);
+
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));}
+function localName(el){return (el.localName||el.nodeName||"").split(":").pop();}
+function allByLocal(root,name){return [...root.getElementsByTagName("*")].filter(e=>localName(e)===name);}
+function firstText(root,name){
+  const el = allByLocal(root,name)[0];
+  return el ? (el.textContent||"").trim() : "";
+}
+function childText(parent,name){
+  if(!parent) return "";
+  const el=[...parent.children].find(e=>localName(e)===name);
+  return el ? (el.textContent||"").trim() : "";
+}
+function firstParent(root,parentName){
+  return allByLocal(root,parentName)[0]||null;
+}
+function money(v){
+  const n=Number(String(v||"").replace(",","."));
+  return Number.isFinite(n)?n.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"";
+}
+function dateFmt(v){
+  if(!v) return "";
+  const d=new Date(v);
+  return isNaN(d)?v:d.toLocaleString("pt-BR");
+}
+function extractDoc(xml, filename){
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xml,"application/xml");
+  if(doc.querySelector("parsererror")){
+    return {filename,status:"Erro",severity:"err",obs:["XML malformado"],isDoc:false};
+  }
+  const infNFe = allByLocal(doc,"infNFe")[0];
+  if(!infNFe){
+    return {filename,status:"Atenção",severity:"warn",obs:["XML não reconhecido como NF-e/NFC-e"],isDoc:false};
+  }
+
+  let chave="";
+  const id=infNFe.getAttribute("Id")||"";
+  const m=id.match(/NFe(\d{44})/);
+  if(m) chave=m[1];
+  if(!chave) chave=firstText(doc,"chNFe").replace(/\D/g,"");
+
+  const ide=firstParent(infNFe,"ide");
+  const emit=firstParent(infNFe,"emit");
+  const dest=firstParent(infNFe,"dest");
+  const total=firstParent(infNFe,"ICMSTot");
+  const prot=allByLocal(doc,"protNFe")[0]||null;
+  const infProt=prot?allByLocal(prot,"infProt")[0]:null;
+
+  const model=childText(ide,"mod");
+  const nNF=childText(ide,"nNF");
+  const serie=childText(ide,"serie");
+  const dhEmi=childText(ide,"dhEmi")||childText(ide,"dEmi");
+  const cnpjEmit=childText(emit,"CNPJ")||childText(emit,"CPF");
+  const emitName=childText(emit,"xNome");
+  const cnpjDest=childText(dest,"CNPJ")||childText(dest,"CPF");
+  const vNF=childText(total,"vNF");
+  const nProt=infProt?childText(infProt,"nProt"):"";
+  const cStat=infProt?childText(infProt,"cStat"):"";
+  const xMotivo=infProt?childText(infProt,"xMotivo"):"";
+
+  const obs=[];
+  if(!["55","65"].includes(model)) obs.push("Modelo diferente de 55/65");
+  if(chave.length!==44) obs.push("Chave ausente ou fora do padrão de 44 dígitos");
+  if(!nNF) obs.push("Número da nota ausente");
+  if(!cnpjEmit) obs.push("Documento do emitente ausente");
+  if(!dhEmi) obs.push("Data de emissão ausente");
+  if(!nProt) obs.push("Sem protocolo de autorização no arquivo");
+  if(cStat && cStat!=="100") obs.push("cStat do protocolo: "+cStat+(xMotivo?" — "+xMotivo:""));
+  if(vNF && !Number.isFinite(Number(vNF.replace(",",".")))) obs.push("Valor total não numérico");
+
+  return {
+    filename,isDoc:true,model,nNF,serie,dhEmi,cnpjEmit,emitName,cnpjDest,vNF,chave,nProt,cStat,
+    status:obs.length?"Atenção":"OK básico",
+    severity:obs.length?"warn":"ok",
+    obs
+  };
+}
+
+function markDuplicates(){
+  const map=new Map();
+  for(const r of rows){
+    r.duplicate=false;
+    if(r.chave && r.chave.length===44){
+      if(!map.has(r.chave)) map.set(r.chave,[]);
+      map.get(r.chave).push(r);
+    }
+  }
+  for(const group of map.values()){
+    if(group.length>1){
+      for(const r of group){
+        r.duplicate=true;
+        if(!r.obs.includes("Chave duplicada no lote")) r.obs.push("Chave duplicada no lote");
+        if(r.severity!=="err"){r.severity="warn";r.status="Atenção";}
+      }
+    }
+  }
+}
+
+function render(){
+  markDuplicates();
+  const q=$("#search").value.toLowerCase().trim();
+  const sf=$("#statusFilter").value;
+  const filtered=rows.filter(r=>{
+    const textMatch=JSON.stringify(r).toLowerCase().includes(q);
+    const statusMatch = sf==="all" || (sf==="ok" && r.severity==="ok") || (sf==="warn" && r.severity!=="ok") || (sf==="dup" && r.duplicate);
+    return textMatch && statusMatch;
+  });
+
+  $("#sFiles").textContent=totalFiles;
+  $("#sDocs").textContent=rows.filter(r=>r.isDoc).length;
+  $("#sOk").textContent=rows.filter(r=>r.isDoc && r.severity==="ok").length;
+  $("#sWarn").textContent=rows.filter(r=>r.severity!=="ok").length;
+  $("#sDup").textContent=rows.filter(r=>r.duplicate).length;
+  $("#csv").disabled=rows.length===0;
+
+  if(!filtered.length){
+    $("#tbody").innerHTML='<tr><td colspan="12" class="muted">Nenhum resultado.</td></tr>';
+    return;
+  }
+  $("#tbody").innerHTML=filtered.map(r=>`
+    <tr>
+      <td><span class="pill ${esc(r.severity)}">${esc(r.status)}</span></td>
+      <td>${esc(r.filename)}</td>
+      <td>${esc(r.model||"—")}</td>
+      <td>${esc(r.nNF||"—")}</td>
+      <td>${esc(r.serie||"—")}</td>
+      <td>${esc(dateFmt(r.dhEmi)||"—")}</td>
+      <td>${esc(r.cnpjEmit||"—")}</td>
+      <td>${esc(r.emitName||"—")}</td>
+      <td>${esc(money(r.vNF)||"—")}</td>
+      <td class="small">${esc(r.chave||"—")}</td>
+      <td>${esc(r.nProt||"—")}</td>
+      <td class="small">${esc((r.obs||[]).join(" • ")||"Sem alertas básicos")}</td>
+    </tr>`).join("");
+}
+
+async function processFiles(files){
+  const xmls=[...files].filter(f=>f.name.toLowerCase().endsWith(".xml"));
+  totalFiles += xmls.length;
+  for(const f of xmls){
+    try{
+      const text=await f.text();
+      rows.push(extractDoc(text,f.webkitRelativePath||f.name));
+    }catch(e){
+      rows.push({filename:f.name,status:"Erro",severity:"err",obs:["Falha ao ler arquivo"],isDoc:false});
+    }
+  }
+  render();
+}
+
+$("#files").addEventListener("change",e=>processFiles(e.target.files));
+$("#folder").addEventListener("change",e=>processFiles(e.target.files));
+$("#search").addEventListener("input",render);
+$("#statusFilter").addEventListener("change",render);
+$("#clear").addEventListener("click",()=>{rows.length=0;totalFiles=0;$("#files").value="";$("#folder").value="";render();});
+
+const drop=$("#drop");
+["dragenter","dragover"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add("drag")}));
+["dragleave","drop"].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove("drag")}));
+drop.addEventListener("drop",e=>processFiles(e.dataTransfer.files));
+
+$("#demo").addEventListener("click",()=>{
+  const base=(key,num,name,value,prot=true)=>`<?xml version="1.0" encoding="UTF-8"?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+<NFe><infNFe Id="NFe${key}" versao="4.00">
+<ide><cUF>42</cUF><mod>55</mod><serie>1</serie><nNF>${num}</nNF><dhEmi>2026-08-13T18:00:00-03:00</dhEmi></ide>
+<emit><CNPJ>12345678000190</CNPJ><xNome>${name}</xNome></emit>
+<dest><CNPJ>99887766000155</CNPJ><xNome>CLIENTE DEMO</xNome></dest>
+<total><ICMSTot><vNF>${value}</vNF></ICMSTot></total>
+</infNFe></NFe>
+${prot?`<protNFe><infProt><tpAmb>2</tpAmb><chNFe>${key}</chNFe><nProt>342260000000001</nProt><cStat>100</cStat><xMotivo>Autorizado o uso da NF-e</xMotivo></infProt></protNFe>`:""}
+</nfeProc>`;
+  const docs=[
+    {name:"demo_ok.xml",text:base("42260812345678000190550010000001251123456781","125","EMPRESA DEMO LTDA","249.90",true)},
+    {name:"demo_sem_protocolo.xml",text:base("42260812345678000190550010000001241123456780","124","EMPRESA DEMO LTDA","80.00",false)},
+    {name:"demo_duplicado_a.xml",text:base("42260812345678000190550010000001231123456789","123","EMPRESA DEMO LTDA","149.90",true)},
+    {name:"demo_duplicado_b.xml",text:base("42260812345678000190550010000001231123456789","123","EMPRESA DEMO LTDA","149.90",true)}
+  ];
+  totalFiles += docs.length;
+  docs.forEach(d=>rows.push(extractDoc(d.text,d.name)));
+  render();
+});
+
+$("#csv").addEventListener("click",()=>{
+  const headers=["status","arquivo","modelo","numero","serie","emissao","cnpj_emitente","emitente","cnpj_destinatario","valor_nf","chave","protocolo","cstat","duplicado","observacoes"];
+  const data=rows.map(r=>[
+    r.status,r.filename,r.model,r.nNF,r.serie,r.dhEmi,r.cnpjEmit,r.emitName,r.cnpjDest,r.vNF,r.chave,r.nProt,r.cStat,r.duplicate?"sim":"nao",(r.obs||[]).join(" | ")
+  ]);
+  const csv=[headers,...data].map(line=>line.map(v=>`"${String(v??"").replace(/"/g,'""')}"`).join(";")).join("\r\n");
+  const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="fiscalsafe_xml_relatorio.csv";a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+});
+render();
+</script>
+</body>
+</html>
