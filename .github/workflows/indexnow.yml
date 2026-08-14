@@ -1,0 +1,67 @@
+name: Notify IndexNow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow-main
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for production and submit sitemap URLs
+        env:
+          SITE: https://crs-digital-factory.vercel.app
+          INDEXNOW_KEY: fdae4dd38f576566a77e197ad2fe6953
+        run: |
+          set -euo pipefail
+          key_url="$SITE/$INDEXNOW_KEY.txt"
+
+          ready="false"
+          for attempt in {1..30}; do
+            current="$(curl -fsS "$key_url" 2>/dev/null || true)"
+            if [ "$current" = "$INDEXNOW_KEY" ]; then
+              ready="true"
+              break
+            fi
+            sleep 10
+          done
+
+          if [ "$ready" != "true" ]; then
+            echo "Production did not expose the IndexNow key in time."
+            exit 1
+          fi
+
+          sitemap="$(curl -fsS "$SITE/sitemap.xml")"
+          urls="$(printf '%s' "$sitemap" | sed -n 's:.*<loc>\(.*\)</loc>.*:\1:p')"
+
+          if [ -z "$urls" ]; then
+            echo "No URLs found in sitemap."
+            exit 1
+          fi
+
+          url_list="$(printf '%s\n' "$urls" | jq -R . | jq -s .)"
+          payload="$(jq -n \
+            --arg host "crs-digital-factory.vercel.app" \
+            --arg key "$INDEXNOW_KEY" \
+            --arg keyLocation "$key_url" \
+            --argjson urlList "$url_list" \
+            '{host:$host,key:$key,keyLocation:$keyLocation,urlList:$urlList}')"
+
+          code="$(curl -sS -o response.txt -w '%{http_code}' \
+            -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data "$payload")"
+
+          cat response.txt || true
+          echo "IndexNow HTTP status: $code"
+          if [ "$code" != "200" ] && [ "$code" != "202" ]; then
+            exit 1
+          fi
