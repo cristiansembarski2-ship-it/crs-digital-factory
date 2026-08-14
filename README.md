@@ -6,7 +6,8 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 
 ## Comece por aqui
 
-- **Planilha de cotação grátis:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes/
+- **Modelo Excel grátis (download sem cadastro):** https://crs-digital-factory.vercel.app/modelo-gratis-planilha-cotacao-excel/
+- **Comparador de cotação no navegador:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes/
 - **Guia de equalização de propostas:** https://crs-digital-factory.vercel.app/guias/equalizacao-de-propostas-fornecedores/
 - **Matriz de avaliação de fornecedores:** https://crs-digital-factory.vercel.app/guias/matriz-avaliacao-fornecedores/
 - **Mapa 3 Cotações Pro:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/
