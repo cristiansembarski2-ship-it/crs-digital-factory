@@ -13,8 +13,8 @@
         name: "Mapa 3 Cotações Pro",
         price: 49.90,
         currency: "BRL",
-        checkoutUrl: null,
-        status: "Checkout em configuração"
+        checkoutUrl: "https://pay.kiwify.com.br/cNesrrZ",
+        status: "Disponível"
       })
     }),
     products: Object.freeze([
@@ -22,7 +22,7 @@
       Object.freeze({ id: "fiscalsafe", name: "FiscalSafe XML", path: "/fiscalsafe/", status: "Disponível" }),
       Object.freeze({ id: "plantao-ics", name: "Plantão.ics", path: "/Plantao_ICS_V1/", status: "Disponível" }),
       Object.freeze({ id: "mapa-3-cotacoes", name: "Mapa 3 Cotações", path: "/mapa-3-cotacoes/", status: "Disponível" }),
-      Object.freeze({ id: "mapa-3-cotacoes-pro", name: "Mapa 3 Cotações Pro", path: "/mapa-3-cotacoes-pro/", status: "Checkout em configuração", price: 49.90 })
+      Object.freeze({ id: "mapa-3-cotacoes-pro", name: "Mapa 3 Cotações Pro", path: "/mapa-3-cotacoes-pro/", status: "Disponível", price: 49.90 })
     ])
   });
 
@@ -40,6 +40,13 @@
     document.querySelectorAll("[data-crs-contact-link]").forEach((element) => {
       element.href = "mailto:" + config.contactEmail;
       if (!element.textContent.trim()) element.textContent = config.contactEmail;
+    });
+    document.querySelectorAll("[data-crs-checkout-link]").forEach((element) => {
+      const product = config.commerce[element.dataset.crsCheckoutLink];
+      if (!product || !product.checkoutUrl) return;
+      element.href = product.checkoutUrl;
+      element.target = "_blank";
+      element.rel = "noopener noreferrer sponsored";
     });
   }
 

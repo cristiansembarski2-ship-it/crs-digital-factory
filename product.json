@@ -26,6 +26,14 @@
       "id": "mapa-3-cotacoes",
       "path": "/mapa-3-cotacoes/",
       "status": "published"
+    },
+    {
+      "id": "mapa-3-cotacoes-pro",
+      "path": "/mapa-3-cotacoes-pro/",
+      "status": "published",
+      "price": 49.90,
+      "currency": "BRL",
+      "checkout_provider": "Kiwify"
     }
   ]
 }
