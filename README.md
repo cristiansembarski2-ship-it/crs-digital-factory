@@ -1,8 +1,17 @@
-# CRS Digital Factory
+# CRS Digital Factory — ferramentas gratuitas e planilhas para produtividade
 
 Repositório central das ferramentas digitais da **CRS Digital**.
 
-**Produção:** https://crs-digital-factory.vercel.app/
+**Acesse a fábrica:** https://crs-digital-factory.vercel.app/
+
+## Comece por aqui
+
+- **Planilha de cotação grátis:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes/
+- **Guia de equalização de propostas:** https://crs-digital-factory.vercel.app/guias/equalizacao-de-propostas-fornecedores/
+- **Matriz de avaliação de fornecedores:** https://crs-digital-factory.vercel.app/guias/matriz-avaliacao-fornecedores/
+- **Mapa 3 Cotações Pro:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/
+
+As ferramentas são voltadas a tarefas práticas: comparar fornecedores, gerar calendários de escala, conferir a estrutura de XML de NF-e/NFC-e e revisar spritesheets para Godot 4. Sempre que possível, o processamento ocorre no próprio navegador.
 
 ## Produtos publicados
 
@@ -38,6 +47,10 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 ## Publicação
 
 A branch de produção é `main`. Cada commit na `main` inicia um deploy automático na Vercel. O workflow `indexnow.yml` lê o sitemap após o deploy e notifica os buscadores participantes sobre todas as URLs.
+
+## Atribuição de vendas
+
+Os botões do Mapa 3 Cotações Pro adicionam apenas parâmetros de campanha aceitos pela Kiwify (`src`, UTMs, `s1` e `s2`). Isso permite identificar a página e o CTA que originaram uma venda sem coletar nome, CPF ou e-mail no site da CRS Digital.
 
 ## Fila operacional
 
