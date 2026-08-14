@@ -7,7 +7,7 @@
     contactEmail: "cristiansemebarski2@gmail.com",
     siteUrl: "https://crs-digital-factory.vercel.app",
     mercadoPagoFeeRate: 0.05,
-    observability: Object.freeze({ webAnalyticsEnabled: false, speedInsightsEnabled: true }),
+    observability: Object.freeze({ webAnalyticsEnabled: true, speedInsightsEnabled: true }),
     commerce: Object.freeze({
       mapa3CotacoesPro: Object.freeze({
         name: "Mapa 3 Cotações Pro",
