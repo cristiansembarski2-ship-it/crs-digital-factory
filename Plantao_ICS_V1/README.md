@@ -8,7 +8,9 @@ Escalas prontas:
 - 24x72
 - personalizada
 
-Monetização:
+Apoio opcional:
+- a ferramenta permanece gratuita
 - apoio sugerido: R$ 9,90
+- o apoio não libera produto premium
 - Mercado Pago: https://link.mercadopago.com.br/crsdigital
 - taxa considerada: 5%

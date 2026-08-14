@@ -1,0 +1,55 @@
+(() => {
+  "use strict";
+
+  const config = Object.freeze({
+    brandName: "CRS Digital",
+    supportUrl: "https://link.mercadopago.com.br/crsdigital",
+    contactEmail: "cristiansemebarski2@gmail.com",
+    siteUrl: "https://crs-digital-factory.vercel.app",
+    products: Object.freeze([
+      Object.freeze({
+        id: "lpc-fitlab",
+        name: "LPC FitLab for Godot 4",
+        path: "/LPC_FitLab_V1_Completo_GitHub/",
+        status: "Disponível"
+      }),
+      Object.freeze({
+        id: "fiscalsafe",
+        name: "FiscalSafe XML",
+        path: "/fiscalsafe/",
+        status: "Disponível"
+      }),
+      Object.freeze({
+        id: "plantao-ics",
+        name: "Plantão.ics",
+        path: "/Plantao_ICS_V1/",
+        status: "Disponível"
+      })
+    ])
+  });
+
+  window.CRS_CONFIG = config;
+
+  function applyConfig() {
+    document.querySelectorAll("[data-crs-brand]").forEach((element) => {
+      element.textContent = config.brandName;
+    });
+
+    document.querySelectorAll("[data-crs-support-link]").forEach((element) => {
+      element.href = config.supportUrl;
+      element.target = "_blank";
+      element.rel = "noopener noreferrer";
+    });
+
+    document.querySelectorAll("[data-crs-contact-link]").forEach((element) => {
+      element.href = "mailto:" + config.contactEmail;
+      if (!element.textContent.trim()) element.textContent = config.contactEmail;
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyConfig, { once: true });
+  } else {
+    applyConfig();
+  }
+})();

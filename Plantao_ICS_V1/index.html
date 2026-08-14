@@ -2,6 +2,10 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Gere calendários .ics para escalas 12x36, 24x48, 24x72 ou personalizadas, direto no navegador.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://crs-digital-factory.vercel.app/Plantao_ICS_V1/">
+<script src="../shared/config.js" defer></script>
 <title>Plantão.ics — CRS Digital</title>
 <style>
 :root{--bg:#0b1020;--p:#111827;--p2:#172033;--t:#eef2ff;--m:#9ca3af;--l:#2a3651;--a:#7dd3fc;--g:#00a650}
@@ -39,7 +43,7 @@ pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px sol
 <label>Observação (opcional)<input id="desc" placeholder="Setor, equipe..."></label>
 </div>
 <div class="actions"><button class="primary" id="generate">Gerar calendário</button>
-<a class="btn pay" href="https://link.mercadopago.com.br/crsdigital" target="_blank" rel="noopener noreferrer">💳 Apoiar — R$ 9,90 sugeridos</a></div>
+<a class="btn pay" data-crs-support-link href="https://link.mercadopago.com.br/crsdigital">☕ Apoiar — R$ 9,90 sugeridos</a></div>
 <p class="muted" style="font-size:12px">Tudo roda localmente no navegador. Nenhuma agenda é enviada para servidor.</p>
 </div>
 
@@ -52,6 +56,7 @@ pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px sol
 </div>
 
 <div class="card muted" style="font-size:13px">Revise o calendário importado antes de usá-lo como referência de trabalho. Feriados, trocas de turno, folgas especiais e alterações da empresa não são inferidos automaticamente.</div>
+<div class="actions"><a class="btn" href="/" style="color:var(--a);border:1px solid var(--l)">← Ver todas as ferramentas da CRS Digital</a></div>
 </div>
 <script>
 const $=s=>document.querySelector(s); let ics="",events=[];

@@ -1,1 +1,26 @@
-{"product_id":"lpc-fitlab","brand":"CRS Digital","version":"1.0.0-lite","status":"new","payment_status":"not_connected"}
+{
+  "project_id": "crs-digital-factory",
+  "brand": "CRS Digital",
+  "status": "active",
+  "site_url": "https://crs-digital-factory.vercel.app",
+  "support_status": "optional",
+  "support_url": "https://link.mercadopago.com.br/crsdigital",
+  "products": [
+    {
+      "id": "lpc-fitlab",
+      "path": "/LPC_FitLab_V1_Completo_GitHub/",
+      "status": "published"
+    },
+    {
+      "id": "fiscalsafe",
+      "path": "/fiscalsafe/",
+      "status": "published"
+    },
+    {
+      "id": "plantao-ics",
+      "path": "/Plantao_ICS_V1/",
+      "status": "published"
+    }
+  ],
+  "next_product": "mapa-3-cotacoes"
+}

@@ -33,7 +33,9 @@ Resultado esperado:
 - Duplicidades: 2
 
 
-## Monetização V1.1
-- Valor sugerido para uso profissional/apoio: R$ 29,90.
-- Checkout: https://link.mercadopago.com.br/crsdigital
+## Apoio opcional V1.1
+- A ferramenta Lite permanece gratuita.
+- Apoio sugerido: R$ 29,90.
+- Link: https://link.mercadopago.com.br/crsdigital
+- O apoio não libera produto premium nem cria promessa de recompensa.
 - Taxa operacional considerada: 5%.

@@ -1,99 +1,172 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="LPC FitLab for Godot 4: valide spritesheets LPC, detecte frames e exporte uma base SpriteFrames para Godot 4." />
-  <title>LPC FitLab for Godot 4 — CRS Digital</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Ferramentas digitais gratuitas e úteis da CRS Digital. Processamento local, privacidade e acesso direto pelo navegador.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#08111f">
+  <link rel="canonical" href="https://crs-digital-factory.vercel.app/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="CRS Digital">
+  <meta property="og:title" content="CRS Digital — Ferramentas digitais simples e úteis">
+  <meta property="og:description" content="Ferramentas gratuitas que resolvem tarefas reais, direto no navegador e com privacidade.">
+  <meta property="og:url" content="https://crs-digital-factory.vercel.app/">
+  <title>CRS Digital — Ferramentas digitais simples e úteis</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/shared/config.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "CRS Digital",
+    "url": "https://crs-digital-factory.vercel.app/",
+    "email": "cristiansemebarski2@gmail.com",
+    "description": "Fábrica de ferramentas digitais pequenas, úteis e acessíveis."
+  }
+  </script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">CRS Digital <span>• LPC FitLab</span></div>
-    <nav><a href="#tool">Ferramenta</a><a href="#docs">Compatibilidade</a><a href="#pro">Pro</a></nav>
+  <header class="site-header">
+    <a class="logo" href="/" aria-label="CRS Digital — início">
+      <span class="logo-mark">CRS</span>
+      <span data-crs-brand>CRS Digital</span>
+    </a>
+    <nav aria-label="Navegação principal">
+      <a href="#ferramentas">Ferramentas</a>
+      <a href="#como-funciona">Como funciona</a>
+      <a href="/apoie/">Apoie</a>
+    </nav>
   </header>
 
   <main>
     <section class="hero">
-      <div>
-        <span class="eyebrow">Godot 4 • LPC • Processamento local</span>
-        <h1>Descubra rápido se o seu spritesheet está pronto para Godot.</h1>
-        <p>Carregue um PNG, aplique uma grade, veja frames vazios, alinhamento aproximado e exporte uma base de <code>SpriteFrames</code> sem enviar seu arquivo para servidor.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#tool">Analisar um sprite</a>
-          <button class="button secondary" id="loadDemoTop">Carregar demo sintética</button>
+      <div class="hero-copy">
+        <span class="eyebrow">Ferramentas digitais • acesso imediato</span>
+        <h1>Menos tarefa manual.<br><span>Mais tempo para o que importa.</span></h1>
+        <p>A CRS Digital cria ferramentas pequenas e objetivas para resolver tarefas reais. Sem instalação, sem cadastro e, sempre que possível, com seus dados processados apenas no navegador.</p>
+        <div class="actions">
+          <a class="button primary" href="#ferramentas">Ver ferramentas</a>
+          <a class="button secondary" href="/apoie/">☕ Apoiar o projeto</a>
         </div>
-        <p class="privacy">Privacidade: a análise acontece no seu navegador. Nenhum pixel do sprite é enviado.</p>
-      </div>
-      <aside class="hero-card">
-        <strong>V1 Lite</strong>
-        <ul>
-          <li>overlay de grade</li><li>seleção e preview de frames</li><li>frames transparentes</li><li>variação de centro visual</li><li>export JSON e TRES base</li>
+        <ul class="trust-list" aria-label="Vantagens">
+          <li>Uso gratuito</li>
+          <li>Sem cadastro</li>
+          <li>Privacidade por padrão</li>
         </ul>
+      </div>
+      <aside class="hero-panel" aria-label="Resumo do catálogo">
+        <div class="signal"><span></span> Fábrica ativa</div>
+        <strong>3 ferramentas publicadas</strong>
+        <p>Produtos leves, úteis e baratos de manter. O que ajuda as pessoas evolui; o que não prova valor dá lugar a uma ideia melhor.</p>
+        <div class="mini-stats">
+          <div><b>R$ 0</b><span>para começar</span></div>
+          <div><b>100%</b><span>pelo navegador</span></div>
+        </div>
       </aside>
     </section>
 
-    <section class="tool" id="tool">
-      <div class="panel controls">
-        <h2>1. Carregar PNG</h2>
-        <label class="drop">
-          <input id="fileInput" type="file" accept="image/png" />
-          <span>Escolher spritesheet PNG</span>
-        </label>
-        <div class="row buttons-row"><button class="button secondary" id="loadDemo">Demo sintética</button><button class="button ghost" id="resetAll">Limpar</button></div>
-        <div class="meta empty" id="fileMeta">Nenhum arquivo carregado.</div>
-
-        <h2>2. Grade</h2>
-        <div class="grid2">
-          <label>Frame width<input id="frameW" type="number" min="8" value="64" /></label>
-          <label>Frame height<input id="frameH" type="number" min="8" value="64" /></label>
+    <section class="section" id="ferramentas">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Catálogo</span>
+          <h2>Escolha uma ferramenta e use agora</h2>
         </div>
-        <div class="row buttons-row"><button class="button secondary" id="autoGrid">Sugerir grades</button><button class="button primary" id="applyGrid">Aplicar grade</button></div>
-        <div id="gridSuggestions" class="suggestions"></div>
-
-        <h2>3. Preview</h2>
-        <div class="grid2">
-          <label>Início<input id="animStart" type="number" min="0" value="0" /></label>
-          <label>Quantidade<input id="animCount" type="number" min="1" value="4" /></label>
-          <label>FPS<input id="animFps" type="number" min="1" max="60" value="8" /></label>
-          <label>Nome<input id="animName" type="text" value="default" maxlength="40" /></label>
-        </div>
-        <div class="row buttons-row"><button class="button secondary" id="playAnim">▶ Reproduzir</button><button class="button ghost" id="stopAnim">■ Parar</button></div>
+        <p>Sem formulários de venda, chamadas ou espera por liberação.</p>
       </div>
 
-      <div class="panel workspace">
-        <div class="workspace-head"><div><h2>Spritesheet</h2><span id="sheetInfo">Aguardando arquivo</span></div><label class="toggle"><input id="showGrid" type="checkbox" checked /> Mostrar grade</label></div>
-        <div class="canvas-wrap" id="canvasDropZone"><canvas id="sheetCanvas" width="832" height="520"></canvas><div class="canvas-placeholder" id="canvasPlaceholder">Carregue um PNG ou use a demo.</div></div>
-        <div class="preview-strip"><div><h3>Frame selecionado</h3><canvas id="frameCanvas" width="160" height="160"></canvas></div><div><h3>Preview animado</h3><canvas id="animCanvas" width="160" height="160"></canvas></div></div>
-      </div>
+      <div class="product-grid">
+        <article class="product-card featured">
+          <div class="card-top">
+            <span class="icon" aria-hidden="true">▦</span>
+            <span class="status">Disponível</span>
+          </div>
+          <div>
+            <span class="category">Godot 4 • spritesheets</span>
+            <h3>LPC FitLab</h3>
+            <p>Analise spritesheets PNG, teste grades, encontre frames transparentes e exporte uma base SpriteFrames para Godot 4.</p>
+          </div>
+          <ul>
+            <li>Preview de animação</li>
+            <li>Diagnóstico de alinhamento</li>
+            <li>Exportação JSON e TRES</li>
+          </ul>
+          <a class="card-link" href="/LPC_FitLab_V1_Completo_GitHub/">Abrir LPC FitLab <span>→</span></a>
+        </article>
 
-      <div class="panel diagnostics">
-        <div class="workspace-head"><h2>Diagnóstico</h2><span id="scoreBadge" class="badge">—</span></div>
-        <div id="diagnosticList" class="diag-list"><p>O diagnóstico aparecerá após o carregamento.</p></div>
-        <div class="export-box"><h3>Exportar</h3><p>O Lite exporta metadados da grade, diagnóstico e uma animação selecionada.</p><div class="stack-buttons"><button class="button primary" id="exportJson" disabled>Baixar JSON</button><button class="button secondary" id="exportTres" disabled>Baixar SpriteFrames .tres</button></div><p class="tiny">A exportação TRES é uma base genérica. Revise nomes, looping e convenção do seu projeto antes de produção.</p></div>
+        <article class="product-card">
+          <div class="card-top">
+            <span class="icon green" aria-hidden="true">✓</span>
+            <span class="status">Disponível</span>
+          </div>
+          <div>
+            <span class="category">NF-e/NFC-e • conferência</span>
+            <h3>FiscalSafe XML</h3>
+            <p>Faça uma pré-auditoria estrutural de lotes XML, encontre duplicidades e exporte uma conferência em CSV.</p>
+          </div>
+          <ul>
+            <li>Processamento local</li>
+            <li>Filtro por status</li>
+            <li>Demo sintética incluída</li>
+          </ul>
+          <a class="card-link" href="/fiscalsafe/">Abrir FiscalSafe <span>→</span></a>
+        </article>
+
+        <article class="product-card">
+          <div class="card-top">
+            <span class="icon violet" aria-hidden="true">31</span>
+            <span class="status">Disponível</span>
+          </div>
+          <div>
+            <span class="category">Escalas • calendário</span>
+            <h3>Plantão.ics</h3>
+            <p>Gere escalas 12x36, 24x48, 24x72 ou personalizadas e importe os plantões no seu calendário.</p>
+          </div>
+          <ul>
+            <li>Google, Apple e Outlook</li>
+            <li>Preview dos turnos</li>
+            <li>Arquivo .ics imediato</li>
+          </ul>
+          <a class="card-link" href="/Plantao_ICS_V1/">Abrir Plantão.ics <span>→</span></a>
+        </article>
       </div>
     </section>
 
-    <section class="content" id="docs">
-      <h2>Compatibilidade e limites</h2>
-      <div class="cards">
-        <article><h3>O que a V1 detecta</h3><p>Dimensões do PNG, divisibilidade da grade, quantidade de células, frames totalmente transparentes e variação aproximada do centro visual entre frames não vazios.</p></article>
-        <article><h3>O que ela não adivinha</h3><p>Não existe uma única convenção universal de LPC. Você pode ajustar o tamanho do frame e escolher o trecho de animação manualmente.</p></article>
-        <article><h3>Privacidade</h3><p>Canvas e análise rodam localmente. Nenhum pixel do arquivo é enviado. As métricas da V1 ficam locais no navegador até conectarmos analytics anônimo.</p></article>
+    <section class="section principles" id="como-funciona">
+      <div>
+        <span class="eyebrow">Nosso jeito de construir</span>
+        <h2>Útil primeiro.<br>Complexo só se precisar.</h2>
+        <p>Cada produto nasce pequeno, resolve uma tarefa específica e pode evoluir conforme o uso real.</p>
+      </div>
+      <div class="principle-list">
+        <article><b>01</b><div><h3>Privacidade</h3><p>Arquivos sensíveis ficam no seu dispositivo nas ferramentas marcadas como processamento local.</p></div></article>
+        <article><b>02</b><div><h3>Clareza</h3><p>Sem promessas de renda, validação oficial ou recursos que ainda não existem.</p></div></article>
+        <article><b>03</b><div><h3>Acesso simples</h3><p>Abra, use e exporte. Sem transformar uma tarefa pequena em um sistema pesado.</p></div></article>
       </div>
     </section>
 
-    <section class="content pro" id="pro">
-      <span class="eyebrow">Próximo estágio</span>
-      <h2>LPC FitLab Pro</h2>
-      <p>A versão paga só será aberta quando o Lite provar uso real. O plano é adicionar processamento em lote, presets de convenções, múltiplas animações e exportação completa para Godot 4.</p>
-      <div class="pro-grid"><div>✓ Lote de spritesheets</div><div>✓ Presets</div><div>✓ Múltiplas animações</div><div>✓ Export completo</div></div>
-      <button class="button primary" id="proInterest">Tenho interesse no Pro</button>
-      <p id="proThanks" class="tiny"></p>
+    <section class="support-banner">
+      <div>
+        <span class="eyebrow">Apoio opcional</span>
+        <h2>Uma ferramenta ajudou você?</h2>
+        <p>Seu apoio ajuda a manter as ferramentas gratuitas e financiar as próximas ideias da CRS Digital.</p>
+      </div>
+      <a class="button support" data-crs-support-link href="/apoie/">☕ Apoiar a CRS Digital</a>
     </section>
   </main>
 
-  <footer>CRS Digital • LPC FitLab V1 Lite • ferramenta experimental para fluxo de trabalho Godot/LPC.</footer>
-  <script src="app.js"></script>
+  <footer>
+    <div>
+      <a class="logo footer-logo" href="/"><span class="logo-mark">CRS</span><span>CRS Digital</span></a>
+      <p>Ferramentas digitais simples, úteis e transparentes.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#ferramentas">Ferramentas</a>
+      <a href="/apoie/">Apoie</a>
+      <a data-crs-contact-link href="mailto:cristiansemebarski2@gmail.com">Contato</a>
+    </div>
+    <small>© 2026 CRS Digital.</small>
+  </footer>
 </body>
 </html>
