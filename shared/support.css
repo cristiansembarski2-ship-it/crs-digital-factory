@@ -1,0 +1,75 @@
+.crs-support-chip {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 80;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 13px;
+  border: 1px solid rgba(250, 204, 21, .35);
+  border-radius: 999px;
+  color: #fff7cc;
+  background: rgba(15, 23, 42, .94);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, .32);
+  font: 750 12px/1 system-ui, -apple-system, "Segoe UI", sans-serif;
+  text-decoration: none;
+  backdrop-filter: blur(12px);
+}
+.crs-support-chip:hover { transform: translateY(-1px); border-color: #facc15; }
+.crs-support-dialog[hidden] { display: none; }
+.crs-support-dialog {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: end center;
+  padding: 18px;
+  background: rgba(2, 6, 23, .56);
+}
+.crs-support-card {
+  width: min(520px, 100%);
+  padding: 24px;
+  border: 1px solid #5b4d1d;
+  border-radius: 20px;
+  color: #f8fafc;
+  background: linear-gradient(145deg, #152238, #0c1628);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, .5);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.crs-support-card small {
+  display: block;
+  margin-bottom: 7px;
+  color: #67e8f9;
+  font-weight: 850;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+.crs-support-card h2 { margin: 0 0 8px; font-size: 24px; line-height: 1.15; }
+.crs-support-card p { margin: 0; color: #b9c8db; line-height: 1.55; }
+.crs-support-actions { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 20px; }
+.crs-support-actions a,
+.crs-support-actions button {
+  min-height: 43px;
+  padding: 0 15px;
+  border: 1px solid #334764;
+  border-radius: 11px;
+  color: #eef6ff;
+  background: #17263d;
+  font: 800 13px system-ui, -apple-system, "Segoe UI", sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+.crs-support-actions a {
+  display: inline-flex;
+  align-items: center;
+  color: #172009;
+  border: 0;
+  background: linear-gradient(135deg, #fde047, #f59e0b);
+}
+@media (min-width: 700px) {
+  .crs-support-dialog { place-items: center; }
+}
+@media print {
+  .crs-support-chip, .crs-support-dialog { display: none !important; }
+}

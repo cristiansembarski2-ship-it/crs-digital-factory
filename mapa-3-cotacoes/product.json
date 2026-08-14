@@ -1,0 +1,12 @@
+{
+  "product_id": "mapa-3-cotacoes",
+  "brand": "CRS Digital",
+  "version": "1.0.0",
+  "status": "published",
+  "processing": "local",
+  "support_suggested_brl": 19.9,
+  "support_url": "https://link.mercadopago.com.br/crsdigital",
+  "support_fee_rate": 0.05,
+  "net_suggested_after_fee_brl": 18.91,
+  "legal_positioning": "comparison_and_conference_not_universal_legal_requirement"
+}

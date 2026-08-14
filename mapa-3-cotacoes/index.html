@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Compare três cotações por item, frete, desconto, prazo e custo total. Ferramenta gratuita com processamento local.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://crs-digital-factory.vercel.app/mapa-3-cotacoes/">
+  <meta property="og:title" content="Mapa 3 Cotações — CRS Digital">
+  <meta property="og:description" content="Compare três propostas lado a lado e encontre o menor custo total.">
+  <meta property="og:url" content="https://crs-digital-factory.vercel.app/mapa-3-cotacoes/">
+  <title>Mapa 3 Cotações — CRS Digital</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../shared/support.css">
+  <script src="../shared/config.js" defer></script>
+  <script src="../shared/support.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body data-crs-product="mapa-3-cotacoes">
+  <header class="topbar">
+    <a class="brand" href="/">CRS Digital <span>/ Mapa 3 Cotações</span></a>
+    <nav><a href="#comparador">Comparador</a><a href="#limites">Limites</a><a href="/">Todas as ferramentas</a></nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <span class="eyebrow">Comparação local • três fornecedores</span>
+        <h1>Escolha com números, não com impressão.</h1>
+        <p>Organize três propostas, normalize custos e veja rapidamente qual possui o menor total. Seus dados ficam no navegador.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#comparador">Começar comparação</a>
+          <button class="button secondary" id="loadDemoTop" type="button">Carregar exemplo</button>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <strong>O comparador considera</strong>
+        <ul><li>quantidade e preço unitário</li><li>frete e descontos</li><li>prazo de entrega</li><li>condição de pagamento</li><li>nota técnica opcional</li></ul>
+      </aside>
+    </section>
+
+    <section id="comparador" class="workspace">
+      <div class="panel supplier-panel">
+        <div class="section-title"><div><span class="step">1</span><h2>Fornecedores</h2></div><button class="text-button" id="loadDemo" type="button">Usar exemplo</button></div>
+        <div class="supplier-grid">
+          <label>Fornecedor 1<input class="supplier-name" data-supplier="0" value="Fornecedor 1" maxlength="60"></label>
+          <label>Fornecedor 2<input class="supplier-name" data-supplier="1" value="Fornecedor 2" maxlength="60"></label>
+          <label>Fornecedor 3<input class="supplier-name" data-supplier="2" value="Fornecedor 3" maxlength="60"></label>
+        </div>
+      </div>
+
+      <div class="panel items-panel">
+        <div class="section-title">
+          <div><span class="step">2</span><div><h2>Itens e preços</h2><p>Informe o mesmo item nas três propostas.</p></div></div>
+          <button class="button secondary compact" id="addItem" type="button">+ Adicionar item</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Quantidade</th><th data-supplier-head="0">Fornecedor 1</th><th data-supplier-head="1">Fornecedor 2</th><th data-supplier-head="2">Fornecedor 3</th><th></th></tr></thead>
+            <tbody id="itemsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel conditions-panel">
+        <div class="section-title"><div><span class="step">3</span><div><h2>Condições adicionais</h2><p>Custos e critérios que mudam a decisão.</p></div></div></div>
+        <div class="conditions-grid" id="conditionsGrid"></div>
+      </div>
+
+      <div class="action-bar">
+        <div><strong>Pronto para comparar?</strong><span>O ranking usa o menor custo total. Prazo e nota técnica aparecem como apoio à decisão.</span></div>
+        <button class="button primary large" id="calculate" type="button">Comparar propostas</button>
+      </div>
+
+      <section class="results" id="results" hidden aria-live="polite">
+        <div class="result-head">
+          <div><span class="eyebrow">Resultado</span><h2>Comparação concluída</h2></div>
+          <span class="winner-badge" id="winnerBadge"></span>
+        </div>
+        <div class="summary-grid" id="summaryGrid"></div>
+        <div class="insight-grid">
+          <article><span>Economia contra o 2º menor</span><strong id="savingSecond">—</strong></article>
+          <article><span>Diferença entre maior e menor</span><strong id="savingRange">—</strong></article>
+          <article><span>Total de itens</span><strong id="itemCount">—</strong></article>
+        </div>
+        <div class="notice"><strong>Decisão final:</strong> o menor preço não substitui a análise de qualidade, prazo, garantia, impostos, especificações e riscos comerciais.</div>
+        <div class="result-actions">
+          <button class="button primary" id="exportCsv" data-crs-value-action data-crs-value-message="Seu relatório de comparação foi exportado. Se ele ajudou sua decisão, apoie com qualquer valor." type="button">Exportar CSV</button>
+          <button class="button secondary" id="printResult" data-crs-value-action data-crs-value-message="Sua versão para impressão está pronta. Se ela ajudou, você pode apoiar a CRS Digital." type="button">Imprimir / Salvar PDF</button>
+          <a class="button support" data-crs-support-link href="https://link.mercadopago.com.br/crsdigital">☕ Apoiar — R$ 19,90 sugeridos</a>
+        </div>
+      </section>
+    </section>
+
+    <section class="content" id="limites">
+      <h2>O que esta ferramenta faz — e o que não faz</h2>
+      <div class="cards">
+        <article><h3>Compara</h3><p>Organiza preços, custos adicionais e condições para facilitar uma decisão documentada.</p></article>
+        <article><h3>Não impõe</h3><p>Não presume que três cotações sejam obrigação legal universal nem substitui políticas internas.</p></article>
+        <article><h3>Privacidade</h3><p>Os dados ficam no navegador. O rascunho é salvo apenas no armazenamento local do dispositivo.</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>CRS Digital • Mapa 3 Cotações V1 • comparação e conferência de propostas.</footer>
+</body>
+</html>

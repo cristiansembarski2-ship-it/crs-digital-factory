@@ -5,7 +5,9 @@
 <meta name="description" content="Gere calendários .ics para escalas 12x36, 24x48, 24x72 ou personalizadas, direto no navegador.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://crs-digital-factory.vercel.app/Plantao_ICS_V1/">
+<link rel="stylesheet" href="../shared/support.css">
 <script src="../shared/config.js" defer></script>
+<script src="../shared/support.js" defer></script>
 <title>Plantão.ics — CRS Digital</title>
 <style>
 :root{--bg:#0b1020;--p:#111827;--p2:#172033;--t:#eef2ff;--m:#9ca3af;--l:#2a3651;--a:#7dd3fc;--g:#00a650}
@@ -21,7 +23,7 @@ pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px sol
 @media(max-width:700px){.grid,.summary{grid-template-columns:1fr}}
 </style>
 </head>
-<body><div class="wrap">
+<body data-crs-product="plantao-ics"><div class="wrap">
 <div class="muted">CRS Digital</div><h1>Plantão.ics</h1>
 <p class="muted">Gere uma agenda de plantões recorrentes e importe no Google Calendar, Apple Calendar, Outlook e outros calendários compatíveis com .ics.</p>
 
@@ -51,7 +53,7 @@ pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px sol
 <div class="summary"><div class="stat"><span class="muted">Plantões</span><b id="count">0</b></div>
 <div class="stat"><span class="muted">Primeiro</span><b id="first" style="font-size:15px">—</b></div>
 <div class="stat"><span class="muted">Último</span><b id="last" style="font-size:15px">—</b></div></div>
-<div class="actions"><button id="download" class="primary" disabled>Baixar .ics</button></div>
+<div class="actions"><button id="download" class="primary" data-crs-value-action data-crs-value-message="Seu calendário foi baixado. Se ele facilitou sua escala, você pode apoiar com qualquer valor." disabled>Baixar .ics</button></div>
 <pre id="preview">Configure a escala e gere o calendário.</pre>
 </div>
 

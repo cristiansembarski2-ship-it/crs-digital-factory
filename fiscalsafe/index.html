@@ -6,7 +6,9 @@
 <meta name="description" content="Pré-auditoria estrutural local de lotes XML de NF-e/NFC-e, com alertas, duplicidades e exportação CSV.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://crs-digital-factory.vercel.app/fiscalsafe/">
+<link rel="stylesheet" href="../shared/support.css">
 <script src="../shared/config.js" defer></script>
+<script src="../shared/support.js" defer></script>
 <title>FiscalSafe XML Lite V1 — CRS Digital</title>
 <style>
 :root{
@@ -53,7 +55,7 @@ footer{margin-top:24px;color:var(--muted);font-size:13px}
 @media(max-width:520px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
+<body data-crs-product="fiscalsafe">
 <div class="wrap">
 <header>
   <div>
@@ -110,7 +112,7 @@ footer{margin-top:24px;color:var(--muted);font-size:13px}
       <option value="warn">Com atenção</option>
       <option value="dup">Duplicidades</option>
     </select>
-    <button id="csv" disabled>Exportar CSV</button>
+    <button id="csv" data-crs-value-action data-crs-value-message="Seu relatório CSV foi gerado. Se esta conferência economizou tempo, apoie a CRS Digital com qualquer valor." disabled>Exportar CSV</button>
   </div>
   <div class="tablewrap">
     <table>

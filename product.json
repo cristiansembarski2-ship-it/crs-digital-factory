@@ -5,6 +5,7 @@
   "site_url": "https://crs-digital-factory.vercel.app",
   "support_status": "optional",
   "support_url": "https://link.mercadopago.com.br/crsdigital",
+  "mercado_pago_fee_rate": 0.05,
   "products": [
     {
       "id": "lpc-fitlab",
@@ -20,7 +21,11 @@
       "id": "plantao-ics",
       "path": "/Plantao_ICS_V1/",
       "status": "published"
+    },
+    {
+      "id": "mapa-3-cotacoes",
+      "path": "/mapa-3-cotacoes/",
+      "status": "published"
     }
-  ],
-  "next_product": "mapa-3-cotacoes"
+  ]
 }

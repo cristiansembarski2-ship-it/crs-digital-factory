@@ -8,16 +8,18 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 
 | Produto | Rota | Finalidade |
 |---|---|---|
-| LPC FitLab for Godot 4 | \`/LPC_FitLab_V1_Completo_GitHub/\` | Análise local de spritesheets e exportação base para Godot 4 |
-| FiscalSafe XML | \`/fiscalsafe/\` | Pré-auditoria estrutural local de XML NF-e/NFC-e |
-| Plantão.ics | \`/Plantao_ICS_V1/\` | Geração de calendários de escalas recorrentes |
+| LPC FitLab for Godot 4 | `/LPC_FitLab_V1_Completo_GitHub/` | Análise local de spritesheets e exportação base para Godot 4 |
+| FiscalSafe XML | `/fiscalsafe/` | Pré-auditoria estrutural local de XML NF-e/NFC-e |
+| Plantão.ics | `/Plantao_ICS_V1/` | Geração de calendários de escalas recorrentes |
+| Mapa 3 Cotações | `/mapa-3-cotacoes/` | Comparação local de três propostas e exportação CSV |
 
 ## Estrutura
 
-- \`/\`: home e catálogo da fábrica;
-- \`/apoie/\`: página transparente de apoio opcional;
-- \`/shared/config.js\`: marca, contato, link de apoio e catálogo central;
-- \`/robots.txt\` e \`/sitemap.xml\`: descoberta e indexação;
+- `/`: home e catálogo da fábrica;
+- `/apoie/`: página transparente de apoio opcional;
+- `/shared/config.js`: marca, contato, apoio e catálogo central;
+- `/shared/support.js` e `/shared/support.css`: módulo de apoio contextual reutilizável;
+- `/robots.txt` e `/sitemap.xml`: descoberta e indexação;
 - pastas de produto: ferramentas estáticas e independentes.
 
 ## Princípios
@@ -31,8 +33,8 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 
 ## Publicação
 
-A branch de produção é \`main\`. O repositório está conectado à Vercel e cada commit na \`main\` inicia um deploy automático.
+A branch de produção é `main`. Cada commit na `main` inicia um deploy automático na Vercel.
 
-## Próximo produto na fila
+## Fila operacional
 
-**Mapa 3 Cotações** — comparação local de três propostas, sem alegar obrigação legal universal.
+Novos produtos são selecionados por demanda, possibilidade de automação, custo de manutenção e potencial de monetização.
