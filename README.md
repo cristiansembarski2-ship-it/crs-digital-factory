@@ -12,6 +12,9 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 - **Matriz de avaliação de fornecedores:** https://crs-digital-factory.vercel.app/guias/matriz-avaliacao-fornecedores/
 - **Mapa 3 Cotações Pro:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/
 - **Painel de Savings de Compras Pro:** https://crs-digital-factory.vercel.app/painel-savings-compras-pro/
+- **Guia para calcular savings em compras:** https://crs-digital-factory.vercel.app/guias/como-calcular-savings-em-compras/
+- **Guia da planilha de savings no Excel:** https://crs-digital-factory.vercel.app/guias/planilha-de-savings-compras-excel/
+- **Guia de dashboard de compras no Excel:** https://crs-digital-factory.vercel.app/guias/dashboard-de-compras-excel/
 
 As ferramentas são voltadas a tarefas práticas: comparar fornecedores, gerar calendários de escala, conferir a estrutura de XML de NF-e/NFC-e e revisar spritesheets para Godot 4. Sempre que possível, o processamento ocorre no próprio navegador.
 
