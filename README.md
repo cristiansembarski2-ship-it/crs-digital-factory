@@ -12,12 +12,14 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 | FiscalSafe XML | `/fiscalsafe/` | Pré-auditoria estrutural local de XML NF-e/NFC-e |
 | Plantão.ics | `/Plantao_ICS_V1/` | Geração de calendários de escalas recorrentes |
 | Mapa 3 Cotações | `/mapa-3-cotacoes/` | Comparação local de três propostas e exportação CSV |
+| Mapa 3 Cotações Pro | `/mapa-3-cotacoes-pro/` | Página comercial do pacote profissional; checkout ainda não ativado |
 
 ## Estrutura
 
 - `/`: home e catálogo da fábrica;
 - `/apoie/`: página transparente de apoio opcional;
-- `/shared/config.js`: marca, contato, apoio e catálogo central;
+- `/shared/config.js`: marca, contato, apoio, catálogo, preço planejado e flags de observabilidade;
+- `/shared/metrics.js`: carregamento central de Speed Insights e, quando habilitado, Web Analytics;
 - `/shared/support.js` e `/shared/support.css`: módulo de apoio contextual reutilizável;
 - `/guias/`: hub e guias práticos que conectam buscas às ferramentas;
 - `/robots.txt` e `/sitemap.xml`: descoberta e indexação;
@@ -30,7 +32,8 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 - processamento local sempre que aplicável;
 - nenhuma promessa de renda ou resultado garantido;
 - nenhum segredo, token, certificado ou credencial no repositório;
-- apoio pelo Mercado Pago é opcional e não libera produto premium automaticamente.
+- apoio pelo Mercado Pago é opcional e não libera produto premium automaticamente;
+- arquivos pagos nunca são publicados neste repositório público.
 
 ## Publicação
 
