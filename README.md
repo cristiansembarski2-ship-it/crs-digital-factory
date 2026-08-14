@@ -19,6 +19,7 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 - `/apoie/`: página transparente de apoio opcional;
 - `/shared/config.js`: marca, contato, apoio e catálogo central;
 - `/shared/support.js` e `/shared/support.css`: módulo de apoio contextual reutilizável;
+- `/guias/`: hub e guias práticos que conectam buscas às ferramentas;
 - `/robots.txt` e `/sitemap.xml`: descoberta e indexação;
 - pastas de produto: ferramentas estáticas e independentes.
 
@@ -33,7 +34,7 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 
 ## Publicação
 
-A branch de produção é `main`. Cada commit na `main` inicia um deploy automático na Vercel.
+A branch de produção é `main`. Cada commit na `main` inicia um deploy automático na Vercel. O workflow `indexnow.yml` lê o sitemap após o deploy e notifica os buscadores participantes sobre todas as URLs.
 
 ## Fila operacional
 
