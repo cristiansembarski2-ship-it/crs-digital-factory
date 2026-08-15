@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Ferramentas gratuitas e planilhas profissionais para comparar fornecedores, calcular savings e documentar decisões de compras.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://crs-digital-factory.vercel.app/compras-sem-achismo/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="CRS Digital">
+  <meta property="og:title" content="Compra Sem Achismo | Ferramentas para compras e Excel">
+  <meta property="og:description" content="Compare fornecedores, calcule savings e apresente decisões com clareza. Comece grátis.">
+  <meta property="og:url" content="https://crs-digital-factory.vercel.app/compras-sem-achismo/">
+  <title>Compra Sem Achismo | Ferramentas para compras e Excel</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/shared/config.js" defer></script>
+  <script src="/shared/metrics.js" defer></script>
+  <style>
+    :root{--csa-bg:#07111f;--csa-card:#0d1b2d;--csa-line:#20334a;--csa-ink:#f7f9fc;--csa-muted:#9fb1c7;--csa-cyan:#74ccff;--csa-green:#45e0c4;--csa-amber:#f4b860}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at 80% 0,#12324a 0,var(--csa-bg) 38%);color:var(--csa-ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    a{color:inherit}
+    .csa-shell{width:min(1080px,calc(100% - 32px));margin:0 auto}
+    .csa-header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+    .csa-brand{display:flex;align-items:center;gap:11px;text-decoration:none;font-weight:850;letter-spacing:-.02em}
+    .csa-mark{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;background:linear-gradient(145deg,var(--csa-cyan),var(--csa-green));color:#06111e;font-size:22px;box-shadow:0 10px 30px rgba(69,224,196,.2)}
+    .csa-brand small{display:block;color:var(--csa-muted);font-size:11px;font-weight:650;letter-spacing:.06em;text-transform:uppercase}
+    .csa-top-link{color:var(--csa-muted);text-decoration:none;font-weight:750;font-size:14px}
+    .csa-hero{display:grid;grid-template-columns:1.08fr .92fr;gap:48px;align-items:center;padding:76px 0 50px}
+    .csa-kicker{display:inline-flex;align-items:center;gap:8px;color:var(--csa-green);font-weight:850;font-size:13px;text-transform:uppercase;letter-spacing:.09em}
+    .csa-kicker:before{content:"";width:8px;height:8px;border-radius:50%;background:var(--csa-green);box-shadow:0 0 0 6px rgba(69,224,196,.11)}
+    h1{font-size:clamp(44px,7vw,78px);line-height:.97;letter-spacing:-.055em;margin:20px 0}
+    h1 span{color:var(--csa-green)}
+    .csa-lead{max-width:690px;color:#c4d0de;font-size:clamp(18px,2.6vw,23px);line-height:1.55;margin:0 0 28px}
+    .csa-actions{display:flex;flex-wrap:wrap;gap:12px}
+    .csa-button{display:inline-flex;justify-content:center;align-items:center;min-height:52px;padding:14px 20px;border-radius:14px;text-decoration:none;font-weight:850;border:1px solid var(--csa-line);transition:transform .16s ease,border-color .16s ease}
+    .csa-button:hover{transform:translateY(-2px);border-color:var(--csa-cyan)}
+    .csa-button.primary{background:linear-gradient(135deg,var(--csa-cyan),var(--csa-green));color:#06111e;border:0}
+    .csa-button.secondary{background:rgba(255,255,255,.04)}
+    .csa-trust{display:flex;flex-wrap:wrap;gap:16px;margin:22px 0 0;padding:0;list-style:none;color:var(--csa-muted);font-size:14px}
+    .csa-trust li:before{content:"✓";color:var(--csa-green);margin-right:7px;font-weight:900}
+    .csa-decision{position:relative;padding:24px;border:1px solid var(--csa-line);border-radius:24px;background:linear-gradient(145deg,rgba(20,40,61,.96),rgba(9,21,36,.95));box-shadow:0 24px 70px rgba(0,0,0,.28)}
+    .csa-decision h2{font-size:21px;margin:0 0 18px}
+    .csa-supplier{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-top:1px solid rgba(255,255,255,.07)}
+    .csa-supplier:first-of-type{border-top:0}
+    .csa-badge{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:#13263d;color:var(--csa-cyan);font-weight:900}
+    .csa-supplier b{display:block}.csa-supplier small{color:var(--csa-muted)}
+    .csa-price{text-align:right}.csa-price strong{display:block}.csa-price em{font-style:normal;color:var(--csa-amber);font-size:12px}
+    .csa-winner{margin-top:18px;padding:14px 16px;border-radius:14px;background:rgba(69,224,196,.1);border:1px solid rgba(69,224,196,.35);color:#cffff5;font-weight:800}
+    .csa-section{padding:54px 0}
+    .csa-section-head{max-width:760px;margin-bottom:26px}
+    .csa-section-head span{color:var(--csa-cyan);font-size:13px;font-weight:850;text-transform:uppercase;letter-spacing:.08em}
+    .csa-section h2{font-size:clamp(30px,5vw,48px);line-height:1.05;letter-spacing:-.035em;margin:10px 0}
+    .csa-section-head p{color:var(--csa-muted);font-size:18px;line-height:1.55}
+    .csa-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .csa-card{display:flex;flex-direction:column;gap:16px;padding:26px;border:1px solid var(--csa-line);border-radius:22px;background:rgba(13,27,45,.86)}
+    .csa-card .csa-icon{display:grid;place-items:center;width:48px;height:48px;border-radius:15px;background:#13283f;color:var(--csa-green);font-size:24px;font-weight:900}
+    .csa-card h3{font-size:25px;margin:0}.csa-card p{color:var(--csa-muted);line-height:1.6;margin:0}
+    .csa-card ul{margin:0;padding-left:19px;color:#dbe4ee;line-height:1.75}
+    .csa-card .csa-button{margin-top:auto}
+    .csa-pro{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .csa-product{padding:26px;border-radius:22px;border:1px solid var(--csa-line);background:#0b192a}
+    .csa-product .csa-tag{color:var(--csa-green);font-size:12px;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+    .csa-product h3{font-size:27px;margin:9px 0}.csa-product p{color:var(--csa-muted);line-height:1.6}
+    .csa-product .csa-value{font-size:30px;font-weight:900;letter-spacing:-.03em;margin:18px 0}
+    .csa-product .csa-value small{font-size:13px;color:var(--csa-muted);font-weight:650;letter-spacing:0}
+    .csa-note{margin-top:18px;padding:16px 18px;border-radius:14px;background:rgba(244,184,96,.08);border:1px solid rgba(244,184,96,.25);color:#e8d4ad;line-height:1.55}
+    .csa-final{margin:54px 0 70px;padding:34px;border-radius:26px;background:linear-gradient(135deg,#12314a,#0c2337);border:1px solid #29506b;text-align:center}
+    .csa-final h2{margin:0 0 10px}.csa-final p{color:#c4d0de;margin:0 auto 22px;max-width:640px;line-height:1.55}
+    .csa-footer{display:flex;justify-content:space-between;gap:16px;padding:24px 0 38px;border-top:1px solid rgba(255,255,255,.08);color:var(--csa-muted);font-size:13px}
+    @media(max-width:760px){.csa-shell{width:min(100% - 24px,1080px)}.csa-header{padding:15px 0}.csa-top-link{display:none}.csa-hero{grid-template-columns:1fr;gap:30px;padding:48px 0 30px}.csa-actions{display:grid}.csa-button{width:100%}.csa-grid,.csa-pro{grid-template-columns:1fr}.csa-section{padding:38px 0}.csa-card,.csa-product{padding:21px}.csa-final{margin:38px 0 48px;padding:26px 20px}.csa-footer{display:block}.csa-footer span{display:block;margin-top:8px}}
+  </style>
+</head>
+<body>
+  <header class="csa-shell csa-header">
+    <a class="csa-brand" href="/compras-sem-achismo/" aria-label="Compra Sem Achismo - início"><span class="csa-mark">✓</span><span>Compra Sem Achismo<small>por CRS Digital</small></span></a>
+    <a class="csa-top-link" href="#ferramentas">Começar grátis ↓</a>
+  </header>
+
+  <main class="csa-shell">
+    <section class="csa-hero">
+      <div>
+        <span class="csa-kicker">Compras • Excel • decisões claras</span>
+        <h1>Pare de aprovar compras <span>no escuro.</span></h1>
+        <p class="csa-lead">Compare fornecedores, calcule a economia e guarde o motivo da decisão — sem depender de memória, conversa perdida ou planilha improvisada.</p>
+        <div class="csa-actions">
+          <a class="csa-button primary" href="/mapa-3-cotacoes/?utm_source=tiktok&utm_medium=organic&utm_campaign=perfil&utm_content=hero-comparar">Comparar 3 propostas grátis</a>
+          <a class="csa-button secondary" href="/calculadora-savings/?utm_source=tiktok&utm_medium=organic&utm_campaign=perfil&utm_content=hero-calcular">Calcular meu saving</a>
+        </div>
+        <ul class="csa-trust"><li>Sem cadastro</li><li>Sem instalação</li><li>Dados processados no navegador</li></ul>
+      </div>
+      <aside class="csa-decision" aria-label="Exemplo de comparação de fornecedores">
+        <h2>Menor preço nem sempre é menor custo</h2>
+        <div class="csa-supplier"><span class="csa-badge">A</span><div><b>Fornecedor A</b><small>18 dias • risco 3/5</small></div><div class="csa-price"><strong>R$ 9.700</strong><em>+ frete</em></div></div>
+        <div class="csa-supplier"><span class="csa-badge">B</span><div><b>Fornecedor B</b><small>9 dias • risco 1/5</small></div><div class="csa-price"><strong>R$ 9.980</strong><em>frete incluso</em></div></div>
+        <div class="csa-supplier"><span class="csa-badge">C</span><div><b>Fornecedor C</b><small>12 dias • risco 2/5</small></div><div class="csa-price"><strong>R$ 10.050</strong><em>24x garantia</em></div></div>
+        <div class="csa-winner">A escolha depende do custo total, do prazo e do risco — não de uma coluna isolada.</div>
+      </aside>
+    </section>
+
+    <section class="csa-section" id="ferramentas">
+      <div class="csa-section-head"><span>Comece sem pagar</span><h2>Duas tarefas que você pode resolver agora</h2><p>Use a ferramenta certa para a pergunta que está travando sua compra.</p></div>
+      <div class="csa-grid">
+        <article class="csa-card"><span class="csa-icon">3×</span><h3>Qual proposta faz mais sentido?</h3><p>Compare três fornecedores por itens, frete, desconto, prazo e critérios não financeiros.</p><ul><li>Ranking automático</li><li>Custo total visível</li><li>Rascunho salvo no dispositivo</li></ul><a class="csa-button primary" href="/mapa-3-cotacoes/?utm_source=tiktok&utm_medium=organic&utm_campaign=perfil&utm_content=card-mapa-gratis">Abrir comparador grátis</a></article>
+        <article class="csa-card"><span class="csa-icon">%</span><h3>Quanto a negociação economizou?</h3><p>Informe preço de referência, preço negociado e quantidade para ver saving total e percentual.</p><ul><li>Resultado em segundos</li><li>Valores em formato brasileiro</li><li>Nenhum dado enviado</li></ul><a class="csa-button secondary" href="/calculadora-savings/?utm_source=tiktok&utm_medium=organic&utm_campaign=perfil&utm_content=card-calculadora-gratis">Calcular saving grátis</a></article>
+      </div>
+    </section>
+
+    <section class="csa-section">
+      <div class="csa-section-head"><span>Quando o rascunho não basta</span><h2>Arquivos Pro para repetir o processo</h2><p>Pagamento único, arquivos editáveis e entrega automática pela Kiwify.</p></div>
+      <div class="csa-pro">
+        <article class="csa-product"><span class="csa-tag">Cotação e decisão</span><h3>Mapa 3 Cotações Pro</h3><p>Até 50 itens, avaliação ponderada, condições comerciais, ranking, cadastro e histórico.</p><div class="csa-value">R$ 49,90 <small>pagamento único</small></div><a class="csa-button primary" href="/mapa-3-cotacoes-pro/?utm_source=tiktok&utm_medium=organic&utm_campaign=perfil&utm_content=card-mapa-pro">Ver planilha e comprar</a></article>
+        <article class="csa-product"><span class="csa-tag">Savings e evidência</span><h3>Painel de Savings de Compras Pro</h3><p>Até 200 iniciativas, metas mensais, dashboard executivo, reconhecimento por status e checks.</p><div class="csa-value">R$ 67 <small>pagamento único</small></div><a class="csa-button secondary" href="/painel-savings-compras-pro/?utm_source=tiktok&utm_medium=organic&utm_campaign=perfil&utm_content=card-painel-pro">Ver painel e comprar</a></article>
+      </div>
+      <p class="csa-note"><strong>Transparência:</strong> as planilhas organizam cálculos e evidências, mas não garantem economia nem substituem aprovações técnicas, fiscais, jurídicas ou internas.</p>
+    </section>
+
+    <section class="csa-final">
+      <h2>Preço baixo sem contexto vira custo alto.</h2>
+      <p>Comece pela comparação gratuita. Quando precisar repetir, apresentar ou guardar o histórico, avance para a versão Pro.</p>
+      <a class="csa-button primary" href="/mapa-3-cotacoes/?utm_source=tiktok&utm_medium=organic&utm_campaign=perfil&utm_content=final-comparar">Testar agora sem cadastro</a>
+    </section>
+  </main>
+
+  <footer class="csa-shell csa-footer"><strong>Compra Sem Achismo • CRS Digital</strong><span>Ferramentas simples, úteis e transparentes.</span></footer>
+</body>
+</html>
