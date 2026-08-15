@@ -8,6 +8,8 @@
   const exampleButton = document.querySelector("[data-fill-example]");
   const resetButton = document.querySelector("[data-reset-calculator]");
   const liveMessage = document.querySelector("[data-live-message]");
+  const supportPrompt = document.querySelector("[data-support-after-result]");
+  const supportLink = document.querySelector("[data-support-result-link]");
   let latestResult = null;
 
   if (!core || !form || !resultPanel) return;
@@ -57,6 +59,7 @@
   function renderResult(result) {
     latestResult = result;
     resultPanel.hidden = false;
+    if (supportPrompt) supportPrompt.hidden = false;
     resultPanel.dataset.outcome = result.outcome;
 
     const isIncrease = result.outcome === "increase";
@@ -99,6 +102,7 @@
 
     if (!result.ok) {
       resultPanel.hidden = true;
+      if (supportPrompt) supportPrompt.hidden = true;
       latestResult = null;
       showErrors(result.errors);
       return;
@@ -124,6 +128,7 @@
     clearErrors();
     latestResult = null;
     resultPanel.hidden = true;
+    if (supportPrompt) supportPrompt.hidden = true;
     liveMessage.textContent = "Calculadora limpa.";
     field("baselineUnit").focus();
   });
@@ -148,6 +153,12 @@
       window.setTimeout(() => { copyButton.textContent = "Copiar resumo"; }, 1800);
     } catch (_error) {
       liveMessage.textContent = "Não foi possível copiar automaticamente. Selecione os resultados na tela.";
+    }
+  });
+
+  supportLink?.addEventListener("click", () => {
+    if (typeof window.va === "function") {
+      window.va("event", { name: "support_clicked_from_savings_result" });
     }
   });
 })();
