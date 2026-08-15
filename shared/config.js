@@ -4,7 +4,7 @@
   const config = Object.freeze({
     brandName: "CRS Digital",
     supportUrl: "https://link.mercadopago.com.br/crsdigital",
-    contactEmail: "cristiansemebarski2@gmail.com",
+    contactEmail: "",
     siteUrl: "https://crs-digital-factory.vercel.app",
     mercadoPagoFeeRate: 0.05,
     observability: Object.freeze({ webAnalyticsEnabled: true, speedInsightsEnabled: true }),
@@ -81,6 +81,12 @@
       element.rel = "noopener noreferrer";
     });
     document.querySelectorAll("[data-crs-contact-link]").forEach((element) => {
+      if (!config.contactEmail) {
+        element.hidden = true;
+        element.removeAttribute("href");
+        return;
+      }
+      element.hidden = false;
       element.href = "mailto:" + config.contactEmail;
       if (!element.textContent.trim()) element.textContent = config.contactEmail;
     });
