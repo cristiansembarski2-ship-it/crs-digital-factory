@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Calcule savings em compras gratuitamente: compare o preço de referência com o preço negociado, aplique a quantidade e veja economia total e percentual.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#08111f">
+  <link rel="canonical" href="https://crs-digital-factory.vercel.app/calculadora-savings/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="CRS Digital">
+  <meta property="og:title" content="Calculadora de Savings em Compras — gratuita">
+  <meta property="og:description" content="Informe baseline, preço negociado e quantidade para calcular a economia potencial da negociação.">
+  <meta property="og:url" content="https://crs-digital-factory.vercel.app/calculadora-savings/">
+  <title>Calculadora de Savings em Compras Grátis | CRS Digital</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/calculadora-savings/styles.css">
+  <link rel="stylesheet" href="/shared/share.css">
+  <script src="/shared/config.js" defer></script>
+  <script src="/shared/metrics.js" defer></script>
+  <script src="/shared/share.js" defer></script>
+  <script src="/calculadora-savings/calculator-core.js" defer></script>
+  <script src="/calculadora-savings/app.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebApplication",
+        "name": "Calculadora de Savings em Compras",
+        "url": "https://crs-digital-factory.vercel.app/calculadora-savings/",
+        "description": "Calculadora gratuita para estimar savings a partir do preço de referência, preço negociado e quantidade.",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Qualquer navegador moderno",
+        "inLanguage": "pt-BR",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" },
+        "publisher": { "@type": "Organization", "name": "CRS Digital", "url": "https://crs-digital-factory.vercel.app/" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://crs-digital-factory.vercel.app/" },
+          { "@type": "ListItem", "position": 2, "name": "Calculadora de Savings", "item": "https://crs-digital-factory.vercel.app/calculadora-savings/" }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Qual é a fórmula de savings?", "acceptedAnswer": { "@type": "Answer", "text": "Saving estimado é a diferença entre o preço unitário de referência e o preço unitário negociado, multiplicada pela quantidade comparável." } },
+          { "@type": "Question", "name": "A calculadora reconhece o saving oficialmente?", "acceptedAnswer": { "@type": "Answer", "text": "Não. Ela apresenta uma estimativa gerencial. O reconhecimento depende das regras, evidências e aprovações internas da organização." } },
+          { "@type": "Question", "name": "Meus dados são enviados para algum servidor?", "acceptedAnswer": { "@type": "Answer", "text": "Os valores informados são processados localmente no navegador e não são enviados pela calculadora." } }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="/" aria-label="CRS Digital — início"><span class="logo-mark">CRS</span><span data-crs-brand>CRS Digital</span></a>
+    <nav aria-label="Navegação principal"><a href="/#ferramentas">Ferramentas</a><a href="/guias/">Guias</a><a href="/painel-savings-compras-pro/">Painel Pro</a></nav>
+  </header>
+
+  <main class="calculator-page">
+    <section class="calculator-hero">
+      <div class="calculator-copy">
+        <nav class="breadcrumbs" aria-label="Trilha de navegação"><a href="/">Início</a><span>›</span><span>Calculadora de Savings</span></nav>
+        <span class="eyebrow">Compras • ferramenta gratuita</span>
+        <h1>Calcule o saving da negociação <span>em segundos.</span></h1>
+        <p>Compare o preço de referência com o preço negociado, aplique o volume e veja o impacto total e percentual. Sem cadastro e sem enviar os valores para um servidor.</p>
+        <ul class="calculator-benefits"><li>Grátis</li><li>Resultado imediato</li><li>Processamento local</li><li>Formato brasileiro</li></ul>
+      </div>
+
+      <section class="calculator-card" aria-labelledby="calculator-title">
+        <h2 id="calculator-title">Dados da negociação</h2>
+        <p>Use a mesma unidade e condições nos dois preços.</p>
+        <form class="calculator-form" data-savings-form novalidate>
+          <div class="field-group">
+            <label for="baseline-unit">Preço unitário de referência</label>
+            <div class="input-prefix"><span>R$</span><input id="baseline-unit" name="baselineUnit" type="text" inputmode="decimal" autocomplete="off" placeholder="50,00" aria-describedby="baseline-hint baseline-error" aria-invalid="false"></div>
+            <small class="field-hint" id="baseline-hint">Último preço válido, orçamento aprovado ou outra referência definida.</small>
+            <p class="field-error" id="baseline-error" data-field-error="baselineUnit"></p>
+          </div>
+          <div class="field-group">
+            <label for="negotiated-unit">Preço unitário negociado</label>
+            <div class="input-prefix"><span>R$</span><input id="negotiated-unit" name="negotiatedUnit" type="text" inputmode="decimal" autocomplete="off" placeholder="46,00" aria-describedby="negotiated-error" aria-invalid="false"></div>
+            <p class="field-error" id="negotiated-error" data-field-error="negotiatedUnit"></p>
+          </div>
+          <div class="field-group">
+            <label for="quantity">Quantidade comparável</label>
+            <input id="quantity" name="quantity" type="text" inputmode="decimal" autocomplete="off" placeholder="1200" aria-describedby="quantity-hint quantity-error" aria-invalid="false">
+            <small class="field-hint" id="quantity-hint">Pode ser o volume do pedido, contrato, mês ou ano.</small>
+            <p class="field-error" id="quantity-error" data-field-error="quantity"></p>
+          </div>
+          <div class="calculator-actions">
+            <button class="calculate-button" type="submit">Calcular saving</button>
+            <button type="button" data-fill-example>Usar exemplo</button>
+          </div>
+          <p class="privacy-note">Seus valores permanecem neste navegador.</p>
+        </form>
+
+        <section class="calculator-result" data-savings-result data-outcome="saving" aria-labelledby="result-title" hidden>
+          <div class="result-main">
+            <span id="result-title" data-result-label>Saving estimado</span>
+            <strong data-result-main>R$ 0,00</strong>
+            <p data-result-explanation></p>
+          </div>
+          <div class="result-grid">
+            <div><span>Baseline total</span><strong data-baseline-total>R$ 0,00</strong></div>
+            <div><span>Total negociado</span><strong data-negotiated-total>R$ 0,00</strong></div>
+            <div><span>Diferença unitária</span><strong data-unit-difference>R$ 0,00</strong></div>
+            <div><span>Variação percentual</span><strong data-saving-percent>0%</strong></div>
+          </div>
+          <div class="result-actions"><button type="button" data-copy-result>Copiar resumo</button><button type="button" data-reset-calculator>Limpar cálculo</button></div>
+        </section>
+        <p class="sr-status" data-live-message aria-live="polite"></p>
+      </section>
+    </section>
+
+    <section class="calculator-content">
+      <div class="calculator-content-grid">
+        <article class="formula-panel">
+          <span class="eyebrow">Como o cálculo funciona</span>
+          <h2>Uma fórmula simples exige uma comparação justa.</h2>
+          <p class="formula">(preço de referência − preço negociado) × quantidade</p>
+          <p>Os dois cenários precisam usar a mesma unidade, especificação, qualidade, impostos, frete e condições relevantes. Caso contrário, equalize as propostas antes de comparar.</p>
+          <h3>Resultado positivo</h3><p>Indica uma economia potencial para o volume informado.</p>
+          <h3>Resultado negativo</h3><p>Indica que o cenário negociado ficou mais caro que o baseline.</p>
+          <p><a href="/guias/como-calcular-savings-em-compras/">Leia o guia completo sobre baseline e reconhecimento →</a></p>
+        </article>
+        <aside class="calculator-offer">
+          <span class="eyebrow">Do cálculo isolado ao controle mensal</span>
+          <h2>Painel de Savings de Compras Pro</h2>
+          <p>Registre até 200 iniciativas, acompanhe metas, separe saving potencial e reconhecido e apresente um dashboard executivo no Excel.</p>
+          <ul><li>Planilha XLSX sem macros</li><li>Metas mensais e dashboard</li><li>Checks de qualidade da base</li><li>Entrega automática pela Kiwify</li></ul>
+          <span class="price">R$ 67 • pagamento único</span>
+          <a class="button primary" data-crs-checkout-link="painelSavingsComprasPro" data-crs-track-content="calculadora-resultado-painel-pro" href="https://pay.kiwify.com.br/8PCmyr9" target="_blank" rel="noopener noreferrer sponsored">Controlar todos os savings</a>
+        </aside>
+      </div>
+      <section class="crs-share" data-crs-share data-crs-share-title="Calculadora gratuita de savings em compras" data-crs-share-text="Compare baseline, preço negociado e quantidade para estimar a economia da negociação." data-crs-share-content="calculadora-savings"></section>
+    </section>
+
+    <section class="calculator-faq">
+      <span class="eyebrow">Dúvidas frequentes</span><h2>Antes de usar o resultado</h2>
+      <details><summary>Qual é a fórmula de savings?</summary><p>Subtraia o preço negociado do preço de referência e multiplique pela quantidade comparável. O resultado é uma estimativa do impacto total.</p></details>
+      <details><summary>A calculadora reconhece o saving oficialmente?</summary><p>Não. O reconhecimento depende da política, evidências, execução e aprovações da organização. A calculadora é uma ferramenta gerencial.</p></details>
+      <details><summary>Posso usar ponto ou vírgula nos valores?</summary><p>Sim. A calculadora aceita formatos comuns como 50,00, 50.00 e 1.250,50.</p></details>
+      <details><summary>Os valores são enviados para algum servidor?</summary><p>Não. O cálculo acontece localmente no navegador. As métricas gerais do site não recebem os preços informados.</p></details>
+    </section>
+  </main>
+
+  <footer><div><a class="logo footer-logo" href="/"><span class="logo-mark">CRS</span><span>CRS Digital</span></a><p>Ferramentas digitais simples, úteis e transparentes.</p></div><div class="footer-links"><a href="/guias/">Guias</a><a href="/painel-savings-compras-pro/">Painel Pro</a><a href="/apoie/">Apoie</a></div><small>© 2026 CRS Digital.</small></footer>
+</body>
+</html>
