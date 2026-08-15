@@ -18,7 +18,8 @@
 
   function shareUrl(container) {
     const url = new URL(container.dataset.crsShareUrl || window.location.pathname, window.location.origin);
-    const campaign = slug(container.dataset.crsShareCampaign, "mapa-3-cotacoes");
+    const routeCampaign = slug(window.location.pathname, "crs-digital");
+    const campaign = slug(container.dataset.crsShareCampaign, routeCampaign);
     const content = slug(container.dataset.crsShareContent || window.location.pathname, "pagina");
     url.hash = "";
     url.search = "";
