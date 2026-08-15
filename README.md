@@ -8,6 +8,7 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 
 - **Modelo Excel grátis (download sem cadastro):** https://crs-digital-factory.vercel.app/modelo-gratis-planilha-cotacao-excel/
 - **Comparador de cotação no navegador:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes/
+- **Calculadora gratuita de savings:** https://crs-digital-factory.vercel.app/calculadora-savings/
 - **Guia de equalização de propostas:** https://crs-digital-factory.vercel.app/guias/equalizacao-de-propostas-fornecedores/
 - **Matriz de avaliação de fornecedores:** https://crs-digital-factory.vercel.app/guias/matriz-avaliacao-fornecedores/
 - **Mapa 3 Cotações Pro:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/
@@ -26,6 +27,7 @@ As ferramentas são voltadas a tarefas práticas: comparar fornecedores, gerar c
 | FiscalSafe XML | `/fiscalsafe/` | Pré-auditoria estrutural local de XML NF-e/NFC-e |
 | Plantão.ics | `/Plantao_ICS_V1/` | Geração de calendários de escalas recorrentes |
 | Mapa 3 Cotações | `/mapa-3-cotacoes/` | Comparação local de três propostas e exportação CSV |
+| Calculadora de Savings | `/calculadora-savings/` | Estimativa local de saving total e percentual de uma negociação |
 | Mapa 3 Cotações Pro | `/mapa-3-cotacoes-pro/` | Pacote profissional vendido e entregue automaticamente pela Kiwify |
 | Painel de Savings de Compras Pro | `/painel-savings-compras-pro/` | Gestão de iniciativas, metas e savings com entrega automática pela Kiwify |
 

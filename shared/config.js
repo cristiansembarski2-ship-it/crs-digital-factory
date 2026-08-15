@@ -31,6 +31,7 @@
       Object.freeze({ id: "fiscalsafe", name: "FiscalSafe XML", path: "/fiscalsafe/", status: "Disponível" }),
       Object.freeze({ id: "plantao-ics", name: "Plantão.ics", path: "/Plantao_ICS_V1/", status: "Disponível" }),
       Object.freeze({ id: "mapa-3-cotacoes", name: "Mapa 3 Cotações", path: "/mapa-3-cotacoes/", status: "Disponível" }),
+      Object.freeze({ id: "calculadora-savings", name: "Calculadora de Savings", path: "/calculadora-savings/", status: "Disponível" }),
       Object.freeze({ id: "mapa-3-cotacoes-pro", name: "Mapa 3 Cotações Pro", path: "/mapa-3-cotacoes-pro/", status: "Disponível", price: 49.90 }),
       Object.freeze({ id: "painel-savings-compras-pro", name: "Painel de Savings de Compras Pro", path: "/painel-savings-compras-pro/", status: "Disponível", price: 67.00 })
     ])
