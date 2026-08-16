@@ -127,6 +127,46 @@
     saveDraft();
   }
 
+  function renderProReason(result, winner) {
+    const reason = $("#proReason");
+    const cta = $("#resultProCta");
+    if (!reason || !cta) return;
+
+    const scored = result.totals.filter(item => Number.isFinite(item.score));
+    const timed = result.totals.filter(item => Number.isFinite(item.days));
+    const bestScore = scored.length >= 2 ? [...scored].sort((a, b) => b.score - a.score)[0] : null;
+    const fastest = timed.length >= 2 ? [...timed].sort((a, b) => a.days - b.days)[0] : null;
+    const secondGap = Math.max(0, result.ordered[1].total - winner.total);
+    const gapPct = winner.total > 0 ? secondGap / winner.total : 0;
+
+    let message;
+    let ctaText;
+    let trackContent;
+
+    if (bestScore && bestScore.supplier !== winner.supplier) {
+      message = '<strong>Existe um conflito real nesta compra:</strong> ' + escapeHtml(winner.name) + ' tem o menor custo, mas ' + escapeHtml(bestScore.name) + ' recebeu a maior nota técnica (' + bestScore.score.toLocaleString("pt-BR") + '/10). O Pro permite ponderar preço e critérios qualitativos para documentar por que uma proposta vence.';
+      ctaText = "Ponderar preço + qualidade no Pro — R$ 49,90";
+      trackContent = "mapa-gratis-divergencia-nota-checkout";
+    } else if (fastest && fastest.supplier !== winner.supplier) {
+      message = '<strong>Preço e prazo apontam para fornecedores diferentes:</strong> ' + escapeHtml(winner.name) + ' tem o menor custo, enquanto ' + escapeHtml(fastest.name) + ' tem o menor prazo informado (' + fastest.days.toLocaleString("pt-BR") + ' dias). O Pro ajuda a registrar pesos e critérios quando a decisão não é apenas preço.';
+      ctaText = "Ponderar preço + prazo no Pro — R$ 49,90";
+      trackContent = "mapa-gratis-divergencia-prazo-checkout";
+    } else if (secondGap > 0 && gapPct <= 0.05) {
+      message = '<strong>A diferença de preço é pequena:</strong> apenas ' + money(secondGap) + ' separa o menor custo do segundo colocado. Quando a diferença é estreita, qualidade, prazo, pagamento e risco podem mudar a decisão. O Pro permite formalizar esses critérios e manter o histórico.';
+      ctaText = "Documentar critérios no Pro — R$ 49,90";
+      trackContent = "mapa-gratis-gap-pequeno-checkout";
+    } else {
+      message = '<strong>Quer transformar esta comparação em processo?</strong> O Pro adiciona até 50 itens, pesos, avaliação qualitativa, cadastro de fornecedores, ranking e histórico para compras recorrentes.';
+      ctaText = "Documentar esta decisão no Pro — R$ 49,90";
+      trackContent = "mapa-gratis-processo-checkout";
+    }
+
+    reason.innerHTML = message;
+    reason.hidden = false;
+    cta.textContent = ctaText;
+    cta.dataset.crsTrackContent = trackContent;
+  }
+
   function renderResult() {
     const result = state.result;
     if (!result) return;
@@ -143,6 +183,7 @@
     $("#savingSecond").textContent = money(Math.max(0, result.ordered[1].total - winner.total));
     $("#savingRange").textContent = money(Math.max(0, result.ordered[2].total - winner.total));
     $("#itemCount").textContent = state.items.length;
+    renderProReason(result, winner);
     $("#results").hidden = false;
     $("#results").scrollIntoView({ behavior: "smooth", block: "start" });
   }
