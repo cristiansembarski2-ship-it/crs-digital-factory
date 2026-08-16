@@ -13,13 +13,47 @@
     "plantao-ics": "Seu calendário está pronto. Se ele facilitou sua escala, você pode pagar um café para a CRS Digital."
   };
 
-  function rememberClick() {
+  function cleanReferrer() {
+    try {
+      return document.referrer ? new URL(document.referrer).hostname : "";
+    } catch {
+      return "";
+    }
+  }
+
+  function sendOperationalEvent(name, content) {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      fetch("/api/track", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          name,
+          path: window.location.pathname,
+          content: String(content || "").slice(0, 120),
+          source: params.get("utm_source") || "",
+          medium: params.get("utm_medium") || "",
+          campaign: params.get("utm_campaign") || "",
+          referrer: cleanReferrer()
+        }),
+        keepalive: true,
+        credentials: "omit"
+      }).catch(() => {});
+    } catch {}
+  }
+
+  function rememberClick(surface = "unknown") {
     try {
       const key = "crs_support_clicks";
       const data = JSON.parse(localStorage.getItem(key) || "{}");
       data[product] = (data[product] || 0) + 1;
       localStorage.setItem(key, JSON.stringify(data));
     } catch {}
+    sendOperationalEvent("Support Click", `${product}:${surface}`);
+  }
+
+  function trackValue(surface = "value") {
+    sendOperationalEvent("Tool Value Completed", `${product}:${surface}`);
   }
 
   function buildDialog() {
@@ -42,7 +76,7 @@
       "</section>"
     ].join("");
     dialog.querySelector("[data-crs-support-message]").textContent = messages[product] || "Se esta ferramenta ajudou, apoie a criação de novas ferramentas gratuitas.";
-    dialog.querySelector("[data-crs-support-pay]").addEventListener("click", rememberClick);
+    dialog.querySelector("[data-crs-support-pay]").addEventListener("click", () => rememberClick("dialog"));
     dialog.querySelector("[data-crs-support-close]").addEventListener("click", () => { dialog.hidden = true; });
     dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.hidden = true; });
     document.body.appendChild(dialog);
@@ -69,12 +103,15 @@
     chip.rel = "noopener noreferrer";
     chip.textContent = "☕ Apoiar";
     chip.setAttribute("aria-label", "Apoiar voluntariamente a CRS Digital");
-    chip.addEventListener("click", rememberClick);
+    chip.addEventListener("click", () => rememberClick("chip"));
     document.body.appendChild(chip);
   }
 
   window.CRS_SUPPORT = Object.freeze({ show });
-  window.addEventListener("crs:value-completed", (event) => show(event.detail || {}));
+  window.addEventListener("crs:value-completed", (event) => {
+    trackValue("event");
+    show(event.detail || {});
+  });
   window.addEventListener("crs:metric", (event) => {
     if (event.detail && event.detail.event === "export_completed") show();
   });
@@ -83,8 +120,13 @@
     element.addEventListener("click", () => {
       if (element.disabled) return;
       const message = element.dataset.crsValueMessage || "";
+      trackValue(element.id || "value-action");
       setTimeout(() => show({ message }), 700);
     });
+  });
+
+  document.querySelectorAll("[data-crs-support-link]").forEach((element) => {
+    element.addEventListener("click", () => rememberClick("inline"));
   });
 
   buildDialog();
