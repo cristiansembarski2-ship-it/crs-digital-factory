@@ -104,20 +104,24 @@
     return url ? base64UrlEncode(url) : "";
   }
 
+  function appendAffiliateToInternalUrl(rawUrl) {
+    try {
+      const token = currentAffiliateToken();
+      if (!token) return rawUrl;
+      const url = new URL(rawUrl, window.location.origin);
+      if (url.origin !== window.location.origin) return rawUrl;
+      if (url.pathname.startsWith("/apoie/")) return rawUrl;
+      url.searchParams.set("aff", token);
+      return url.toString();
+    } catch (_) {
+      return rawUrl;
+    }
+  }
+
   window.CRS_AFFILIATE = Object.freeze({
     getCheckoutUrl: storedAffiliate,
     getToken: currentAffiliateToken,
-    appendToUrl(rawUrl) {
-      try {
-        const token = currentAffiliateToken();
-        if (!token) return rawUrl;
-        const url = new URL(rawUrl, window.location.origin);
-        url.searchParams.set("aff", token);
-        return url.toString();
-      } catch (_) {
-        return rawUrl;
-      }
-    }
+    appendToUrl: appendAffiliateToInternalUrl
   });
 
   rememberIncomingAffiliate();
@@ -155,21 +159,62 @@
     return checkout.toString();
   }
 
+  function decorateInternalAnchor(element) {
+    if (!element || element.hasAttribute("data-crs-checkout-link")) return;
+    const raw = element.getAttribute("href");
+    if (!raw || raw.startsWith("#") || raw.startsWith("mailto:") || raw.startsWith("tel:")) return;
+    try {
+      const url = new URL(raw, window.location.origin);
+      if (url.origin !== window.location.origin || url.pathname.startsWith("/apoie/")) return;
+      const decorated = appendAffiliateToInternalUrl(url.toString());
+      if (decorated !== url.toString()) element.href = decorated;
+    } catch (_) {
+      // Ignore malformed links.
+    }
+  }
+
   function propagateAffiliateToInternalLinks() {
-    const token = currentAffiliateToken();
-    if (!token) return;
-    document.querySelectorAll('a[href^="/"],a[href^="' + config.siteUrl + '"]').forEach((element) => {
-      if (element.hasAttribute("data-crs-checkout-link")) return;
-      try {
-        const url = new URL(element.href, window.location.origin);
-        if (url.origin !== window.location.origin) return;
-        if (url.pathname.startsWith("/apoie/")) return;
-        url.searchParams.set("aff", token);
-        element.href = url.toString();
-      } catch (_) {
-        // Ignore malformed links.
+    if (!currentAffiliateToken()) return;
+    document.querySelectorAll("a[href]").forEach(decorateInternalAnchor);
+  }
+
+  function decorateSharedText(text) {
+    if (!currentAffiliateToken() || typeof text !== "string" || !text.includes(config.siteUrl)) return text;
+    const escaped = config.siteUrl.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const pattern = new RegExp(escaped + "\\/[^\\s<>\"']*", "g");
+    return text.replace(pattern, (match) => appendAffiliateToInternalUrl(match));
+  }
+
+  function installSharePropagation() {
+    if (!currentAffiliateToken()) return;
+
+    try {
+      if (typeof navigator.share === "function") {
+        const originalShare = navigator.share.bind(navigator);
+        navigator.share = (data) => {
+          const next = data && typeof data === "object" ? { ...data } : data;
+          if (next && next.url) next.url = appendAffiliateToInternalUrl(next.url);
+          if (next && next.text) next.text = decorateSharedText(next.text);
+          return originalShare(next);
+        };
       }
-    });
+    } catch (_) {
+      // Some browsers expose navigator.share as read-only.
+    }
+
+    try {
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+        const originalWriteText = navigator.clipboard.writeText.bind(navigator.clipboard);
+        navigator.clipboard.writeText = (text) => originalWriteText(decorateSharedText(text));
+      }
+    } catch (_) {
+      // Some browsers expose clipboard methods as read-only.
+    }
+
+    document.addEventListener("click", (event) => {
+      const anchor = event.target.closest("a[href]");
+      if (anchor) decorateInternalAnchor(anchor);
+    }, true);
   }
 
   function applyConfig() {
@@ -200,6 +245,7 @@
       element.rel = "noopener noreferrer sponsored";
     });
     propagateAffiliateToInternalLinks();
+    installSharePropagation();
   }
 
   if (document.readyState === "loading") {
