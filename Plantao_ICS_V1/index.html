@@ -2,13 +2,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Gere calendários .ics para escalas 12x36, 24x48, 24x72 ou personalizadas, direto no navegador.">
+<meta name="description" content="Gerador gratuito de escala 12x36, 24x48 e 24x72 para Google Calendar, Apple Calendar e Outlook. Sem cadastro, sem instalar app e com download .ics direto no navegador.">
 <meta name="robots" content="index,follow">
 <link rel="canonical" href="https://crs-digital-factory.vercel.app/Plantao_ICS_V1/">
 <link rel="stylesheet" href="../shared/support.css">
 <script src="../shared/config.js" defer></script>
 <script src="../shared/support.js" defer></script>
-<title>Plantão.ics — CRS Digital</title>
+<title>Gerador de Escala 12x36 2026 para Google Calendar — Plantão.ics</title>
 <style>
 :root{--bg:#0b1020;--p:#111827;--p2:#172033;--t:#eef2ff;--m:#9ca3af;--l:#2a3651;--a:#7dd3fc;--g:#00a650}
 *{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#090d18,#0f172a);color:var(--t);font:15px/1.5 system-ui,Segoe UI,Arial}
@@ -20,13 +20,18 @@ button,.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor
 .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .stat{background:var(--p2);border-radius:12px;padding:14px}.stat b{display:block;font-size:24px}
 pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px solid var(--l);padding:14px;border-radius:12px;max-height:260px;overflow:auto}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.chip{border:1px solid var(--l);border-radius:999px;padding:6px 10px;color:#cbd5e1;font-size:13px}
+#supportAfter{display:none;border-color:rgba(56,209,120,.45);background:rgba(0,166,80,.08)}
 @media(max-width:700px){.grid,.summary{grid-template-columns:1fr}}
 </style>
-  <script src="/shared/metrics.js" defer></script>
+<script src="/shared/metrics.js" defer></script>
 </head>
 <body data-crs-product="plantao-ics"><div class="wrap">
-<div class="muted">CRS Digital</div><h1>Plantão.ics</h1>
-<p class="muted">Gere uma agenda de plantões recorrentes e importe no Google Calendar, Apple Calendar, Outlook e outros calendários compatíveis com .ics.</p>
+<div class="muted">CRS Digital</div>
+<h1>Gerador de Escala 12x36 para calendário</h1>
+<p class="muted">Monte sua escala 12x36, 24x48, 24x72 ou personalizada e baixe um arquivo <strong>.ics</strong> para importar no Google Calendar, Apple Calendar, Outlook e outros calendários compatíveis.</p>
+<div class="chips"><span class="chip">Sem cadastro</span><span class="chip">Sem instalar app</span><span class="chip">Geração local no navegador</span><span class="chip">Download .ics</span></div>
+<p class="muted" style="font-size:13px">Útil para quem trabalha em plantões e turnos, como enfermagem, vigilância, portaria, limpeza, indústria e operações 24h. A ferramenta organiza datas; regras trabalhistas, trocas e folgas especiais devem ser conferidas separadamente.</p>
 
 <div class="card">
 <div class="grid">
@@ -45,8 +50,7 @@ pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px sol
 <label>Local (opcional)<input id="location" placeholder="Hospital, empresa..."></label>
 <label>Observação (opcional)<input id="desc" placeholder="Setor, equipe..."></label>
 </div>
-<div class="actions"><button class="primary" id="generate">Gerar calendário</button>
-<a class="btn pay" data-crs-support-link href="https://link.mercadopago.com.br/crsdigital">☕ Apoiar — R$ 9,90 sugeridos</a></div>
+<div class="actions"><button class="primary" id="generate" data-crs-track-content="plantao-calendar-generated">Gerar calendário</button></div>
 <p class="muted" style="font-size:12px">Tudo roda localmente no navegador. Nenhuma agenda é enviada para servidor.</p>
 </div>
 
@@ -54,8 +58,14 @@ pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px sol
 <div class="summary"><div class="stat"><span class="muted">Plantões</span><b id="count">0</b></div>
 <div class="stat"><span class="muted">Primeiro</span><b id="first" style="font-size:15px">—</b></div>
 <div class="stat"><span class="muted">Último</span><b id="last" style="font-size:15px">—</b></div></div>
-<div class="actions"><button id="download" class="primary" data-crs-value-action data-crs-value-message="Seu calendário foi baixado. Se ele facilitou sua escala, você pode apoiar com qualquer valor." disabled>Baixar .ics</button></div>
+<div class="actions"><button id="download" class="primary" data-crs-track-content="plantao-ics-downloaded" disabled>Baixar .ics</button></div>
 <pre id="preview">Configure a escala e gere o calendário.</pre>
+</div>
+
+<div class="card" id="supportAfter">
+<strong>O Plantão.ics te poupou tempo?</strong>
+<p class="muted">A ferramenta é gratuita. Se ela foi útil, você pode apoiar voluntariamente a CRS Digital para manter ferramentas simples assim disponíveis.</p>
+<div class="actions"><a class="btn pay" data-crs-support-link data-crs-track-content="plantao-support-click" href="https://link.mercadopago.com.br/crsdigital">☕ Apoiar — R$ 9,90 sugeridos</a></div>
 </div>
 
 <div class="card muted" style="font-size:13px">Revise o calendário importado antes de usá-lo como referência de trabalho. Feriados, trocas de turno, folgas especiais e alterações da empresa não são inferidos automaticamente.</div>
@@ -82,7 +92,7 @@ $("#generate").addEventListener("click",()=>{
  lines.push("END:VCALENDAR");ics=lines.filter(Boolean).join("\r\n");
  $("#count").textContent=events.length;$("#first").textContent=events.length?fmt(events[0].start):"—";$("#last").textContent=events.length?fmt(events[events.length-1].start):"—";
  $("#preview").textContent=events.slice(0,12).map(e=>`${e.index}. ${fmt(e.start)} → ${fmt(e.end)}`).join("\n")+(events.length>12?`\n... +${events.length-12} plantões`:"");
- $("#download").disabled=!events.length;
+ $("#download").disabled=!events.length; $("#supportAfter").style.display="block";
 });
-$("#download").addEventListener("click",()=>{const b=new Blob([ics],{type:"text/calendar;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="plantao.ics";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)});
+$("#download").addEventListener("click",()=>{const b=new Blob([ics],{type:"text/calendar;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="plantao.ics";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);$("#supportAfter").scrollIntoView({behavior:"smooth",block:"nearest"})});
 </script></body></html>
