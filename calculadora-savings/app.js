@@ -56,6 +56,60 @@
     return value === null ? "Não aplicável" : `${decimal.format(Math.abs(value))}%`;
   }
 
+  function track(name, data) {
+    if (typeof window.va !== "function") return;
+    try {
+      window.va("event", { name, data: data || {} });
+    } catch (_error) {
+      // Métricas nunca devem interferir na calculadora.
+    }
+  }
+
+  function ensureShareButton() {
+    const actions = resultPanel.querySelector(".result-actions");
+    if (!actions || actions.querySelector("[data-share-savings-result]")) return;
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.dataset.shareSavingsResult = "";
+    button.textContent = "Compartilhar resultado";
+    button.title = "Compartilha apenas a variação percentual e o link da calculadora; os valores em reais não são incluídos.";
+    actions.insertBefore(button, actions.firstChild);
+
+    button.addEventListener("click", async () => {
+      if (!latestResult) return;
+
+      const percent = formatPercent(latestResult.savingsPercent);
+      const baseUrl = `${window.location.origin}/calculadora-savings/?utm_source=share&utm_medium=result&utm_campaign=savings-calculator`;
+      const text = latestResult.outcome === "increase"
+        ? `Minha negociação ficou ${percent} acima do baseline nesta estimativa. Faça seu cálculo grátis na Calculadora de Savings da Compra Sem Achismo.`
+        : latestResult.outcome === "neutral"
+          ? "Minha comparação ficou sem variação em relação ao baseline. Faça seu cálculo grátis na Calculadora de Savings da Compra Sem Achismo."
+          : `Minha negociação ficou ${percent} abaixo do baseline nesta estimativa. Faça seu cálculo grátis na Calculadora de Savings da Compra Sem Achismo.`;
+
+      try {
+        if (navigator.share) {
+          await navigator.share({
+            title: "Resultado da Calculadora de Savings",
+            text,
+            url: baseUrl
+          });
+        } else {
+          await navigator.clipboard.writeText(`${text}\n${baseUrl}`);
+          button.textContent = "Link e resultado copiados";
+          window.setTimeout(() => { button.textContent = "Compartilhar resultado"; }, 1800);
+        }
+        liveMessage.textContent = "Resultado preparado para compartilhar sem incluir valores monetários.";
+        track("savings_result_shared", { outcome: latestResult.outcome });
+      } catch (error) {
+        if (error && error.name === "AbortError") return;
+        liveMessage.textContent = "Não foi possível compartilhar automaticamente.";
+      }
+    });
+  }
+
+  ensureShareButton();
+
   function renderResult(result) {
     latestResult = result;
     resultPanel.hidden = false;
@@ -84,12 +138,7 @@
     liveMessage.textContent = `${isIncrease ? "Aumento" : isNeutral ? "Sem variação" : "Saving"} estimado: ${currency.format(absoluteTotal)}.`;
     resultPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
-    if (typeof window.va === "function") {
-      window.va("event", {
-        name: "savings_calculated",
-        data: { outcome: result.outcome }
-      });
-    }
+    track("savings_calculated", { outcome: result.outcome });
   }
 
   function calculate() {
@@ -157,8 +206,6 @@
   });
 
   supportLink?.addEventListener("click", () => {
-    if (typeof window.va === "function") {
-      window.va("event", { name: "support_clicked_from_savings_result" });
-    }
+    track("support_clicked_from_savings_result");
   });
 })();
