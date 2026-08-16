@@ -37,15 +37,12 @@
   }
 
   document.addEventListener("click", (event) => {
-    const target = event.target.closest("[data-crs-track-content], #shareBtn, #cardBtn, #copyBtn, #exampleBtn");
+    const target = event.target.closest("[data-crs-track-content], #shareBtn, #cardBtn, #copyBtn, #exampleBtn, #approveBtn, #challengeBtn");
     if (!target) return;
 
     const explicit = target.getAttribute("data-crs-track-content");
     if (explicit) {
-      track("CTA Click", {
-        content: explicit,
-        path: location.pathname
-      });
+      track("CTA Click", { content: explicit, path: location.pathname });
       return;
     }
 
@@ -53,12 +50,12 @@
       shareBtn: "Desafio Share",
       cardBtn: "Desafio Card Download",
       copyBtn: "Desafio Link Copy",
-      exampleBtn: "Desafio Example"
+      exampleBtn: "Desafio Example",
+      approveBtn: "Desafio Send Approval",
+      challengeBtn: "Desafio Challenge Colleague"
     };
 
-    if (names[target.id]) {
-      track(names[target.id], { path: location.pathname });
-    }
+    if (names[target.id]) track(names[target.id], { path: location.pathname });
   });
 
   document.addEventListener("submit", (event) => {
