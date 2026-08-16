@@ -9,7 +9,7 @@
   const resetButton = document.querySelector("[data-reset-calculator]");
   const liveMessage = document.querySelector("[data-live-message]");
   const supportPrompt = document.querySelector("[data-support-after-result]");
-  const supportLink = document.querySelector("[data-support-result-link]");
+  const supportLink = document.querySelector("[data-support-after-result] a");
   let latestResult = null;
 
   if (!core || !form || !resultPanel) return;
@@ -56,7 +56,38 @@
     return value === null ? "Não aplicável" : `${decimal.format(Math.abs(value))}%`;
   }
 
+  function operationalTrack(name, data) {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const payload = {
+        name,
+        path: window.location.pathname,
+        content: data && data.outcome ? String(data.outcome) : "",
+        source: params.get("utm_source") || "",
+        medium: params.get("utm_medium") || "",
+        campaign: params.get("utm_campaign") || "",
+        referrer: document.referrer ? new URL(document.referrer).hostname : ""
+      };
+      fetch("/api/track", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        credentials: "omit"
+      }).catch(() => {});
+    } catch (_) {
+      // Telemetry must never interfere with the calculator.
+    }
+  }
+
   function track(name, data) {
+    const operationalNames = {
+      savings_calculated: "Savings Calculated",
+      savings_result_shared: "Savings Result Shared",
+      support_clicked_from_savings_result: "Savings Result Pro Click"
+    };
+    if (operationalNames[name]) operationalTrack(operationalNames[name], data || {});
+
     if (typeof window.va !== "function") return;
     try {
       window.va("event", { name, data: data || {} });
@@ -110,6 +141,36 @@
 
   ensureShareButton();
 
+  function updateSupportPrompt(result) {
+    if (!supportPrompt) return;
+    const title = supportPrompt.querySelector("strong");
+    const copy = supportPrompt.querySelector("p");
+    const amount = currency.format(Math.abs(result.savingsTotal));
+
+    if (result.outcome === "saving") {
+      if (title) title.textContent = `Você acabou de estimar ${amount} de saving. Como vai provar isso no fechamento?`;
+      if (copy) copy.textContent = "O Painel Pro separa saving potencial e reconhecido, guarda baseline, evidência, responsável, status e metas para até 200 iniciativas — sem transformar um cálculo isolado em número impossível de defender depois.";
+      if (supportLink) {
+        supportLink.textContent = "Organizar os savings no Painel Pro — R$ 67";
+        supportLink.dataset.crsTrackContent = "savings-resultado-saving-checkout";
+      }
+    } else if (result.outcome === "increase") {
+      if (title) title.textContent = `O cenário negociado ficou ${amount} acima do baseline.`;
+      if (copy) copy.textContent = "Nem toda negociação vira saving. O Painel Pro ajuda a manter baseline, status, evidências e iniciativas separadas para evitar reconhecer economia onde ela não existe.";
+      if (supportLink) {
+        supportLink.textContent = "Controlar iniciativas no Painel Pro — R$ 67";
+        supportLink.dataset.crsTrackContent = "savings-resultado-aumento-checkout";
+      }
+    } else {
+      if (title) title.textContent = "Sem variação nesta negociação. O controle continua importando.";
+      if (copy) copy.textContent = "O Painel Pro organiza iniciativas, metas, baseline, evidências e saving reconhecido em uma visão única para que o resultado mensal não dependa de cálculos soltos.";
+      if (supportLink) {
+        supportLink.textContent = "Ver o Painel de Savings Pro — R$ 67";
+        supportLink.dataset.crsTrackContent = "savings-resultado-neutro-checkout";
+      }
+    }
+  }
+
   function renderResult(result) {
     latestResult = result;
     resultPanel.hidden = false;
@@ -135,6 +196,7 @@
           : "Esta é a economia potencial para o volume informado, antes das validações internas."
     );
 
+    updateSupportPrompt(result);
     liveMessage.textContent = `${isIncrease ? "Aumento" : isNeutral ? "Sem variação" : "Saving"} estimado: ${currency.format(absoluteTotal)}.`;
     resultPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
 
@@ -206,6 +268,6 @@
   });
 
   supportLink?.addEventListener("click", () => {
-    track("support_clicked_from_savings_result");
+    track("support_clicked_from_savings_result", { outcome: latestResult ? latestResult.outcome : "unknown" });
   });
 })();
