@@ -1,6 +1,6 @@
 # OPERACAO_PARALELA — Operação B / Novas Fontes de Receita
 
-Atualizado em: 2026-08-16 03:52 BRT
+Atualizado em: 2026-08-16 04:02 BRT
 
 ## 1. Objetivo e fronteira
 
@@ -74,8 +74,11 @@ O ecossistema NF-e continua massivo e recebeu múltiplas atualizações técnica
 ### Evidência de rotina real
 
 - Fórum Contábeis, discussão de 2026 sobre extração XML/Excel em lote: `https://www.contabeis.com.br/forum/tributos-estaduais-municipais/412495/como-extrair-arquivo-xml-e-excel-em-lote-no-emissor-nacional/`
+- Fórum Contábeis, discussão de 2026 com pedido explícito por relatório/conferência e operação em lote: `https://www.contabeis.com.br/forum/tecnologia-contabil/414413/nfs-e-portal-nacional-nao-consigo-fazer-download-dos-xlms/1`
 - SIGE Cloud, download XML em lote para rotina contábil: `https://ajuda.sigecloud.com.br/como-baixar-xml-em-lote-de-nf-e-emitidas-no-sige-cloud/`
 - eNotas, exportação em lote XML/CSV na visão do contador: `https://atendimento.enotas.com.br/hc/pt-br/articles/35773346958221--Menu-Empresa-Como-baixar-o-PDF-XML-ou-CSV-das-notas-fiscais-na-eNotas-pela-Vis%C3%A3o-do-Contador`
+
+Importante: as discussões mais quentes sobre **baixar NFS-e** não são tratadas como aderência direta, pois o FiscalSafe não baixa NFS-e do Portal Nacional. Não publicar a ferramenta nesses tópicos como se resolvesse essa dor.
 
 ### Evidência de disposição a pagar
 
@@ -169,17 +172,30 @@ Não criar assinatura nem FiscalSafe Pro antes de sinal real de uso/intenção d
    - criado no commit `17517353ebe9cfb775f14f243b1cf90f45d482e7`;
    - atualizado neste ciclo para refletir o estado executado.
 
+6. `README.md` do repositório
+   - FiscalSafe passou a ter seção visível no topo com termos aderentes à busca real: XML NF-e/NFC-e em lote, CSV e Excel;
+   - link de uso recebeu `utm_source=github&utm_medium=readme&utm_campaign=fiscalsafe`;
+   - commit: `41dddac582d8cc1e88408151190d6a1692f858d1`.
+
 Nenhum redesign amplo foi feito. A página do produto já tinha ferramenta, CTA, pagamento e disclaimer suficientes para o teste de receita.
 
 ## 8. Distribuição colocada em operação
 
 ### GitHub
 
-Issue pública criada:
+Issue pública:
 
 `https://github.com/cristiansembarski2-ship-it/crs-digital-factory/issues/14`
 
-Finalidade: feedback, bugs e casos de uso do FiscalSafe. A issue proíbe anexar XML fiscal real, certificados, CNPJ, chave NF-e ou dados sensíveis e pede reprodução sintética/anonimizada.
+A issue foi atualizada para deixar explícito que o FiscalSafe confere XML NF-e/NFC-e em lote e gera CSV para Excel. O link para a ferramenta usa:
+
+`utm_source=github&utm_medium=issue&utm_campaign=fiscalsafe`
+
+Finalidade: descoberta via GitHub, feedback, bugs e casos de uso. A issue proíbe anexar XML fiscal real, certificados, CNPJ, chave NF-e ou dados sensíveis e pede reprodução sintética/anonimizada.
+
+O README principal também passou a funcionar como canal separado e mensurável:
+
+`utm_source=github&utm_medium=readme&utm_campaign=fiscalsafe`
 
 ### Busca orgânica
 
@@ -239,6 +255,17 @@ Nunca inferir pagamento por clique.
 - Portanto, não registrar “deploy Vercel confirmado por esta operação” sem evidência adicional. A fonte técnica continua sendo a `main` do GitHub.
 - Logs de `/api/track` também não estão automaticamente disponíveis nesta sessão; métricas só serão registradas neste arquivo quando houver leitura verificável.
 
+### Atribuição de pagamento — bloqueio real
+
+O link `https://link.mercadopago.com.br/crsdigital` é compartilhado por outros ativos da CRS Digital. Assim, um pagamento recebido nesse link, isoladamente, não prova a origem FiscalSafe.
+
+A documentação oficial do Mercado Pago confirma suporte a `external_reference` em integrações via Checkout/API/Orders, mas nesta operação não há credencial/API do Mercado Pago disponível e não foi encontrada integração/plugin conectado para o serviço. Também não foi confirmado que parâmetros adicionados ao link simples `link.mercadopago.com.br` sejam preservados no pagamento.
+
+Até existir link dedicado ou integração com referência externa:
+
+- cliques e uso do FiscalSafe são atribuíveis pelas UTMs internas;
+- pagamento no link compartilhado **não deve ser atribuído ao FiscalSafe sem evidência adicional**.
+
 ## 12. Próximos gatilhos
 
 1. **Pagamento** → registrar valor/origem em seguida e investigar o caminho que gerou a venda.
@@ -246,6 +273,7 @@ Nunca inferir pagamento por clique.
 3. **Uso sem clique** → esperar limiar de 30 ações de valor antes de mexer na oferta.
 4. **Feedback/bug real** → corrigir somente se afetar uso, confiança ou pagamento.
 5. **Nenhum sinal suficiente** → não polir; manter distribuição de baixo custo e aplicar a regra de abandono.
+6. **Link dedicado ao FiscalSafe disponível** → substituir somente os CTAs do FiscalSafe e registrar a nova URL aqui; não alterar os links da Operação A.
 
 ## 13. Regra permanente de sincronização
 
@@ -259,3 +287,11 @@ A Operação B deve atualizar `OPERACAO_PARALELA.md` quando ocorrer:
 - métrica que altere decisão;
 - pagamento;
 - decisão de continuar, revisar ou abandonar.
+
+## 14. Ciclo de distribuição — 04:00 BRT
+
+- pesquisa atual mostrou forte demanda em comunidades contábeis por rotinas de XML em lote e relatórios, mas grande parte das discussões atuais é de NFS-e/download; essa dor foi explicitamente excluída para evitar propaganda enganosa;
+- GitHub README e issue #14 foram transformados em dois canais distintos e mensuráveis por UTM;
+- nenhum novo produto foi criado;
+- nenhum post promocional foi feito em fórum onde a ferramenta não resolva exatamente o pedido;
+- próximo gargalo de maior impacto: **atribuição exata do pagamento**.
