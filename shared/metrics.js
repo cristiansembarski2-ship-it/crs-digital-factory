@@ -51,7 +51,10 @@
     hiddenExampleBtn: "Hidden Cost Example",
     creatorGenerateBtn: "Creator Case Generated",
     creatorCopyBtn: "Creator Copy",
-    creatorShareBtn: "Creator Share"
+    creatorShareBtn: "Creator Share",
+    diagExampleBtn: "Savings Diagnostic Example",
+    diagShareBtn: "Savings Diagnostic Share",
+    diagCopyBtn: "Savings Diagnostic Copy"
   };
 
   const trackedIds = Object.keys(clickEvents).map((id) => "#" + id).join(", ");
@@ -74,7 +77,8 @@
   const formEvents = {
     quoteForm: "Desafio Result Generated",
     rfqForm: "RFQ Generated",
-    hiddenCostForm: "Hidden Cost Calculated"
+    hiddenCostForm: "Hidden Cost Calculated",
+    savingsDiagnosticForm: "Savings Diagnostic Generated"
   };
 
   document.addEventListener("submit", (event) => {
