@@ -49,7 +49,7 @@
         "mainEntity": [
           { "@type": "Question", "name": "Qual é a fórmula de savings?", "acceptedAnswer": { "@type": "Answer", "text": "Saving estimado é a diferença entre o preço unitário de referência e o preço unitário negociado, multiplicada pela quantidade comparável." } },
           { "@type": "Question", "name": "A calculadora reconhece o saving oficialmente?", "acceptedAnswer": { "@type": "Answer", "text": "Não. Ela apresenta uma estimativa gerencial. O reconhecimento depende das regras, evidências e aprovações internas da organização." } },
-          { "@type": "Question", "name": "Meus dados são enviados para algum servidor?", "acceptedAnswer": { "@type": "Answer", "text": "Os valores informados são processados localmente no navegador e não são enviados pela calculadora." } }
+          { "@type":"Question", "name":"Meus dados são enviados para algum servidor?", "acceptedAnswer":{"@type":"Answer","text":"Os valores informados são processados localmente no navegador e não são enviados pela calculadora."} }
         ]
       }
     ]
@@ -94,7 +94,7 @@
             <p class="field-error" id="quantity-error" data-field-error="quantity"></p>
           </div>
           <div class="calculator-actions">
-            <button class="calculate-button" type="submit">Calcular saving</button>
+            <button class="calculate-button" data-crs-track-content="savings-calcular" type="submit">Calcular saving</button>
             <button type="button" data-fill-example>Usar exemplo</button>
           </div>
           <p class="privacy-note">Seus valores permanecem neste navegador.</p>
@@ -117,12 +117,12 @@
 
         <aside class="result-support" data-support-after-result hidden>
           <div>
-            <span>Ferramenta gratuita</span>
-            <strong>Esse cálculo ajudou?</strong>
-            <p>Ajude a manter a calculadora disponível com um apoio espontâneo de qualquer valor.</p>
+            <span>Próximo passo</span>
+            <strong>Um cálculo isolado resolveu hoje. E os próximos?</strong>
+            <p>O Painel de Savings Pro registra até 200 iniciativas, separa saving potencial e reconhecido e acompanha metas em um dashboard no Excel.</p>
           </div>
-          <a class="support-button" data-crs-support-link data-support-result-link href="https://link.mercadopago.com.br/crsdigital" target="_blank" rel="noopener noreferrer">Apoiar com qualquer valor</a>
-          <small>Apoio opcional. Não compra nem libera produtos.</small>
+          <a class="support-button" data-crs-checkout-link="painelSavingsComprasPro" data-crs-track-content="savings-resultado-checkout" href="https://pay.kiwify.com.br/8PCmyr9" target="_blank" rel="noopener noreferrer sponsored">Levar para o Painel Pro — R$ 67</a>
+          <small>Pagamento único e entrega automática pela Kiwify.</small>
         </aside>
         <p class="sr-status" data-live-message aria-live="polite"></p>
       </section>
@@ -145,7 +145,7 @@
           <p>Registre até 200 iniciativas, acompanhe metas, separe saving potencial e reconhecido e apresente um dashboard executivo no Excel.</p>
           <ul><li>Planilha XLSX sem macros</li><li>Metas mensais e dashboard</li><li>Checks de qualidade da base</li><li>Entrega automática pela Kiwify</li></ul>
           <span class="price">R$ 67 • pagamento único</span>
-          <a class="button primary" data-crs-checkout-link="painelSavingsComprasPro" data-crs-track-content="calculadora-resultado-painel-pro" href="https://pay.kiwify.com.br/8PCmyr9" target="_blank" rel="noopener noreferrer sponsored">Controlar todos os savings</a>
+          <a class="button primary" data-crs-checkout-link="painelSavingsComprasPro" data-crs-track-content="calculadora-painel-pro-checkout" href="https://pay.kiwify.com.br/8PCmyr9" target="_blank" rel="noopener noreferrer sponsored">Controlar todos os savings</a>
         </aside>
       </div>
       <section class="crs-share" data-crs-share data-crs-share-title="Calculadora gratuita de savings em compras" data-crs-share-text="Compare baseline, preço negociado e quantidade para estimar a economia da negociação." data-crs-share-content="calculadora-savings"></section>
