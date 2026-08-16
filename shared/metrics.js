@@ -68,7 +68,13 @@
     rfqResponseShareBtn: "RFQ Response Shared",
     rfqResponseCopyBtn: "RFQ Response Copied",
     rfqAddComparisonBtn: "RFQ Response Added To Comparison",
-    rfqBackCreateBtn: "RFQ New Request Started"
+    rfqBackCreateBtn: "RFQ New Request Started",
+    proposalExampleBtn: "Proposal Example",
+    proposalShareBtn: "Proposal Shared",
+    proposalCopyBtn: "Proposal Link Copied",
+    proposalPrintBtn: "Proposal Printed",
+    proposalPrintBuyerBtn: "Proposal Buyer Printed",
+    proposalBecomeSupplierBtn: "Proposal Buyer Becomes Supplier"
   };
 
   const trackedIds = Object.keys(clickEvents).map((id) => "#" + id).join(", ");
@@ -94,7 +100,8 @@
     hiddenCostForm: "Hidden Cost Calculated",
     savingsDiagnosticForm: "Savings Diagnostic Generated",
     rfqLinkForm: "RFQ Link Created",
-    supplierResponseForm: "RFQ Supplier Response Generated"
+    supplierResponseForm: "RFQ Supplier Response Generated",
+    proposalForm: "Proposal Generated"
   };
 
   document.addEventListener("submit", (event) => {
