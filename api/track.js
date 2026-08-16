@@ -1,6 +1,8 @@
 const ALLOWED_EVENTS = new Set([
   "Page View",
   "CTA Click",
+  "Support Click",
+  "Tool Value Completed",
   "Desafio Share",
   "Desafio Card Download",
   "Desafio Link Copy",
