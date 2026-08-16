@@ -4,20 +4,43 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 
 **Acesse a fábrica:** https://crs-digital-factory.vercel.app/
 
-## Comece por aqui
+## Ferramentas gratuitas para Compras
 
-- **Modelo Excel grátis (download sem cadastro):** https://crs-digital-factory.vercel.app/modelo-gratis-planilha-cotacao-excel/
-- **Comparador de cotação no navegador:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes/
-- **Calculadora gratuita de savings:** https://crs-digital-factory.vercel.app/calculadora-savings/
+Se você trabalha com cotação, fornecedores, savings ou Procurement, comece pelo hub:
+
+**https://crs-digital-factory.vercel.app/ferramentas-compras/**
+
+Recursos principais:
+
+- **Desafio 3 Cotações:** descubra se o menor preço realmente é o menor custo e gere um resultado compartilhável: https://crs-digital-factory.vercel.app/desafio-3-cotacoes/
+- **Gerador de RFQ:** transforme uma necessidade em pedido de cotação padronizado: https://crs-digital-factory.vercel.app/gerador-rfq/
+- **Calculadora de custo oculto:** some frete, retrabalho, atraso e outros custos estimáveis: https://crs-digital-factory.vercel.app/calculadora-custo-oculto-fornecedor/
+- **Calculadora de savings:** estime saving absoluto e percentual: https://crs-digital-factory.vercel.app/calculadora-savings/
+- **Gerador de justificativa de fornecedor:** crie um texto-base para revisar e registrar a decisão: https://crs-digital-factory.vercel.app/gerador-justificativa-fornecedor/
+- **Comparador para incorporar em outros sites:** https://crs-digital-factory.vercel.app/incorporar-comparador/
+- **Modo Creator:** exemplos fictícios, hooks, roteiros e legendas educativas: https://crs-digital-factory.vercel.app/creator-compras/
+- **Modelo Excel grátis de cotação:** https://crs-digital-factory.vercel.app/modelo-gratis-planilha-cotacao-excel/
+
+## Para criadores e afiliados
+
+O **Mapa 3 Cotações Pro** é uma planilha profissional para comparação recorrente de fornecedores e possui programa de afiliados.
+
+- **Produto:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/
+- **Kit com hooks, mensagens e roteiros:** https://crs-digital-factory.vercel.app/kit-afiliados-mapa-cotacoes/
+- **Entrar no programa de afiliados:** https://dashboard.kiwify.com/join/affiliate/4z9Dnoz4
+
+Os materiais devem ser revisados antes da publicação. Exemplos gerados são identificados como fictícios e não devem ser apresentados como cotações reais.
+
+## Outros recursos em destaque
+
+- **Painel de Savings de Compras Pro:** https://crs-digital-factory.vercel.app/painel-savings-compras-pro/
 - **Guia de equalização de propostas:** https://crs-digital-factory.vercel.app/guias/equalizacao-de-propostas-fornecedores/
 - **Matriz de avaliação de fornecedores:** https://crs-digital-factory.vercel.app/guias/matriz-avaliacao-fornecedores/
-- **Mapa 3 Cotações Pro:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/
-- **Painel de Savings de Compras Pro:** https://crs-digital-factory.vercel.app/painel-savings-compras-pro/
 - **Guia para calcular savings em compras:** https://crs-digital-factory.vercel.app/guias/como-calcular-savings-em-compras/
 - **Guia da planilha de savings no Excel:** https://crs-digital-factory.vercel.app/guias/planilha-de-savings-compras-excel/
 - **Guia de dashboard de compras no Excel:** https://crs-digital-factory.vercel.app/guias/dashboard-de-compras-excel/
 
-As ferramentas são voltadas a tarefas práticas: comparar fornecedores, gerar calendários de escala, conferir a estrutura de XML de NF-e/NFC-e e revisar spritesheets para Godot 4. Sempre que possível, o processamento ocorre no próprio navegador.
+As ferramentas são voltadas a tarefas práticas. Sempre que possível, o processamento ocorre no próprio navegador.
 
 ## Produtos publicados
 
@@ -26,6 +49,9 @@ As ferramentas são voltadas a tarefas práticas: comparar fornecedores, gerar c
 | LPC FitLab for Godot 4 | `/LPC_FitLab_V1_Completo_GitHub/` | Análise local de spritesheets e exportação base para Godot 4 |
 | FiscalSafe XML | `/fiscalsafe/` | Pré-auditoria estrutural local de XML NF-e/NFC-e |
 | Plantão.ics | `/Plantao_ICS_V1/` | Geração de calendários de escalas recorrentes |
+| Desafio 3 Cotações | `/desafio-3-cotacoes/` | Comparação de três propostas com resultado compartilhável |
+| Gerador de RFQ | `/gerador-rfq/` | Criação de pedido de cotação padronizado |
+| Calculadora de custo oculto | `/calculadora-custo-oculto-fornecedor/` | Estimativa de custos adicionais ao preço do fornecedor |
 | Mapa 3 Cotações | `/mapa-3-cotacoes/` | Comparação local de três propostas e exportação CSV |
 | Calculadora de Savings | `/calculadora-savings/` | Estimativa local de saving total e percentual de uma negociação |
 | Mapa 3 Cotações Pro | `/mapa-3-cotacoes-pro/` | Pacote profissional vendido e entregue automaticamente pela Kiwify |
@@ -34,9 +60,10 @@ As ferramentas são voltadas a tarefas práticas: comparar fornecedores, gerar c
 ## Estrutura
 
 - `/`: home e catálogo da fábrica;
+- `/ferramentas-compras/`: hub de aquisição para ferramentas de Procurement e fornecedores;
 - `/apoie/`: página transparente de apoio opcional;
 - `/shared/config.js`: marca, contato, apoio, catálogo, checkout, preço e flags de observabilidade;
-- `/shared/metrics.js`: carregamento central de Speed Insights e, quando habilitado, Web Analytics;
+- `/shared/metrics.js`: carregamento central de Speed Insights, Web Analytics e eventos das ferramentas;
 - `/shared/support.js` e `/shared/support.css`: módulo de apoio contextual reutilizável;
 - `/guias/`: hub e guias práticos que conectam buscas às ferramentas;
 - `/robots.txt` e `/sitemap.xml`: descoberta e indexação;
@@ -58,7 +85,7 @@ A branch de produção é `main`. Cada commit na `main` inicia um deploy automá
 
 ## Atribuição de vendas
 
-Os botões dos produtos profissionais adicionam apenas parâmetros de campanha aceitos pela Kiwify (`src`, UTMs, `s1` e `s2`). Isso permite identificar a página e o CTA que originaram uma venda sem coletar nome, CPF ou e-mail no site da CRS Digital.
+Os botões dos produtos profissionais adicionam parâmetros de campanha aceitos pela Kiwify (`src`, UTMs, `s1` e `s2`). Isso permite identificar a página e o CTA que originaram uma venda sem coletar nome, CPF ou e-mail no site da CRS Digital.
 
 ## Fila operacional
 
