@@ -37,7 +37,42 @@
     loadScript("/diagnostico-maturidade-compras/team.js", "crs-maturity-team");
   }
 
+  function cleanReferrer() {
+    try {
+      if (!document.referrer) return "";
+      return new URL(document.referrer).hostname;
+    } catch (_) {
+      return "";
+    }
+  }
+
+  function sendOperationalEvent(name, data) {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const payload = {
+        name,
+        path: window.location.pathname,
+        content: data && data.content ? data.content : "",
+        source: params.get("utm_source") || "",
+        medium: params.get("utm_medium") || "",
+        campaign: params.get("utm_campaign") || "",
+        referrer: cleanReferrer()
+      };
+
+      fetch("/api/track", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+        keepalive: true,
+        credentials: "omit"
+      }).catch(() => {});
+    } catch (_) {
+      // Funnel telemetry must never interfere with the product experience.
+    }
+  }
+
   function track(name, data) {
+    sendOperationalEvent(name, data || {});
     if (typeof window.va !== "function") return;
     try {
       window.va("event", { name, data: data || {} });
@@ -45,6 +80,8 @@
       // Analytics must never interfere with the product experience.
     }
   }
+
+  sendOperationalEvent("Page View", {});
 
   const clickEvents = {
     shareBtn: "Desafio Share",
