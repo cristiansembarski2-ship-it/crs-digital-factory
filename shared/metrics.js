@@ -54,7 +54,15 @@
     creatorShareBtn: "Creator Share",
     diagExampleBtn: "Savings Diagnostic Example",
     diagShareBtn: "Savings Diagnostic Share",
-    diagCopyBtn: "Savings Diagnostic Copy"
+    diagCopyBtn: "Savings Diagnostic Copy",
+    rfqLinkExampleBtn: "RFQ Link Example",
+    rfqInviteShareBtn: "RFQ Invite Shared",
+    rfqInviteCopyBtn: "RFQ Invite Copied",
+    rfqInviteOpenBtn: "RFQ Supplier View Opened",
+    rfqResponseShareBtn: "RFQ Response Shared",
+    rfqResponseCopyBtn: "RFQ Response Copied",
+    rfqAddComparisonBtn: "RFQ Response Added To Comparison",
+    rfqBackCreateBtn: "RFQ New Request Started"
   };
 
   const trackedIds = Object.keys(clickEvents).map((id) => "#" + id).join(", ");
@@ -78,7 +86,9 @@
     quoteForm: "Desafio Result Generated",
     rfqForm: "RFQ Generated",
     hiddenCostForm: "Hidden Cost Calculated",
-    savingsDiagnosticForm: "Savings Diagnostic Generated"
+    savingsDiagnosticForm: "Savings Diagnostic Generated",
+    rfqLinkForm: "RFQ Link Created",
+    supplierResponseForm: "RFQ Supplier Response Generated"
   };
 
   document.addEventListener("submit", (event) => {
