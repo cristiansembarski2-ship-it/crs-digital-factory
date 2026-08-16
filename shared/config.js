@@ -41,6 +41,8 @@
 
   const AFF_KEY = "crs_mapa_affiliate";
   const AFF_TTL_MS = 30 * 24 * 60 * 60 * 1000;
+  const ATTR_KEY = "crs_attribution_v1";
+  const TRACKING_KEYS = Object.freeze(["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]);
 
   function base64UrlDecode(value) {
     try {
@@ -124,7 +126,63 @@
     appendToUrl: appendAffiliateToInternalUrl
   });
 
+  function referrerAttribution() {
+    try {
+      if (!document.referrer) return {};
+      const ref = new URL(document.referrer);
+      if (ref.origin === window.location.origin) return {};
+      const host = ref.hostname.toLowerCase().replace(/^www\./, "");
+      if (!host) return {};
+      if (host.includes("google.")) return { utm_source: "google", utm_medium: "organic" };
+      if (host.includes("bing.com")) return { utm_source: "bing", utm_medium: "organic" };
+      if (host.includes("tiktok.com")) return { utm_source: "tiktok", utm_medium: "organic" };
+      if (host.includes("reddit.com")) return { utm_source: "reddit", utm_medium: "referral" };
+      if (host.includes("linkedin.com")) return { utm_source: "linkedin", utm_medium: "referral" };
+      if (host.includes("instagram.com")) return { utm_source: "instagram", utm_medium: "organic" };
+      if (host.includes("facebook.com")) return { utm_source: "facebook", utm_medium: "referral" };
+      return { utm_source: host, utm_medium: "referral" };
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function rememberIncomingAttribution() {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const data = {};
+      let explicit = false;
+      TRACKING_KEYS.forEach((key) => {
+        const value = params.get(key);
+        if (!value) return;
+        data[key] = String(value).slice(0, 120);
+        explicit = true;
+      });
+      if (!explicit) Object.assign(data, referrerAttribution());
+      if (Object.keys(data).length) sessionStorage.setItem(ATTR_KEY, JSON.stringify(data));
+    } catch (_) {
+      // Attribution is helpful but must never block navigation or checkout.
+    }
+  }
+
+  function storedAttribution() {
+    try {
+      const raw = sessionStorage.getItem(ATTR_KEY);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      return parsed && typeof parsed === "object" ? parsed : {};
+    } catch (_) {
+      return {};
+    }
+  }
+
+  function attributionValue(key) {
+    const incoming = new URLSearchParams(window.location.search).get(key);
+    if (incoming) return incoming;
+    return storedAttribution()[key] || "";
+  }
+
   rememberIncomingAffiliate();
+  rememberIncomingAttribution();
 
   function normalizeTrackingValue(value, fallback) {
     const normalized = String(value || "")
@@ -145,18 +203,33 @@
   function trackedCheckoutUrl(product, element, productKey) {
     const affiliateCheckout = productKey === "mapa3CotacoesPro" ? storedAffiliate() : "";
     const checkout = new URL(affiliateCheckout || product.checkoutUrl);
-    const incoming = new URLSearchParams(window.location.search);
     const content = normalizeTrackingValue(element.dataset.crsTrackContent || element.textContent, "cta");
     const route = pageSlug();
 
     checkout.searchParams.set("src", affiliateCheckout ? "crs-affiliate-tool" : "crs-site");
-    checkout.searchParams.set("utm_source", normalizeTrackingValue(incoming.get("utm_source"), affiliateCheckout ? "affiliate-tool" : "crs-digital"));
-    checkout.searchParams.set("utm_medium", normalizeTrackingValue(incoming.get("utm_medium"), affiliateCheckout ? "affiliate-referral" : "owned-site"));
-    checkout.searchParams.set("utm_campaign", normalizeTrackingValue(incoming.get("utm_campaign"), product.campaign || route));
-    checkout.searchParams.set("utm_content", normalizeTrackingValue(incoming.get("utm_content"), route + "-" + content));
+    checkout.searchParams.set("utm_source", normalizeTrackingValue(attributionValue("utm_source"), affiliateCheckout ? "affiliate-tool" : "direct"));
+    checkout.searchParams.set("utm_medium", normalizeTrackingValue(attributionValue("utm_medium"), affiliateCheckout ? "affiliate-referral" : "none"));
+    checkout.searchParams.set("utm_campaign", normalizeTrackingValue(attributionValue("utm_campaign"), product.campaign || route));
+    checkout.searchParams.set("utm_content", normalizeTrackingValue(attributionValue("utm_content"), route + "-" + content));
+    const term = normalizeTrackingValue(attributionValue("utm_term"), "");
+    if (term) checkout.searchParams.set("utm_term", term);
     checkout.searchParams.set("s1", route);
     checkout.searchParams.set("s2", content);
     return checkout.toString();
+  }
+
+  function cleanLegacyHubTracking(url) {
+    if (!window.location.pathname.startsWith("/compras-sem-achismo/")) return;
+    if (attributionValue("utm_source")) return;
+    if (url.searchParams.get("utm_source") !== "tiktok") return;
+    TRACKING_KEYS.forEach((key) => url.searchParams.delete(key));
+  }
+
+  function applyAttributionToInternalUrl(url) {
+    TRACKING_KEYS.forEach((key) => {
+      const value = attributionValue(key);
+      if (value) url.searchParams.set(key, value);
+    });
   }
 
   function decorateInternalAnchor(element) {
@@ -166,15 +239,16 @@
     try {
       const url = new URL(raw, window.location.origin);
       if (url.origin !== window.location.origin || url.pathname.startsWith("/apoie/")) return;
+      cleanLegacyHubTracking(url);
+      applyAttributionToInternalUrl(url);
       const decorated = appendAffiliateToInternalUrl(url.toString());
-      if (decorated !== url.toString()) element.href = decorated;
+      element.href = decorated;
     } catch (_) {
       // Ignore malformed links.
     }
   }
 
-  function propagateAffiliateToInternalLinks() {
-    if (!currentAffiliateToken()) return;
+  function propagateContextToInternalLinks() {
     document.querySelectorAll("a[href]").forEach(decorateInternalAnchor);
   }
 
@@ -186,6 +260,11 @@
   }
 
   function installSharePropagation() {
+    document.addEventListener("click", (event) => {
+      const anchor = event.target.closest("a[href]");
+      if (anchor) decorateInternalAnchor(anchor);
+    }, true);
+
     if (!currentAffiliateToken()) return;
 
     try {
@@ -210,11 +289,6 @@
     } catch (_) {
       // Some browsers expose clipboard methods as read-only.
     }
-
-    document.addEventListener("click", (event) => {
-      const anchor = event.target.closest("a[href]");
-      if (anchor) decorateInternalAnchor(anchor);
-    }, true);
   }
 
   function loadPageModules() {
@@ -266,7 +340,7 @@
       element.target = "_blank";
       element.rel = "noopener noreferrer sponsored";
     });
-    propagateAffiliateToInternalLinks();
+    propagateContextToInternalLinks();
     installSharePropagation();
     loadPageModules();
     installBrandContact();
