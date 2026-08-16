@@ -90,7 +90,7 @@ Não criar outro ativo semelhante sem uma justificativa econômica clara.
 - O comparador gratuito foi ajustado para usar o próprio resultado do usuário como contexto de upgrade quando houver divergência entre preço, prazo e nota técnica.
 - Existe telemetria própria via `/api/track` para eventos operacionais do funil, sem enviar preços/cotações pessoais do usuário.
 - Existe integração com Vercel Web Analytics / Speed Insights no código.
-- Limitação atual: o conector Vercel usado pelo chat central reconhece a equipe, mas não está listando o projeto; portanto leitura automática dos logs pelo conector ainda não está confirmada.
+- Limitação atual: o conector Vercel reconhece a equipe, mas retorna 404 para o projeto mesmo usando domínio/slug; leitura automática dos logs pelo conector ainda não está disponível.
 
 ## 7. Aquisição e distribuição
 
@@ -102,6 +102,7 @@ Estratégias já em operação:
 - creators de Excel/negócios;
 - portais de Procurement / Supply Chain;
 - consultorias e escolas;
+- compradores diretos com e-mail público de Compras/Suprimentos;
 - embeds/widgets;
 - conteúdo curto reutilizável;
 - Canva;
@@ -112,7 +113,7 @@ Regra: **não fazer spam, não inventar métricas, não usar urgência falsa, n�
 
 ## 8. Automações ativas
 
-Estado consolidado mais recente: **3 tarefas ativas**, preservando 2 vagas livres.
+Estado consolidado mais recente: **4 tarefas ativas**, preservando 1 vaga livre.
 
 1. **Respostas de Afiliados / Receita**
    - monitora venda, pagamento e respostas comerciais relevantes;
@@ -128,7 +129,16 @@ Estado consolidado mais recente: **3 tarefas ativas**, preservando 2 vagas livre
    - busca discussões públicas recentes com intenção real;
    - só sinaliza oportunidade quando uma resposta útil e transparente puder mencionar ferramenta gratuita sem violar regras.
 
-Não preencher as 2 vagas livres sem um caso claro de maior impacto em receita/aquisição.
+4. **Compradores Diretos**
+   - roda duas vezes por semana;
+   - encontra no máximo 2 empresas brasileiras por execução com canal público atual de Compras/Suprimentos/Procurement;
+   - prioriza construção, engenharia, indústria, facilities e operações B2B;
+   - oferece primeiro o Mapa 3 Cotações gratuito;
+   - usa UTM exclusivo por empresa;
+   - consulta Gmail e bounces antes de enviar;
+   - etiqueta envios como `Receita/PrimeiraVenda`.
+
+Não preencher a vaga livre restante sem um caso claro de maior impacto em receita/aquisição.
 
 ## 9. Bounces / qualidade de prospecção
 
@@ -165,7 +175,7 @@ Status correto:
 
 **PUBLICAÇÃO DO PRIMEIRO TIKTOK NÃO CONFIRMADA.**
 
-Antes de repostar, verificar o perfil para evitar duplicidade.
+Tentativa de verificação pública por busca web ficou bloqueada pelo robots.txt do TikTok. Não interromper o proprietário só por isso; verificar quando houver acesso apropriado à conta ou quando TikTok se tornar o próximo gargalo real.
 
 ## 12. Reddit
 
@@ -193,6 +203,8 @@ Quando houver dados reais, priorizar:
 ## 14. Regra de operação autônoma
 
 O proprietário é recurso escasso.
+
+**Fim de uma resposta não significa fim do trabalho.** Quando um ciclo terminar, iniciar automaticamente o próximo ciclo de maior impacto. Não esperar `continue`, `pode ir` ou confirmação equivalente.
 
 Não pedir que ele escolha:
 - design;
@@ -233,10 +245,10 @@ Responsável por:
 - automações;
 - Gmail;
 - mudanças rápidas;
-- escolher a próxima ação de maior impacto.
+- escolher e executar a próxima ação de maior impacto.
 
 ### Work
-Responsável por execução pesada:
+Responsável por execução pesada quando houver créditos/disponibilidade:
 - auditorias completas;
 - mudanças em muitos arquivos;
 - refactors;
@@ -245,14 +257,7 @@ Responsável por execução pesada:
 - testes técnicos extensos;
 - produção pesada de materiais.
 
-O Work deve ler este arquivo e o estado atual do repositório antes de modificar qualquer coisa.
-
-Ao terminar uma missão pesada, devolver ao chat central:
-- O que fez;
-- O que mudou;
-- Resultado/testes;
-- Risco/problema encontrado;
-- Próxima recomendação.
+Se Work estiver sem créditos, o chat central assume a operação normalmente.
 
 ## 16. Prioridade operacional permanente
 
