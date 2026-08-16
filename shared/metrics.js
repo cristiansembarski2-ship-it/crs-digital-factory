@@ -36,8 +36,28 @@
     }
   }
 
+  const clickEvents = {
+    shareBtn: "Desafio Share",
+    cardBtn: "Desafio Card Download",
+    copyBtn: "Desafio Link Copy",
+    exampleBtn: "Desafio Example",
+    approveBtn: "Desafio Send Approval",
+    challengeBtn: "Desafio Challenge Colleague",
+    rfqCopyBtn: "RFQ Copy",
+    rfqShareBtn: "RFQ Share",
+    rfqExampleBtn: "RFQ Example",
+    hiddenCopyBtn: "Hidden Cost Copy",
+    hiddenShareBtn: "Hidden Cost Share",
+    hiddenExampleBtn: "Hidden Cost Example",
+    creatorGenerateBtn: "Creator Case Generated",
+    creatorCopyBtn: "Creator Copy",
+    creatorShareBtn: "Creator Share"
+  };
+
+  const trackedIds = Object.keys(clickEvents).map((id) => "#" + id).join(", ");
+
   document.addEventListener("click", (event) => {
-    const target = event.target.closest("[data-crs-track-content], #shareBtn, #cardBtn, #copyBtn, #exampleBtn, #approveBtn, #challengeBtn");
+    const target = event.target.closest(`[data-crs-track-content]${trackedIds ? ", " + trackedIds : ""}`);
     if (!target) return;
 
     const explicit = target.getAttribute("data-crs-track-content");
@@ -46,21 +66,19 @@
       return;
     }
 
-    const names = {
-      shareBtn: "Desafio Share",
-      cardBtn: "Desafio Card Download",
-      copyBtn: "Desafio Link Copy",
-      exampleBtn: "Desafio Example",
-      approveBtn: "Desafio Send Approval",
-      challengeBtn: "Desafio Challenge Colleague"
-    };
-
-    if (names[target.id]) track(names[target.id], { path: location.pathname });
+    if (clickEvents[target.id]) {
+      track(clickEvents[target.id], { path: location.pathname });
+    }
   });
 
+  const formEvents = {
+    quoteForm: "Desafio Result Generated",
+    rfqForm: "RFQ Generated",
+    hiddenCostForm: "Hidden Cost Calculated"
+  };
+
   document.addEventListener("submit", (event) => {
-    if (event.target && event.target.id === "quoteForm") {
-      track("Desafio Result Generated", { path: location.pathname });
-    }
+    const id = event.target && event.target.id;
+    if (id && formEvents[id]) track(formEvents[id], { path: location.pathname });
   });
 })();
