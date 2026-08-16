@@ -13,6 +13,7 @@ Se você trabalha com cotação, fornecedores, savings ou Procurement, comece pe
 Recursos principais:
 
 - **Link de Cotação para Fornecedores:** crie uma RFQ em forma de link, envie o mesmo convite a vários fornecedores e reúna respostas padronizadas no navegador: https://crs-digital-factory.vercel.app/link-cotacao-fornecedores/
+- **Biblioteca de modelos de RFQ:** comece por EPI, TI, frete, manutenção, uniformes, limpeza, MRO ou material de escritório e abra o pedido já pré-preenchido: https://crs-digital-factory.vercel.app/modelos-rfq/
 - **Desafio 3 Cotações:** descubra se o menor preço realmente é o menor custo e gere um resultado compartilhável: https://crs-digital-factory.vercel.app/desafio-3-cotacoes/
 - **Gerador de RFQ:** transforme uma necessidade em pedido de cotação padronizado: https://crs-digital-factory.vercel.app/gerador-rfq/
 - **Calculadora de custo oculto:** some frete, retrabalho, atraso e outros custos estimáveis: https://crs-digital-factory.vercel.app/calculadora-custo-oculto-fornecedor/
@@ -54,6 +55,7 @@ As ferramentas são voltadas a tarefas práticas. Sempre que possível, o proces
 | FiscalSafe XML | `/fiscalsafe/` | Pré-auditoria estrutural local de XML NF-e/NFC-e |
 | Plantão.ics | `/Plantao_ICS_V1/` | Geração de calendários de escalas recorrentes |
 | Link de Cotação para Fornecedores | `/link-cotacao-fornecedores/` | RFQ em link, resposta padronizada e comparação local de fornecedores |
+| Modelos de RFQ | `/modelos-rfq/` | Biblioteca evergreen de pedidos de cotação pré-preenchidos por categoria |
 | Desafio 3 Cotações | `/desafio-3-cotacoes/` | Comparação de três propostas com resultado compartilhável |
 | Gerador de RFQ | `/gerador-rfq/` | Criação de pedido de cotação padronizado |
 | Calculadora de custo oculto | `/calculadora-custo-oculto-fornecedor/` | Estimativa de custos adicionais ao preço do fornecedor |
@@ -68,6 +70,7 @@ As ferramentas são voltadas a tarefas práticas. Sempre que possível, o proces
 - `/ferramentas-compras/`: hub de aquisição para ferramentas de Procurement e fornecedores;
 - `/savings-compras/`: hub de aquisição para savings;
 - `/link-cotacao-fornecedores/`: fluxo compartilhável comprador → fornecedores → comprador;
+- `/modelos-rfq/`: biblioteca de modelos que inicia o fluxo de cotação já pré-preenchido;
 - `/apoie/`: página transparente de apoio opcional;
 - `/shared/config.js`: marca, contato, apoio, catálogo, checkout, preço e flags de observabilidade;
 - `/shared/metrics.js`: carregamento central de Speed Insights, Web Analytics e eventos das ferramentas;
