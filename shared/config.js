@@ -4,7 +4,7 @@
   const config = Object.freeze({
     brandName: "CRS Digital",
     supportUrl: "https://link.mercadopago.com.br/crsdigital",
-    contactEmail: "",
+    contactEmail: "comprasemachismo@gmail.com",
     siteUrl: "https://crs-digital-factory.vercel.app",
     mercadoPagoFeeRate: 0.05,
     observability: Object.freeze({ webAnalyticsEnabled: true, speedInsightsEnabled: true }),
@@ -226,6 +226,19 @@
     document.head.appendChild(script);
   }
 
+  function installBrandContact() {
+    if (!config.contactEmail) return;
+    const isPaidProduct = window.location.pathname.startsWith("/mapa-3-cotacoes-pro/") || window.location.pathname.startsWith("/painel-savings-compras-pro/");
+    if (!isPaidProduct) return;
+    const links = document.querySelector(".footer-links");
+    if (!links || links.querySelector("[data-crs-brand-email]")) return;
+    const anchor = document.createElement("a");
+    anchor.dataset.crsBrandEmail = "";
+    anchor.href = "mailto:" + config.contactEmail;
+    anchor.textContent = "Contato e suporte";
+    links.appendChild(anchor);
+  }
+
   function applyConfig() {
     document.querySelectorAll("[data-crs-brand]").forEach((element) => {
       element.textContent = config.brandName;
@@ -256,6 +269,7 @@
     propagateAffiliateToInternalLinks();
     installSharePropagation();
     loadPageModules();
+    installBrandContact();
   }
 
   if (document.readyState === "loading") {
