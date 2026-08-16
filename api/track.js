@@ -12,6 +12,7 @@ const ALLOWED_EVENTS = new Set([
   "RFQ Share",
   "RFQ Example",
   "RFQ Generated",
+  "RFQ Link Created",
   "Hidden Cost Copy",
   "Hidden Cost Share",
   "Hidden Cost Example",
