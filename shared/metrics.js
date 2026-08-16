@@ -28,9 +28,13 @@
   }
 
   const isRfqLinkPage = window.location.pathname.startsWith("/link-cotacao-fornecedores/");
+  const isMaturityPage = window.location.pathname.startsWith("/diagnostico-maturidade-compras/");
 
   if (isRfqLinkPage) {
     loadScript("/link-cotacao-fornecedores/history.js", "crs-rfq-history");
+  }
+  if (isMaturityPage) {
+    loadScript("/diagnostico-maturidade-compras/team.js", "crs-maturity-team");
   }
 
   function track(name, data) {
