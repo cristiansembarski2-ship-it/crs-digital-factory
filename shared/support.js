@@ -2,14 +2,15 @@
   "use strict";
 
   const product = document.body.dataset.crsProduct || "crs-digital";
+  if (product === "mapa-3-cotacoes") return;
+
   const config = window.CRS_CONFIG || {};
   const supportUrl = config.supportUrl || "https://link.mercadopago.com.br/crsdigital";
   const sessionKey = "crs_support_prompt_" + product;
   const messages = {
     "lpc-fitlab": "Sua exportação ficou pronta. Se o FitLab economizou seu tempo, você pode apoiar com qualquer valor.",
     "fiscalsafe": "Seu relatório foi gerado. Se esta conferência ajudou seu trabalho, você pode apoiar com qualquer valor.",
-    "plantao-ics": "Seu calendário está pronto. Se ele facilitou sua escala, você pode pagar um café para a CRS Digital.",
-    "mapa-3-cotacoes": "Sua comparação está pronta. Se ela ajudou sua decisão, apoie a criação de novas ferramentas."
+    "plantao-ics": "Seu calendário está pronto. Se ele facilitou sua escala, você pode pagar um café para a CRS Digital."
   };
 
   function rememberClick() {
