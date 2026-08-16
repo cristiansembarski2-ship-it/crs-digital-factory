@@ -27,6 +27,10 @@
     loadScript("/_vercel/insights/script.js", "crs-web-analytics");
   }
 
+  if (window.location.pathname.startsWith("/link-cotacao-fornecedores/")) {
+    loadScript("/link-cotacao-fornecedores/history.js", "crs-rfq-history");
+  }
+
   function track(name, data) {
     if (typeof window.va !== "function") return;
     try {
