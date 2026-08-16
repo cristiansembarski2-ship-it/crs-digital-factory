@@ -39,11 +39,12 @@ jobs:
             exit 1
           fi
 
-          sitemap="$(curl -fsS "$SITE/sitemap.xml")"
-          urls="$(printf '%s' "$sitemap" | sed -n 's:.*<loc>\(.*\)</loc>.*:\1:p')"
+          core_sitemap="$(curl -fsS "$SITE/sitemap.xml")"
+          growth_sitemap="$(curl -fsS "$SITE/sitemap-growth.xml" 2>/dev/null || true)"
+          urls="$(printf '%s\n%s' "$core_sitemap" "$growth_sitemap" | sed -n 's:.*<loc>\(.*\)</loc>.*:\1:p' | sort -u)"
 
           if [ -z "$urls" ]; then
-            echo "No URLs found in sitemap."
+            echo "No URLs found in sitemaps."
             exit 1
           fi
 
