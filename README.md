@@ -4,6 +4,14 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 
 **Acesse a fábrica:** https://crs-digital-factory.vercel.app/
 
+## Fiscal / XML NF-e
+
+**FiscalSafe XML Lite** faz pré-conferência local de lotes de XML NF-e/NFC-e, sinaliza problemas estruturais básicos e duplicidades e gera **CSV que pode ser aberto no Excel**. Não exige cadastro e não envia o conteúdo fiscal para um servidor da CRS Digital durante a análise.
+
+**Usar online:** https://crs-digital-factory.vercel.app/fiscalsafe/?utm_source=github&utm_medium=readme&utm_campaign=fiscalsafe
+
+Escopo: pré-auditoria estrutural. Não substitui schema oficial, consulta SEFAZ, assinatura digital, escrituração ou revisão fiscal.
+
 ## Ferramentas gratuitas para Compras
 
 Se você trabalha com cotação, fornecedores, savings ou Procurement, comece pelo hub:
