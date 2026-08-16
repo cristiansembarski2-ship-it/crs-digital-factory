@@ -1,263 +1,261 @@
 # OPERACAO_PARALELA — Operação B / Novas Fontes de Receita
 
-Atualizado em: 2026-08-16
+Atualizado em: 2026-08-16 03:52 BRT
 
-## 1. Objetivo
+## 1. Objetivo e fronteira
 
-Meta desta operação:
+Meta:
 
-**R$0 → receber o primeiro R$1 de uma fonte independente da Operação A → identificar origem → repetir → automatizar → escalar.**
+**R$0 → primeiro R$1 recebido de uma fonte independente da Operação A → identificar origem → repetir → automatizar → escalar.**
 
-Esta operação não trabalha Compra Sem Achismo, Mapa 3 Cotações, Painel de Savings, TikTok `@compra121`, prospecção de Compras, parceiros de Compras, Plantão.ics ou os checkouts da Kiwify já administrados pela Operação A.
+Ficam fora desta operação: Compra Sem Achismo, Mapa 3 Cotações, Painel de Savings, TikTok `@compra121`, prospecção/Gmail de Compras, parceiros/compradores, Plantão.ics, checkouts Kiwify e automações já administradas pela Operação A.
+
+O proprietário não deve precisar copiar histórico entre chats: este arquivo é a fonte de sincronização da Operação B.
 
 ## 2. Oportunidade vencedora
 
 **FiscalSafe XML Lite**
 
-- Rota: `https://crs-digital-factory.vercel.app/fiscalsafe/`
-- Problema: pré-conferir lotes de XML de NF-e/NFC-e rapidamente antes de importação, arquivamento ou revisão manual.
-- Público: profissionais fiscais, escritórios contábeis, BPO financeiro/fiscal, pequenas empresas e equipes administrativas que recebem pastas de XML.
-- Operação: local no navegador; XML não é enviado ao servidor da CRS Digital.
-- Monetização inicial: **donationware / apoio opcional** pelo Mercado Pago já existente.
-- Link de pagamento: `https://link.mercadopago.com.br/crsdigital`
-- Promessa permitida: pré-auditoria estrutural e organização básica do lote.
-- Promessa proibida: validação fiscal oficial, conformidade tributária, validação XSD oficial, consulta SEFAZ, assinatura digital ou substituição de contador/software fiscal.
+- Ferramenta: `https://crs-digital-factory.vercel.app/fiscalsafe/`
+- Problema: pré-conferir lotes de XML NF-e/NFC-e antes de importação, arquivamento ou revisão manual.
+- Público: fiscal, contabilidade, BPO fiscal/financeiro, pequenas empresas e equipes administrativas que recebem lotes de XML.
+- Operação: processamento local no navegador; o XML não é enviado ao servidor da CRS Digital para a análise.
+- Monetização inicial: **donationware / apoio opcional**.
+- Pagamento: `https://link.mercadopago.com.br/crsdigital`
+- Marca pública: CRS Digital.
+- Nenhum nome pessoal deve ser usado publicamente.
 
-### Por que venceu
+### Caminho até receita
 
-A ferramenta já existe, já funciona sem cadastro, já tem CTA de pagamento, não exige nova entrega premium e atende uma rotina recorrente que o mercado demonstra pagar para automatizar.
+**pessoa com lote de XML → usa FiscalSafe → encontra exceções/gera CSV → CTA contextual de apoio → Mercado Pago → pagamento.**
 
-A menor distância atual até dinheiro é:
+Não foi criado produto novo e não existe promessa de benefício premium após o apoio.
 
-**pessoa com pasta de XML → usa FiscalSafe → gera CSV/identifica atenção → recebe pedido de apoio → Mercado Pago.**
+## 3. Ranking e oportunidades arquivadas
 
-Não foi criado produto novo.
+Escala 0–10, dando peso alto à menor distância até dinheiro.
 
-## 3. Inventário de oportunidades fora da Operação A
+| Oportunidade | Demanda | Intenção de pagar | Urgência | Anônima | Distribuição | Pouco trabalho restante | Caminho curto até dinheiro | Nota |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| FiscalSafe XML Lite | 9 | 8 | 8 | 10 | 7 | 9 | 9 | **8,6** |
+| LPC FitLab for Godot 4 | 7 | 4 | 4 | 10 | 7 | 4 | 4 | **5,7** |
+| Apoio genérico `/apoie/` | 2 | 2 | 1 | 10 | 3 | 10 | 5 | **4,1** |
 
-### FiscalSafe XML Lite — vencedor
+### LPC FitLab — arquivado
 
-- Problema resolvido: triagem estrutural local de lotes NF-e/NFC-e, duplicidade por chave, ausência de protocolo/dados básicos e CSV.
-- Comprador provável: fiscal/contador/BPO/empresa que trabalha com XML em lote.
-- Intenção de compra: média/alta; softwares para XML fiscal têm cobrança recorrente e ferramentas pontuais pagas.
-- Urgência: alta em fechamento fiscal, importação e tratamento de lotes; o ambiente NF-e também passa por atualizações frequentes em 2026.
-- Concorrência: alta, porém grande parte dos concorrentes vende coleta, armazenamento, API, consulta SEFAZ ou análise tributária mais ampla. O FiscalSafe ocupa uma faixa simples, local e sem cadastro.
-- Risco técnico: baixo enquanto a promessa permanecer estrutural.
-- Risco jurídico: controlável com disclaimer atual; não vender como auditoria tributária oficial.
-- Operação anônima: sim, usando apenas CRS Digital.
-- Monetização: imediata via donationware; produto pago futuro somente se houver uso e intenção comprovados.
-- Distribuição: página indexável, guia SEO já existente, GitHub, sitemap/IndexNow e comunidades fiscais somente quando regras permitirem.
-- Trabalho restante: baixo.
+- Dor real entre desenvolvedores Godot/2D.
+- Há vários importadores e ferramentas gratuitas atuais no ecossistema Godot.
+- A versão Pro ainda não existe.
+- `product.json` informa pagamento não conectado e proíbe cobrança antes de existir entrega Pro automática/testada.
+- Exigiria construção adicional antes de uma venda legítima.
+- Decisão: **não desenvolver agora**.
 
-### LPC FitLab for Godot 4 — arquivado
+### `/apoie/` genérico — rejeitado como oportunidade independente
 
-- Problema: validar grade/spritesheet, visualizar frames e exportar base SpriteFrames para Godot 4.
-- Público: desenvolvedores indie 2D/Godot e usuários de LPC.
-- Há demanda real, inclusive perguntas recentes em fóruns.
-- Porém o Godot Asset Library possui vários importadores gratuitos e ferramentas recentes de spritesheet/AnimatedSprite2D; há concorrência gratuita forte e a própria biblioteca apresenta dezenas de ativos relacionados a sprites.
-- A versão Pro ainda não existe e o próprio `product.json` define pagamento como não conectado.
-- Para monetizar seria necessário criar/entregar Pro ou depender de apoio voluntário em um público acostumado a OSS gratuito.
-- Distância até dinheiro maior que FiscalSafe.
-- Status: **não desenvolver agora**.
+Tem pagamento, mas não resolve uma dor própria nem cria aquisição específica. Continua sendo infraestrutura de apoio, não uma nova frente de receita validável.
 
-### Página genérica `/apoie/` — rejeitada como fonte independente
+### Plantão.ics e ecossistema de Compras — excluídos
 
-- Possui caminho de pagamento, mas não resolve um problema específico nem cria aquisição própria.
-- Pode apoiar a infraestrutura geral, mas não é uma oportunidade independente validável.
-
-### Plantão.ics — excluído
-
-- Produto existente, mas explicitamente sob responsabilidade da Operação A.
-
-### Ecossistema de Compras — excluído
-
-- Ferramentas, produtos, parceiros, conteúdo e distribuição de Procurement/Compras permanecem com a Operação A.
+Pertencem à Operação A.
 
 ## 4. Evidências de mercado — FiscalSafe
 
-Fontes consultadas em 2026-08-16:
+Pesquisa realizada em 2026-08-16.
 
-1. Portal oficial NF-e — documentos vigentes e schemas:
-   - `https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=6WfrpZYE4Ik%3D`
-   - `https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D`
-   - O Portal mostrava quase 3 milhões de emissores e dezenas de bilhões de NF-e autorizadas.
-   - Em 2026 houve múltiplas atualizações de NTs e schemas, inclusive RTC/IBS-CBS e CNPJ alfanumérico.
+### Evidência oficial
 
-2. Fórum Contábeis — discussão de 2026 sobre extração/tratamento em lote:
-   - `https://www.contabeis.com.br/forum/tributos-estaduais-municipais/412495/como-extrair-arquivo-xml-e-excel-em-lote-no-emissor-nacional/`
-   - Participantes relatam uso de SIEG/NFSeek e alternativas manuais com Excel para fechamento.
+Portal NF-e:
 
-3. SIGE Cloud — XML em lote é uma rotina explícita de contabilidade:
-   - `https://ajuda.sigecloud.com.br/como-baixar-xml-em-lote-de-nf-e-emitidas-no-sige-cloud/`
+- `https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=6WfrpZYE4Ik%3D`
+- `https://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w%3D`
 
-4. eNotas — download em lote de XML/Excel para visão do contador:
-   - `https://atendimento.enotas.com.br/hc/pt-br/articles/35773346958221--Menu-Empresa-Como-baixar-o-PDF-XML-ou-CSV-das-notas-fiscais-na-eNotas-pela-Vis%C3%A3o-do-Contador`
+O ecossistema NF-e continua massivo e recebeu múltiplas atualizações técnicas em 2026, inclusive notas técnicas/schemas relacionados a RTC/IBS-CBS e CNPJ alfanumérico.
 
-5. Programador Fiscal — produto pago para importar XML NF-e em lote e organizar em Excel:
-   - `https://programadorfiscal.com.br/importe-xml-nfe/`
-   - Oferta observada: R$97/mês, além de planos semestral/anual.
+### Evidência de rotina real
 
-6. NFe/CTe Downloader — solução paga para consulta/download em lote e Excel fiscal:
-   - `https://www.nfecte-downloader.com.br/`
-   - Oferta observada: R$89,90/mês.
+- Fórum Contábeis, discussão de 2026 sobre extração XML/Excel em lote: `https://www.contabeis.com.br/forum/tributos-estaduais-municipais/412495/como-extrair-arquivo-xml-e-excel-em-lote-no-emissor-nacional/`
+- SIGE Cloud, download XML em lote para rotina contábil: `https://ajuda.sigecloud.com.br/como-baixar-xml-em-lote-de-nf-e-emitidas-no-sige-cloud/`
+- eNotas, exportação em lote XML/CSV na visão do contador: `https://atendimento.enotas.com.br/hc/pt-br/articles/35773346958221--Menu-Empresa-Como-baixar-o-PDF-XML-ou-CSV-das-notas-fiscais-na-eNotas-pela-Vis%C3%A3o-do-Contador`
 
-7. NuvDFe — gestão de XML fiscal em nuvem:
-   - `https://nuvdfe.com.br/`
-   - Oferta observada a partir de R$119/mês.
+### Evidência de disposição a pagar
 
-8. TribAPI — validação gratuita de XML individual e serviço pago de auditoria em lote/RTC:
-   - `https://tribapi.com.br/`
-   - Evidência de que empresas pagam por diagnóstico/auditoria fiscal em escala; escopo muito mais profundo que o FiscalSafe e não deve ser imitado sem implementação técnica correspondente.
+Concorrentes/soluções pagas encontrados:
 
-Conclusão da validação: **há demanda real e dinheiro circulando em tarefas de XML fiscal em lote.** O FiscalSafe não compete como ERP/consulta SEFAZ; a hipótese é monetizar a utilidade simples e privada de pré-conferência local.
+- Programador Fiscal — importação XML NF-e em lote/Excel: `https://programadorfiscal.com.br/importe-xml-nfe/` — oferta observada de R$97/mês.
+- NFe/CTe Downloader — lote/consulta/Excel: `https://www.nfecte-downloader.com.br/` — oferta observada de R$89,90/mês.
+- NuvDFe — gestão de XML fiscal: `https://nuvdfe.com.br/` — oferta observada a partir de R$119/mês.
+- TribAPI — validação/auditoria fiscal mais profunda: `https://tribapi.com.br/` — produto/serviço pago em faixa superior.
 
-## 5. Evidências de mercado — LPC FitLab
+Conclusão: **há mercado pago em torno de processamento, organização, validação e auditoria de XML fiscal em escala.** O FiscalSafe não tentará substituir essas plataformas; a hipótese é monetizar uma utilidade simples, local e sem cadastro.
 
-Fontes:
+## 5. Auditoria técnica do FiscalSafe
 
-- Sprite Sheet Importer, Godot Asset Library: `https://godotengine.org/asset-library/asset/5205`
-- Batch Sheet Importer: `https://godotengine.org/asset-library/asset/4981`
-- Importality: `https://godotengine.org/asset-library/asset/2025`
-- Pergunta recente no Godot Forum sobre AnimatedSprite2D/spritesheet: `https://forum.godotengine.org/t/how-do-you-create-an-animated-sprite/135404`
+Estado confirmado no código:
 
-Conclusão: dor real, mas oferta gratuita abundante e uma versão paga exigiria construção adicional. **Arquivado.**
-
-## 6. Ranking
-
-Escala 0–10, priorizando menor distância até dinheiro.
-
-| Oportunidade | Demanda | Intenção de pagar | Urgência | Operação anônima | Distribuição | Trabalho restante | Distância até dinheiro | Nota final |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| FiscalSafe XML Lite | 9 | 8 | 8 | 10 | 7 | 9 | 9 | **8,6** |
-| LPC FitLab | 7 | 4 | 4 | 10 | 7 | 4 | 4 | **5,7** |
-| Apoio genérico | 2 | 2 | 1 | 10 | 3 | 10 | 5 | **4,1** |
-
-`Trabalho restante` e `Distância até dinheiro`: nota maior = situação melhor/mais curta.
-
-## 7. Auditoria técnica do FiscalSafe
-
-Estado confirmado no repositório:
-
-- lê vários XMLs e seleção de pasta no navegador;
-- usa `DOMParser` local;
+- lê vários XMLs e seleção de pasta;
+- usa `DOMParser` no navegador;
 - reconhece `infNFe`;
-- extrai modelo, número, série, data, emitente, valor, chave, protocolo e `cStat`;
-- marca XML malformado;
-- alerta ausência de campos básicos;
-- identifica chaves duplicadas dentro do lote;
+- extrai modelo, número, série, emissão, emitente, valor, chave, protocolo e `cStat`;
+- detecta XML malformado;
+- alerta ausência de campos estruturais básicos;
+- identifica chave duplicada dentro do lote;
 - filtra resultados;
 - exporta CSV;
-- demo sintética contém 4 XMLs, sendo 1 OK básico, 1 sem protocolo e 2 duplicados;
-- CTA de apoio leva ao Mercado Pago;
-- disclaimer delimita corretamente que não é validador fiscal oficial.
+- demo sintética com 4 XMLs: 1 OK básico, 1 sem protocolo e 2 duplicados;
+- CTA de apoio já aponta ao Mercado Pago;
+- disclaimer delimita o escopo.
 
-Limitações deliberadas:
+### Promessa permitida
 
-- não valida XSD oficial;
-- não consulta SEFAZ;
-- não valida assinatura digital;
-- não determina correção tributária IBS/CBS;
-- não faz escrituração;
-- não envia XML ao servidor.
+**Pré-auditoria/conferência estrutural local de XML NF-e/NFC-e em lote.**
 
-### Reforma Tributária 2026
+### Promessas proibidas sem nova implementação/testes
 
-O Portal NF-e publicou atualizações de leiaute/regras e schemas em 2026. Isso aumenta a relevância do tema XML, mas **não autoriza o FiscalSafe a prometer validação da RTC**. Qualquer recurso desse tipo só será criado após implementação contra documentação oficial + suíte de testes.
+- validação fiscal oficial;
+- conformidade tributária;
+- validação contra XSD oficial vigente;
+- consulta SEFAZ;
+- validação de assinatura/certificado;
+- decisão de escrituração;
+- conformidade IBS/CBS/RTC;
+- substituição de contador ou software fiscal.
 
-## 8. Monetização escolhida
+As mudanças técnicas oficiais de 2026 tornam o tema relevante, mas também aumentam o risco de prometer demais. Nenhuma regra de RTC foi adicionada neste ciclo.
+
+## 6. Monetização escolhida
 
 Modelo: **donationware**.
 
-Motivo:
+Motivos:
 
-- entrega já existe;
-- custo marginal ~zero;
-- não exige conta, licença, suporte ou entrega manual;
-- permite validar disposição real de pagamento antes de construir Pro;
-- cumpre a meta de primeiro R$1 sem inventar um produto.
+- a entrega útil já existe;
+- custo marginal próximo de zero;
+- nenhum cadastro/licença/suporte manual é necessário;
+- permite testar pagamento real antes de construir Pro;
+- atende diretamente ao critério de primeiro R$1.
 
-Não criar assinatura neste estágio.
+Não criar assinatura nem FiscalSafe Pro antes de sinal real de uso/intenção de pagamento.
 
-## 9. Implementação mínima
+## 7. Implementação mínima concluída
 
-Estado inicial já existente:
+### Código
 
-- oferta gratuita funcional;
-- Mercado Pago conectado;
-- CTA visível;
-- prompt contextual de apoio após ação de valor;
-- página em sitemap e guia relacionado já publicado.
+1. `shared/support.js`
+   - passou a registrar `Support Click` por produto/superfície (`inline`, `dialog`, `chip`);
+   - passou a registrar `Tool Value Completed` em ações de valor;
+   - envia somente rota, UTMs, hostname do referrer e identificador simples produto/superfície;
+   - preserva contagem local;
+   - não envia conteúdo do XML.
+   - commit: `22a9e797c0374d814f4499f5a65397c201379b48`.
 
-Mudanças deste ciclo:
+2. `api/track.js`
+   - adicionados eventos permitidos `Support Click` e `Tool Value Completed`;
+   - sanitização existente preservada;
+   - commit: `f63daaf950f117415f50ae10e4a715d0fff04c97`.
 
-- `OPERACAO_PARALELA.md` criado como fonte de sincronização da Operação B;
-- tracking de apoio/ação de valor será reforçado sem coletar conteúdo dos XMLs;
-- documentação do FiscalSafe será ajustada para distribuição/uso real, sem ampliar promessa técnica.
+3. Teste estático
+   - `node --check` executado sobre o JavaScript alterado: sem erro de sintaxe.
 
-## 10. Distribuição
+### Documentação e oferta
 
-Canais permitidos para esta operação:
+4. `fiscalsafe/README.md`
+   - posicionamento focado na dor real;
+   - link direto para uso;
+   - limites e privacidade reforçados;
+   - canal de feedback adicionado;
+   - commit: `72d5367b4c1c469312c800f01b7f8808a4bc4515`.
 
-1. **GitHub**
-   - documentação pública do FiscalSafe;
-   - link direto para ferramenta;
-   - canal público de feedback no próprio repositório.
+5. `OPERACAO_PARALELA.md`
+   - criado no commit `17517353ebe9cfb775f14f243b1cf90f45d482e7`;
+   - atualizado neste ciclo para refletir o estado executado.
 
-2. **Busca orgânica da própria ferramenta**
-   - rota já presente no sitemap;
-   - guia existente: `/guias/como-conferir-xml-nfe-em-lote/`;
-   - deploy na `main` aciona o fluxo já existente de IndexNow.
+Nenhum redesign amplo foi feito. A página do produto já tinha ferramenta, CTA, pagamento e disclaimer suficientes para o teste de receita.
 
-3. **Comunidades fiscais/contábeis**
-   - somente quando houver canal acessível e regras permitirem divulgação útil/transparente;
-   - não fazer spam e não entrar em discussão apenas para inserir link.
+## 8. Distribuição colocada em operação
 
-Canais de Compras/TikTok/prospecção comercial da Operação A não serão usados.
+### GitHub
 
-## 11. Medição
+Issue pública criada:
 
-Ordem dos sinais:
+`https://github.com/cristiansembarski2-ship-it/crs-digital-factory/issues/14`
 
-1. **Pagamento no Mercado Pago**.
-2. **Clique de apoio** originado no FiscalSafe.
-3. **Ação de valor concluída** — por exemplo exportação do CSV após processamento.
-4. **Visita ao `/fiscalsafe/`** com origem/referrer.
+Finalidade: feedback, bugs e casos de uso do FiscalSafe. A issue proíbe anexar XML fiscal real, certificados, CNPJ, chave NF-e ou dados sensíveis e pede reprodução sintética/anonimizada.
 
-Não registrar nomes de arquivos, XML, CNPJ, chave, valor de nota ou conteúdo fiscal na telemetria.
+### Busca orgânica
+
+Já existiam e foram preservados:
+
+- página `/fiscalsafe/` no sitemap;
+- guia `/guias/como-conferir-xml-nfe-em-lote/`;
+- CTA do guia para o FiscalSafe;
+- workflow IndexNow na `main`.
+
+Após o commit da documentação, o workflow **Notify IndexNow #134** terminou com `success` em 2026-08-16, confirmando execução do fluxo de notificação aos buscadores participantes.
+
+Não foi feito spam em fóruns/comunidades. Publicação externa só ocorrerá quando houver um canal acessível em que a regra permita e a resposta seja realmente útil.
+
+## 9. Medição
+
+Hierarquia de sinais:
+
+1. **pagamento confirmado no Mercado Pago**;
+2. **Support Click** originado no FiscalSafe;
+3. **Tool Value Completed**, especialmente exportação CSV após processamento;
+4. **Page View** qualificada/origem.
+
+Não contar página, commit ou impressão isolada como sucesso comercial.
+
+### Privacidade da telemetria
+
+Não enviar:
+
+- XML;
+- nome de arquivo;
+- CNPJ/CPF;
+- chave NF-e;
+- valor de nota;
+- emitente/destinatário;
+- conteúdo fiscal.
 
 ### Regra de decisão
 
-- Vitória imediata: qualquer pagamento atribuível ao FiscalSafe.
-- Sinal forte sem venda: 3+ cliques de apoio vindos do FiscalSafe.
-- Revisar oferta uma única vez se houver 30+ ações de valor e zero clique de apoio.
-- Abandonar a monetização donationware se, após uma revisão de oferta, houver 100+ ações de valor e zero clique de apoio/pagamento.
-- Só considerar versão paga/Pro se uso real e intenção de pagamento aparecerem antes.
+- qualquer pagamento atribuível ao FiscalSafe = primeira vitória;
+- 3+ cliques de apoio sem pagamento = sinal forte para investigar checkout/oferta;
+- 30+ ações de valor e zero clique de apoio = revisar a oferta **uma vez**;
+- após essa revisão, 100+ ações de valor e zero clique/pagamento = abandonar donationware ou mudar modelo baseado em evidência;
+- Pro só entra na fila se uso real + intenção de pagamento surgirem primeiro.
 
-## 12. Pagamentos
+## 10. Estado de pagamento
 
-Até o momento deste registro:
+**Nenhum pagamento novo confirmado pela Operação B até esta atualização.**
 
-**nenhum pagamento novo confirmado pela Operação B.**
+Nunca inferir pagamento por clique.
 
-Nunca inferir venda por clique.
+## 11. Limitações operacionais atuais
 
-## 13. Próximos gatilhos
+- O repositório confirma os commits na `main` e o workflow IndexNow concluiu com sucesso.
+- A API de deployments do GitHub não retornou deployment associado ao commit mais recente.
+- A leitura direta do domínio pela ferramenta web desta sessão não conseguiu buscar o site (cache miss), e o conector Vercel já estava documentado na Operação A como indisponível para leitura do projeto.
+- Portanto, não registrar “deploy Vercel confirmado por esta operação” sem evidência adicional. A fonte técnica continua sendo a `main` do GitHub.
+- Logs de `/api/track` também não estão automaticamente disponíveis nesta sessão; métricas só serão registradas neste arquivo quando houver leitura verificável.
 
-1. Instrumentar apoio e ação de valor de forma identificável como FiscalSafe.
-2. Melhorar documentação pública mínima e disparar novo deploy/indexação.
-3. Abrir canal de feedback no GitHub sem spam.
-4. Observar pagamento → clique → uso → visita nessa ordem.
-5. Não construir FiscalSafe Pro antes de sinal real.
+## 12. Próximos gatilhos
 
-## 14. Regra de sincronização
+1. **Pagamento** → registrar valor/origem em seguida e investigar o caminho que gerou a venda.
+2. **Support Click** → identificar origem/campanha e repetir apenas o canal que trouxe intenção.
+3. **Uso sem clique** → esperar limiar de 30 ações de valor antes de mexer na oferta.
+4. **Feedback/bug real** → corrigir somente se afetar uso, confiança ou pagamento.
+5. **Nenhum sinal suficiente** → não polir; manter distribuição de baixo custo e aplicar a regra de abandono.
 
-A Operação A deve consultar este arquivo para saber o que a Operação B está executando.
+## 13. Regra permanente de sincronização
 
-A Operação B deve atualizar este arquivo quando ocorrer:
+A Operação A pode ler este arquivo para coordenar as duas frentes.
 
-- mudança da oportunidade vencedora;
-- alteração relevante de monetização;
-- novo canal de distribuição;
-- clique/uso relevante que mude decisão;
+A Operação B deve atualizar `OPERACAO_PARALELA.md` quando ocorrer:
+
+- mudança de oportunidade;
+- mudança de monetização;
+- canal novo realmente usado;
+- métrica que altere decisão;
 - pagamento;
 - decisão de continuar, revisar ou abandonar.
