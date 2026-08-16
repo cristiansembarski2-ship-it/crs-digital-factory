@@ -217,6 +217,15 @@
     }, true);
   }
 
+  function loadPageModules() {
+    if (!window.location.pathname.startsWith("/diagnostico-savings-compras/")) return;
+    if (document.getElementById("crs-savings-diagnostic-conversion")) return;
+    const script = document.createElement("script");
+    script.id = "crs-savings-diagnostic-conversion";
+    script.src = "/diagnostico-savings-compras/conversion.js";
+    document.head.appendChild(script);
+  }
+
   function applyConfig() {
     document.querySelectorAll("[data-crs-brand]").forEach((element) => {
       element.textContent = config.brandName;
@@ -246,6 +255,7 @@
     });
     propagateAffiliateToInternalLinks();
     installSharePropagation();
+    loadPageModules();
   }
 
   if (document.readyState === "loading") {
