@@ -1,6 +1,6 @@
 # OPERACAO_ATUAL — CRS Digital
 
-Atualizado em: **2026-08-17 20:23 BRT**
+Atualizado em: **2026-08-17 20:31 BRT**
 
 Este arquivo é a fonte operacional compartilhada entre os chats. Leia antes de qualquer alteração relevante.
 
@@ -67,8 +67,8 @@ Pesquisa pública em 17/08/2026 encontrou projetos reais pedindo, entre outros:
 Principais referências operacionais pesquisadas:
 - `https://www.99freelas.com.br/project/planilha-excel-automatizada-723032`
 - `https://www.workana.com/pt/job/automacao-inteligente-de-processo-de-compras-de-mercadorias-com-google-sheets-e-make-com`
-- `https://www.99freelas.com.br/project/dashboard-em-google-sheets-com-integracao-via-api-764647`
-- `https://www.99freelas.com.br/project/sistema-web-de-reposicao-de-estoque-integrado-ao-bling-770058`
+- `https://www.99freelas.com.br/project/planilha-de-controle-de-estoque-automatizada-integrada-a-entrada-e-saida-776483`
+- `https://www.99freelas.com.br/project/especialista-em-excel-para-gestao-e-automacao-de-estoque-776943`
 
 Conclusão operacional: há intenção explícita de contratar para dores compatíveis com a tese. O gargalo agora é **conseguir conversa/proposta em oportunidade aderente**, não provar que o problema existe.
 
@@ -173,39 +173,50 @@ Não enviar cold email automaticamente.
 
 ## 10. Oportunidades prioritárias já identificadas
 
-### PRIORIDADE IMEDIATA — 99Freelas: Dashboard em Google Sheets com integração via API
+### PRIORIDADE IMEDIATA — 99Freelas: estoque automatizado integrado à entrada e saída
 
 Projeto:
 
-`https://www.99freelas.com.br/project/dashboard-em-google-sheets-com-integracao-via-api-764647`
+`https://www.99freelas.com.br/project/planilha-de-controle-de-estoque-automatizada-integrada-a-entrada-e-saida-776483`
 
-Envio de proposta:
+Status verificado diretamente na página em 17/08/2026: **exibe “Enviar proposta” e Orçamento: Aberto**.
 
-`https://www.99freelas.com.br/project/bid/dashboard-em-google-sheets-com-integracao-via-api-764647`
+Publicado em 15/08/2026. Cliente visualizou recentemente.
 
-Status verificado em 17/08/2026: **aberto e exibindo “Enviar proposta”**.
+Problema: papelaria já possui planilha de entradas e saídas e quer eliminar lançamento duplicado. O estoque deve ser atualizado automaticamente, com SKU/material, estoque mínimo, alertas, reposição, lista automática de compras e histórico.
 
-Problema: cliente possui planilha com várias abas e quer dashboard no Google Sheets com tabelas, gráficos, histórico mensal, filtros e alertas; integração via API é desejável, mas não precisa ser incluída no primeiro escopo sem documentação.
+Aderência: **9,2/10**. É processo operacional real de estoque/compras, usa planilha existente, tem dor de retrabalho explícita e cabe em piloto de escopo fechado.
 
-Aderência: **8,4/10**. Não é Compras puro, mas é exatamente automação operacional de planilha/dashboard para PME e cabe em piloto fechado.
+Escopo recomendado por R$790:
+- analisar a planilha atual;
+- integrar entradas/saídas ao cálculo de estoque;
+- cadastro/categorias/unidades;
+- estoque atual e mínimo;
+- alertas de estoque baixo/zerado;
+- cálculo e lista de reposição;
+- histórico e filtros;
+- proteção das fórmulas;
+- uma rodada de pequenos ajustes após entrega.
 
-Escopo recomendado do piloto de R$790:
-- organizar a camada de dashboard sobre a base existente;
-- criar tabelas/gráficos e filtros;
-- implementar alertas baseados em regras acordadas dentro do Sheets;
-- preservar a estrutura de dados atual;
-- uma rodada de ajustes;
-- integração externa via API fica fora do piloto até análise da documentação e acesso.
+Prazo recomendado: **4 dias úteis após receber o arquivo atual**.
 
-Prazo recomendado: **4 dias úteis após receber a planilha e regras dos alertas**.
+Risco principal: a estrutura da planilha atual só será conhecida após contratação/alinhamento. Congelar escopo antes de implementar e tratar mudanças estruturais grandes como fase adicional.
 
-Risco principal: a API externa ainda não foi especificada. Não prometer integração antes de saber qual ferramenta/API será usada.
+Concorrência observada na checagem: alta, com mais de 100 propostas. Mesmo assim, o encaixe com a tese é muito forte e a proposta precisa ser extremamente específica ao fluxo do cliente.
+
+### OPORTUNIDADE NOVA — 99Freelas: gestão e automação de estoque em Excel
+
+`https://www.99freelas.com.br/project/especialista-em-excel-para-gestao-e-automacao-de-estoque-776943`
+
+Publicado em 17/08/2026 às 17:55. Página verificada com **“Enviar proposta”**, mas marcada como projeto exclusivo temporariamente. Não depender dela até a conta do proprietário estar elegível ou o período exclusivo terminar.
+
+Aderência: **9,3/10**. Inclui Compras, Vendas, Estoque Atual, SKU, custo, validade e automação sobre arquivo existente.
 
 ### BACKUP — Workana: processo diário de compras de mercadorias
 
 `https://www.workana.com/pt/job/automacao-inteligente-de-processo-de-compras-de-mercadorias-com-google-sheets-e-make-com`
 
-Status verificado em 17/08/2026: **Aberto / analisando propostas**, com opção de enviar proposta após login.
+Status verificado em 17/08/2026: **Aberto / analisando propostas**.
 
 Aderência: **9,4/10**. Pick list Excel/CSV, ~700 pedidos, SKU, fornecedor, preço, normalização e saída pronta para comprador.
 
@@ -213,21 +224,17 @@ Risco: integração/WhatsApp e Make podem ampliar escopo. Proposta deve começar
 
 Barreira atual: perfil do proprietário na Workana ainda está em análise; não depender deste canal para a ação imediata.
 
-### BACKUP TÉCNICO — 99Freelas: reposição de estoque integrada ao Bling
+### DESCARTADA — 99Freelas: Dashboard em Google Sheets com integração via API
 
-`https://www.99freelas.com.br/project/sistema-web-de-reposicao-de-estoque-integrado-ao-bling-770058`
+`https://www.99freelas.com.br/project/dashboard-em-google-sheets-com-integracao-via-api-764647`
 
-Status observado em 17/08/2026: projeto aberto, cliente ativo e aceitando proposta.
-
-Aderência: **9,0/10**, porque envolve estoque, fornecedores, consumo mensal e sugestão de compra.
-
-Não é a primeira escolha porque o escopo inclui sistema web + API Bling + hospedagem, aumentando risco e distância até entrega. Só atacar com escopo e preço maiores ou fase claramente delimitada.
+O proprietário confirmou em 17/08/2026 que o projeto já aparece **fechado na interface da conta**. Removido imediatamente da fila. Não voltar a recomendar esse projeto mesmo que algum índice público/cache ainda mostre estado antigo.
 
 ### DESCARTADA — 99Freelas: gestão de compras e estoque em Google Sheets
 
 `https://www.99freelas.com.br/project/reestruturar-planilha-de-controle-e-automacao-no-google-sheets-750631`
 
-Verificação direta em 17/08/2026 mostrou **Fechado**. Não enviar mais como oportunidade ativa, mesmo que resultados antigos de busca ainda mostrem “Enviar proposta”.
+Verificação direta em 17/08/2026 mostrou **Fechado**. Não enviar mais como oportunidade ativa.
 
 ## 11. Barreiras humanas previsíveis
 
@@ -264,7 +271,7 @@ Nunca expor o nome pessoal do proprietário publicamente. Identidade legal somen
 
 Ação imediata:
 
-**enviar 1 proposta altamente aderente no 99Freelas para o projeto de dashboard em Google Sheets, pelo piloto fechado de R$790 / 4 dias úteis.**
+**enviar 1 proposta altamente aderente no 99Freelas para o projeto de estoque automatizado integrado à entrada e saída, pelo piloto fechado de R$790 / 4 dias úteis.**
 
 Depois:
 
