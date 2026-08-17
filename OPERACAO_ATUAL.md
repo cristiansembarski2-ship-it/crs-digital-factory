@@ -1,6 +1,6 @@
 # OPERACAO_ATUAL — CRS Digital
 
-Atualizado em: **2026-08-17 20:07 BRT**
+Atualizado em: **2026-08-17 20:23 BRT**
 
 Este arquivo é a fonte operacional compartilhada entre os chats. Leia antes de qualquer alteração relevante.
 
@@ -66,9 +66,9 @@ Pesquisa pública em 17/08/2026 encontrou projetos reais pedindo, entre outros:
 
 Principais referências operacionais pesquisadas:
 - `https://www.99freelas.com.br/project/planilha-excel-automatizada-723032`
-- `https://www.99freelas.com.br/project/reestruturar-planilha-de-controle-e-automacao-no-google-sheets-750631`
 - `https://www.workana.com/pt/job/automacao-inteligente-de-processo-de-compras-de-mercadorias-com-google-sheets-e-make-com`
-- `https://www.workana.com/pt/job/automacao-de-processos-de-compras-e-desenvolvimento-de-dashboard-com-power-apps`
+- `https://www.99freelas.com.br/project/dashboard-em-google-sheets-com-integracao-via-api-764647`
+- `https://www.99freelas.com.br/project/sistema-web-de-reposicao-de-estoque-integrado-ao-bling-770058`
 
 Conclusão operacional: há intenção explícita de contratar para dores compatíveis com a tese. O gargalo agora é **conseguir conversa/proposta em oportunidade aderente**, não provar que o problema existe.
 
@@ -118,11 +118,14 @@ Não apagar nem reconstruir esses ativos sem sinal real.
 
 ## 7. Receita atual
 
-Na última verificação do Gmail antes desta mudança:
+Verificação no Gmail em 17/08/2026 às ~20:20 BRT:
 
 - nenhuma venda nova confirmada de Kiwify;
 - nenhum pagamento novo confirmado de Mercado Pago;
-- nenhuma resposta comercial humana quente.
+- nenhuma resposta comercial humana quente;
+- há vários bounces e atrasos de entrega do ciclo antigo de cold email.
+
+Conclusão: não reabrir outbound frio em volume. Priorizar projetos públicos com intenção explícita de contratar.
 
 Nunca inferir venda por clique, mensagem automática ou impressão.
 
@@ -144,6 +147,8 @@ Não usar spam, scraping abusivo, urgência falsa ou contato fora das regras da 
 A antiga automação `Venda Hoje — Radar` foi substituída por:
 
 **Radar Automação B2B**
+
+Estado verificado em 17/08/2026: **ativo**.
 
 Cadência: a cada 6 horas, condition watch.
 
@@ -168,21 +173,61 @@ Não enviar cold email automaticamente.
 
 ## 10. Oportunidades prioritárias já identificadas
 
-### Workana — processo diário de compras de mercadorias
+### PRIORIDADE IMEDIATA — 99Freelas: Dashboard em Google Sheets com integração via API
+
+Projeto:
+
+`https://www.99freelas.com.br/project/dashboard-em-google-sheets-com-integracao-via-api-764647`
+
+Envio de proposta:
+
+`https://www.99freelas.com.br/project/bid/dashboard-em-google-sheets-com-integracao-via-api-764647`
+
+Status verificado em 17/08/2026: **aberto e exibindo “Enviar proposta”**.
+
+Problema: cliente possui planilha com várias abas e quer dashboard no Google Sheets com tabelas, gráficos, histórico mensal, filtros e alertas; integração via API é desejável, mas não precisa ser incluída no primeiro escopo sem documentação.
+
+Aderência: **8,4/10**. Não é Compras puro, mas é exatamente automação operacional de planilha/dashboard para PME e cabe em piloto fechado.
+
+Escopo recomendado do piloto de R$790:
+- organizar a camada de dashboard sobre a base existente;
+- criar tabelas/gráficos e filtros;
+- implementar alertas baseados em regras acordadas dentro do Sheets;
+- preservar a estrutura de dados atual;
+- uma rodada de ajustes;
+- integração externa via API fica fora do piloto até análise da documentação e acesso.
+
+Prazo recomendado: **4 dias úteis após receber a planilha e regras dos alertas**.
+
+Risco principal: a API externa ainda não foi especificada. Não prometer integração antes de saber qual ferramenta/API será usada.
+
+### BACKUP — Workana: processo diário de compras de mercadorias
 
 `https://www.workana.com/pt/job/automacao-inteligente-de-processo-de-compras-de-mercadorias-com-google-sheets-e-make-com`
 
-Aderência alta: pick list Excel/CSV, ~700 pedidos, SKU, fornecedor, preço, normalização e saída pronta para comprador.
+Status verificado em 17/08/2026: **Aberto / analisando propostas**, com opção de enviar proposta após login.
+
+Aderência: **9,4/10**. Pick list Excel/CSV, ~700 pedidos, SKU, fornecedor, preço, normalização e saída pronta para comprador.
 
 Risco: integração/WhatsApp e Make podem ampliar escopo. Proposta deve começar por piloto delimitado de leitura + cruzamento + saída por fornecedor, deixando integração posterior fora do primeiro escopo.
 
-### 99Freelas — gestão de compras e estoque em Google Sheets
+Barreira atual: perfil do proprietário na Workana ainda está em análise; não depender deste canal para a ação imediata.
+
+### BACKUP TÉCNICO — 99Freelas: reposição de estoque integrada ao Bling
+
+`https://www.99freelas.com.br/project/sistema-web-de-reposicao-de-estoque-integrado-ao-bling-770058`
+
+Status observado em 17/08/2026: projeto aberto, cliente ativo e aceitando proposta.
+
+Aderência: **9,0/10**, porque envolve estoque, fornecedores, consumo mensal e sugestão de compra.
+
+Não é a primeira escolha porque o escopo inclui sistema web + API Bling + hospedagem, aumentando risco e distância até entrega. Só atacar com escopo e preço maiores ou fase claramente delimitada.
+
+### DESCARTADA — 99Freelas: gestão de compras e estoque em Google Sheets
 
 `https://www.99freelas.com.br/project/reestruturar-planilha-de-controle-e-automacao-no-google-sheets-750631`
 
-Aderência alta: abas de compras, catálogo, fornecedores e preços; quer reduzir digitação manual e evoluir para dashboard.
-
-Risco técnico baixo a moderado. Bom candidato a piloto.
+Verificação direta em 17/08/2026 mostrou **Fechado**. Não enviar mais como oportunidade ativa, mesmo que resultados antigos de busca ainda mostrem “Enviar proposta”.
 
 ## 11. Barreiras humanas previsíveis
 
@@ -217,8 +262,14 @@ Nunca expor o nome pessoal do proprietário publicamente. Identidade legal somen
 
 ## 14. Próximo marco
 
-**1 oportunidade aderente → proposta enviada → conversa → escopo fechado → R$790 pago → entrega → registrar módulos reutilizáveis.**
+Ação imediata:
+
+**enviar 1 proposta altamente aderente no 99Freelas para o projeto de dashboard em Google Sheets, pelo piloto fechado de R$790 / 4 dias úteis.**
 
 Depois:
+
+**resposta → escopo congelado → pagamento/garantia da plataforma → entrega → registrar módulos reutilizáveis.**
+
+Meta estrutural permanece:
 
 **1 cliente → 3 clientes semelhantes → núcleo reutilizável → oferta padronizada → recorrência → escala.**
