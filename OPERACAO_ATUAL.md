@@ -1,235 +1,224 @@
-# OPERACAO_ATUAL — Compra Sem Achismo / CRS Digital
+# OPERACAO_ATUAL — CRS Digital
 
-Atualizado em: **2026-08-16 23:25 BRT**
+Atualizado em: **2026-08-17 20:07 BRT**
 
-Este arquivo é a fonte operacional compartilhada entre os chats. Antes de qualquer alteração relevante, ler este arquivo e conferir o estado atual do repositório.
+Este arquivo é a fonte operacional compartilhada entre os chats. Leia antes de qualquer alteração relevante.
 
 ## 1. Objetivo atual
 
 Prioridade absoluta:
 
-**R$0 → primeira venda real → identificar origem → repetir → automatizar → escalar.**
+**primeiro cliente B2B pago → entregar → identificar padrão repetível → 3 clientes semelhantes → productizar → recorrência → escala.**
 
-Não considerar como sucesso isolado página criada, commit, impressão, tráfego sem intenção, e-mail enviado ou automação criada.
+A primeira venda de planilha avulsa continua sendo positiva, mas **não é mais a tese principal de crescimento**.
 
-Sinais prioritários:
-1. venda/pagamento;
-2. checkout/clique de alta intenção;
-3. clique em produto pago ou apoio;
-4. uso real de ferramenta;
-5. compartilhamento/lead qualificado;
-6. visita/impressão.
+Métricas em ordem:
+1. pagamento;
+2. pedido de orçamento/demonstração;
+3. conversa qualificada;
+4. proposta enviada;
+5. oportunidade qualificada;
+6. uso/clique/visita.
 
-**Estado confirmado no fechamento deste sprint: nenhuma venda nova confirmada.**
+Página, commit, post ou impressão isolados não contam como validação comercial.
 
-## 2. Fonte de verdade
+## 2. Tese de negócio — decisão vigente
 
-- Repositório: `cristiansembarski2-ship-it/crs-digital-factory`
-- Branch: `main`
-- Site: `https://crs-digital-factory.vercel.app/`
-- GitHub = fonte de verdade técnica.
-- Este arquivo = fonte de verdade operacional.
-- Estado recente confirmado prevalece sobre histórico antigo.
+Fonte detalhada: `TESE_NEGOCIO.md`.
 
-## 3. Produtos e monetização atuais
+A CRS Digital passa a operar principalmente como:
 
-### Mapa 3 Cotações Pro
-- Preço: **R$ 49,90**
-- Página: `https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/`
-- Checkout: `https://pay.kiwify.com.br/cNesrrZ`
+**automação B2B vertical para Compras e processos operacionais de PMEs, começando como serviço produtizado de escopo fechado e transformando padrões repetidos em software/assinatura.**
 
-### Painel de Savings de Compras Pro
-- Preço: **R$ 67,00**
-- Página: `https://crs-digital-factory.vercel.app/painel-savings-compras-pro/`
-- Checkout: `https://pay.kiwify.com.br/8PCmyr9`
+Oferta inicial:
 
-### Apoio / Mercado Pago
-- Link: `https://link.mercadopago.com.br/crsdigital`
-- Uso: apoio voluntário/donationware em ferramentas gratuitas.
-- Não confundir com checkout dos produtos pagos.
-- Em cálculos internos considerar aproximadamente 5% de taxa.
+**Automação de Compras CRS — piloto de escopo fechado por R$ 790.**
 
-## 4. Funil prioritário
+Problema-alvo:
 
-**Descoberta → ferramenta gratuita → resultado útil → CTA contextual → produto/apoio → checkout → pagamento.**
+> a empresa recebe planilhas, CSVs, cotações ou dados de fornecedores e ainda precisa copiar, padronizar, comparar, cruzar e montar uma saída manualmente.
 
-O gargalo continua sendo **aquisição qualificada + conversão**, não falta de produto.
+Resultado vendido:
 
-Regra: se faltam usuários, **distribuir antes de construir**.
+> importar → normalizar → comparar/consolidar → entregar saída pronta para decisão.
 
-## 5. Ativos prioritários agora
+Escopo inicial permitido:
+- Excel/CSV/Google Sheets;
+- fornecedores, SKUs e códigos;
+- cotações e condições;
+- consolidação de bases;
+- dashboard operacional simples;
+- preparação de planilha/CSV/relatório final;
+- automações repetitivas de escopo claro.
 
-- Mapa 3 Cotações gratuito;
-- Mapa 3 Cotações Pro;
-- Calculadora/Diagnóstico de Savings;
-- Painel de Savings Pro;
-- Plantão.ics;
-- FiscalSafe XML, operado pela Operação B;
-- demais guias e ferramentas existentes como infraestrutura de descoberta.
+Não vender ERP completo, implantação longa ou integração crítica sem capacidade comprovada.
 
-Não criar produto novo sem evidência de demanda ou intenção.
+## 3. Evidência de demanda observada
 
-## 6. Conversão e tracking
+Pesquisa pública em 17/08/2026 encontrou projetos reais pedindo, entre outros:
 
-- Checkouts centralizados em `shared/config.js`.
-- UTMs/atribuição propagadas até checkout onde a infraestrutura existente permite.
-- Comparador gratuito usa o próprio resultado para contextualizar o upgrade.
-- Telemetria própria via `/api/track`, sem enviar preços/cotações pessoais.
-- Vercel Analytics / Speed Insights presentes no código.
-- Compartilhamento reutiliza `shared/share.js` com UTMs.
+- padronizar planilhas recebidas de fornecedores e convertê-las em pedidos;
+- importar duas bases de fornecedores com ~60–65 mil linhas, cruzar por UPC e gerar Excel/CSV final;
+- automatizar processo diário de compras com ~700 pedidos, SKU, fornecedor e geração de pedido visual;
+- automatizar acompanhamento de carteira de Compras e dashboards;
+- automatizar Google Sheets de compras/estoque, fornecedores e preços;
+- unificar planilhas de controles internos e licitações.
 
-## 7. Estado do deploy — CORRIGIDO
+Principais referências operacionais pesquisadas:
+- `https://www.99freelas.com.br/project/planilha-excel-automatizada-723032`
+- `https://www.99freelas.com.br/project/reestruturar-planilha-de-controle-e-automacao-no-google-sheets-750631`
+- `https://www.workana.com/pt/job/automacao-inteligente-de-processo-de-compras-de-mercadorias-com-google-sheets-e-make-com`
+- `https://www.workana.com/pt/job/automacao-de-processos-de-compras-e-desenvolvimento-de-dashboard-com-power-apps`
 
-O antigo bloqueio por `build-rate-limit` **não está mais ativo**.
+Conclusão operacional: há intenção explícita de contratar para dores compatíveis com a tese. O gargalo agora é **conseguir conversa/proposta em oportunidade aderente**, não provar que o problema existe.
 
-Status confirmado neste fechamento:
+## 4. Oferta publicada
 
-- Plantão.ics — commit `0219e8f6aa9c71ad8728e095705fdde0c950400c` — **Vercel success**.
-- Mapa 3 Cotações — commit `baec1770e7f6161a5faa529aaff6c7565b2034f2` — **Vercel success**.
+Página pública:
 
-Não fazer novo commit cosmético só porque o deploy está liberado. Próxima mudança deve responder a sinal real de uso, busca ou receita.
-
-## 8. Sprint autônomo 16/08 — mudanças concluídas
-
-### Plantão.ics
-
-Foi feita uma única rodada focada em descoberta, confiança e compartilhamento, sem transformar a ferramenta em sistema de RH.
-
-Estado publicado:
-- foco explícito em **escala 12x36, 24x48 e 24x72**;
-- posicionamento para Google Calendar / Apple Calendar / Outlook;
-- sem cadastro e sem instalar app;
-- geração local no navegador;
-- CTA voluntário de apoio via Mercado Pago somente após gerar/baixar valor;
-- FAQ e conteúdo de apoio para intenção de busca;
-- compartilhamento com UTM reutilizando infraestrutura existente;
-- tracking de geração/download/clique de apoio sem enviar conteúdo da agenda.
-
-Commit de fechamento desta frente no sprint: `0219e8f6aa9c71ad8728e095705fdde0c950400c`.
-
-### Mapa 3 Cotações gratuito
-
-A entrada da página foi alinhada à linguagem de intenção comercial real, sem alterar o funcionamento do comparador nem o checkout.
-
-Estado publicado:
-- reforço de termos como **planilha de cotação de preços**, **comparar 3 fornecedores** e **comparativo de orçamento**;
-- preço, frete, prazo, pagamento e qualidade descritos com mais clareza;
-- FAQ/conteúdo estruturado para descoberta;
-- caminho para Mapa 3 Cotações Pro preservado;
-- sem mudança no preço do Pro e sem criar novo produto.
-
-Commit: `baec1770e7f6161a5faa529aaff6c7565b2034f2`.
-
-## 9. Receita e respostas no fechamento do sprint
-
-Verificação no Gmail feita após as mudanças.
-
-Resultado:
-- **nenhum pagamento novo confirmado** de Kiwify ou Mercado Pago;
-- **nenhuma resposta comercial humana nova** no período final do sprint;
-- a busca recente retornou apenas mensagens anteriores/automáticas e não trouxe sinal quente novo.
-
-Não inferir venda por clique, impressão ou e-mail automático.
-
-## 10. Indexação pública no fechamento
-
-Foram pesquisadas consultas públicas específicas para:
-- `gerador escala 12x36` + nosso domínio;
-- `planilha cotação 3 fornecedores` + nosso domínio;
-- variações com `/Plantao_ICS_V1/` e `/mapa-3-cotacoes/`.
-
-**Resultado: nenhuma aparição pública confirmada nessas consultas neste fechamento.**
-
-Isso não significa que as páginas estejam fora do índice definitivamente; significa apenas que ainda não houve evidência pública nas consultas verificadas. Não contar concorrentes nem snippets de terceiros como indexação nossa.
-
-## 11. Aquisição / outbound
-
-Outreach por e-mail foi usado em volume alto no ciclo anterior e acumulou múltiplos bounces.
-
-Estado operacional:
-- Compradores Diretos: pausado até liberação segura;
-- Aquisição & Follow-up: pausado até liberação segura;
-- Follow-up Distribuição: pausado;
-- endereços com bounce permanecem em exclusão operacional;
-- não reenviar para endereço com bounce sem nova fonte oficial atual.
-
-Existe rotina de liberação que só deve retomar outbound quando o volume dos últimos 7 dias cair e não houver sinal anormal de bounces/segurança.
-
-**Neste sprint nenhum novo cold email foi enviado.**
-
-## 12. TikTok
-
-Conta usada: **`@compra121`**.
+`https://crs-digital-factory.vercel.app/automacao-compras/`
 
 Estado:
-- conteúdo orgânico existente permanece;
-- duas tentativas de Promote foram rejeitadas antes de veicular;
-- custo real dessas tentativas = R$0;
-- não insistir em Promote sem causa nova e verificável.
+- publicada em `main`;
+- Vercel confirmado `success` no commit `b1a4f7db8558493c94cba7519239265deb79297c`;
+- adicionada ao `sitemap.xml` no commit `cb497421da3d3b505b22f9e5c0683a44e7d0b4ea`;
+- preço-piloto: **R$ 790**;
+- contato: `comprasemachismo@gmail.com`;
+- CTA abre e-mail com briefing pré-preenchido;
+- nenhum pagamento deve ocorrer antes da confirmação do escopo;
+- nenhum nome pessoal do proprietário é exposto.
 
-**Neste sprint o TikTok Promote não foi alterado.**
+A página não inventa clientes, depoimentos, resultados ou economia prometida.
 
-## 13. Plantão.ics — modelo econômico atual
+## 5. Superfície pública de distribuição
 
-Modelo:
+GitHub issue:
 
-**busca/intenção → gerar agenda grátis → baixar `.ics` → apoio voluntário via Mercado Pago.**
+`https://github.com/cristiansembarski2-ship-it/crs-digital-factory/issues/15`
 
-Não criar assinatura, app ou sistema completo de equipe sem uso real suficiente.
+Título: **Piloto — Automação de Compras e planilhas para PMEs**.
 
-## 14. Operação B
+Possui links rastreáveis para a página de oferta e demonstração do Mapa 3 Cotações.
 
-A Operação B deve continuar independente da Operação A.
+Não publicar dados sensíveis de possíveis clientes na issue.
 
-Fonte de sincronização: `OPERACAO_PARALELA.md`.
+## 6. Papel dos ativos antigos
 
-Oportunidade vencedora registrada pela Operação B: **FiscalSafe XML Lite**, em donationware, sem duplicar Compras/TikTok/Plantão.
+Os ativos existentes permanecem no ar, mas mudaram de função:
 
-## 15. Marca e anonimato
+- Mapa 3 Cotações → demonstração/componente de comparação;
+- Savings → componente de análise;
+- RFQ/link de cotação → componente de fluxo comprador-fornecedor;
+- dashboards → componentes e prova técnica;
+- produtos pagos de R$49,90/R$67 → renda lateral possível, não centro da tese;
+- Plantão.ics → frente passiva/donationware;
+- FiscalSafe XML → Operação B independente.
+
+Não apagar nem reconstruir esses ativos sem sinal real.
+
+## 7. Receita atual
+
+Na última verificação do Gmail antes desta mudança:
+
+- nenhuma venda nova confirmada de Kiwify;
+- nenhum pagamento novo confirmado de Mercado Pago;
+- nenhuma resposta comercial humana quente.
+
+Nunca inferir venda por clique, mensagem automática ou impressão.
+
+## 8. Aquisição — regra atual
+
+Prioridade de aquisição:
+
+1. projetos públicos com intenção explícita de contratar;
+2. conversas/propostas dentro da plataforma quando regras permitirem;
+3. oportunidades B2B nominais de alta aderência;
+4. orgânico/SEO como apoio.
+
+Cold email em volume continua proibido enquanto a rotina de segurança/volume não liberar.
+
+Não usar spam, scraping abusivo, urgência falsa ou contato fora das regras da plataforma.
+
+## 9. Radar Automação B2B
+
+A antiga automação `Venda Hoje — Radar` foi substituída por:
+
+**Radar Automação B2B**
+
+Cadência: a cada 6 horas, condition watch.
+
+Critérios:
+- Brasil;
+- intenção explícita de contratar;
+- Excel/CSV/Sheets/fornecedores/compras/estoque/consolidação/dashboard/importação/normalização;
+- aderência >= 8/10;
+- escopo compatível com piloto;
+- projeto ainda aparenta aceitar proposta/contato.
+
+Quando encontrar oportunidade forte, deve entregar:
+- link;
+- resumo;
+- aderência;
+- risco técnico;
+- plausibilidade de R$790;
+- proposta curta pronta;
+- barreira humana real, se existir.
+
+Não enviar cold email automaticamente.
+
+## 10. Oportunidades prioritárias já identificadas
+
+### Workana — processo diário de compras de mercadorias
+
+`https://www.workana.com/pt/job/automacao-inteligente-de-processo-de-compras-de-mercadorias-com-google-sheets-e-make-com`
+
+Aderência alta: pick list Excel/CSV, ~700 pedidos, SKU, fornecedor, preço, normalização e saída pronta para comprador.
+
+Risco: integração/WhatsApp e Make podem ampliar escopo. Proposta deve começar por piloto delimitado de leitura + cruzamento + saída por fornecedor, deixando integração posterior fora do primeiro escopo.
+
+### 99Freelas — gestão de compras e estoque em Google Sheets
+
+`https://www.99freelas.com.br/project/reestruturar-planilha-de-controle-e-automacao-no-google-sheets-750631`
+
+Aderência alta: abas de compras, catálogo, fornecedores e preços; quer reduzir digitação manual e evoluir para dashboard.
+
+Risco técnico baixo a moderado. Bom candidato a piloto.
+
+## 11. Barreiras humanas previsíveis
+
+Enviar proposta em Workana/99Freelas normalmente exige conta/logon da plataforma. Isso é uma barreira humana legítima.
+
+Quando uma oportunidade realmente forte for escolhida, preparar toda a proposta antes de pedir ação ao proprietário. Pedir apenas o clique/login/envio inevitável.
+
+## 12. Regra de compromisso
+
+Não pivotar por ansiedade.
+
+Só reavaliar estruturalmente a tese depois de pelo menos um dos seguintes:
+- 30 oportunidades qualificadas analisadas;
+- 10 propostas/abordagens aderentes efetivamente entregues;
+- 5 conversas reais com potenciais compradores;
+- evidência clara de interesse sem aceitação de preço/formato;
+- barreira técnica/comercial que torne a entrega inviável.
+
+Se houver interesse sem compra: corrigir oferta/preço.
+Se não houver interesse: revisar problema/nicho.
+Se 3 vendas semelhantes: productizar.
+
+## 13. Marca e anonimato
 
 Marca pública:
-- **Compra Sem Achismo / CRS Digital**
+- **CRS Digital / Compra Sem Achismo** quando aplicável.
 
 E-mail:
 - `comprasemachismo@gmail.com`
 
-Regra:
-- não expor nome pessoal do proprietário em páginas, conteúdo ou marketing;
-- identidade legal somente quando inevitável em pagamento/conta privada.
+Nunca expor o nome pessoal do proprietário publicamente. Identidade legal somente quando inevitável em conta/pagamento privado.
 
-## 16. Próximos gatilhos — não trabalhar no vazio
+## 14. Próximo marco
 
-A próxima ação deve ser disparada por pelo menos um destes sinais:
-
-1. **pagamento/venda** → identificar origem imediatamente e repetir o caminho;
-2. **resposta humana com intenção** → avançar a conversa;
-3. **clique/uso real mensurável** → melhorar apenas o ponto do funil que vazou;
-4. **indexação/impressões reais** → otimizar a página/consulta que apareceu;
-5. **oportunidade pública recente permitida** → distribuir ferramenta útil, sem spam;
-6. **outbound liberado com volume seguro** → retomar baixo volume e personalização;
-7. **TikTok orgânico com distribuição real** → estudar e repetir o formato vencedor.
-
-Sem um desses sinais, evitar redesign, nova calculadora, novo produto, novo anúncio pago e nova rodada de cold email.
-
-## 17. Prioridade operacional permanente
-
-1. receita;
-2. aquisição qualificada;
-3. distribuição;
-4. conversão;
-5. retenção/compartilhamento;
-6. automação;
-7. SEO;
-8. novos ativos somente quando justificados.
-
-Ciclo:
-
-**ANALISAR → PRIORIZAR → EXECUTAR → MEDIR → CORRIGIR → DISTRIBUIR → REPETIR.**
-
-Próximo marco:
-
-**primeiro usuário desconhecido → ferramenta → intenção → checkout → primeira venda.**
+**1 oportunidade aderente → proposta enviada → conversa → escopo fechado → R$790 pago → entrega → registrar módulos reutilizáveis.**
 
 Depois:
 
-**1 venda → 2 → 5 → 10 → automatizar → escalar.**
+**1 cliente → 3 clientes semelhantes → núcleo reutilizável → oferta padronizada → recorrência → escala.**
