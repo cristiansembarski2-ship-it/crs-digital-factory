@@ -4,95 +4,50 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Gerador gratuito de escala 12x36, 24x48 e 24x72 para Google Calendar, Apple Calendar e Outlook. Sem cadastro, sem instalar app e com download .ics direto no navegador.">
 <meta name="robots" content="index,follow">
+<meta name="theme-color" content="#0b1020">
 <link rel="canonical" href="https://crs-digital-factory.vercel.app/Plantao_ICS_V1/">
-<link rel="stylesheet" href="../shared/support.css">
-<script src="../shared/config.js" defer></script>
-<script src="../shared/support.js" defer></script>
+<meta property="og:type" content="website"><meta property="og:locale" content="pt_BR"><meta property="og:site_name" content="CRS Digital">
+<meta property="og:title" content="Gerador de Escala 12x36 para Google Calendar — Plantão.ics">
+<meta property="og:description" content="Monte escalas 12x36, 24x48 e 24x72 sem cadastro e baixe um arquivo .ics para seu calendário.">
+<meta property="og:url" content="https://crs-digital-factory.vercel.app/Plantao_ICS_V1/">
+<link rel="stylesheet" href="../shared/support.css"><link rel="stylesheet" href="../shared/share.css">
+<script src="../shared/config.js" defer></script><script src="../shared/support.js" defer></script>
 <title>Gerador de Escala 12x36 2026 para Google Calendar — Plantão.ics</title>
 <style>
 :root{--bg:#0b1020;--p:#111827;--p2:#172033;--t:#eef2ff;--m:#9ca3af;--l:#2a3651;--a:#7dd3fc;--g:#00a650}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#090d18,#0f172a);color:var(--t);font:15px/1.5 system-ui,Segoe UI,Arial}
-.wrap{max-width:980px;margin:auto;padding:30px 18px 60px}.card{background:var(--p);border:1px solid var(--l);border-radius:16px;padding:20px;margin:14px 0}
-h1{font-size:34px;margin:4px 0}.muted{color:var(--m)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-label{display:flex;flex-direction:column;gap:6px}input,select{background:#0b1324;color:var(--t);border:1px solid var(--l);border-radius:10px;padding:11px}
-button,.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
-.primary{background:linear-gradient(135deg,var(--a),#c4b5fd);color:#08111d}.pay{background:linear-gradient(135deg,#00a650,#38d178);color:white}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.stat{background:var(--p2);border-radius:12px;padding:14px}.stat b{display:block;font-size:24px}
-pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px solid var(--l);padding:14px;border-radius:12px;max-height:260px;overflow:auto}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.chip{border:1px solid var(--l);border-radius:999px;padding:6px 10px;color:#cbd5e1;font-size:13px}
-#supportAfter{display:none;border-color:rgba(56,209,120,.45);background:rgba(0,166,80,.08)}
-@media(max-width:700px){.grid,.summary{grid-template-columns:1fr}}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#090d18,#0f172a);color:var(--t);font:15px/1.5 system-ui,Segoe UI,Arial}.wrap{max-width:980px;margin:auto;padding:30px 18px 60px}.card{background:var(--p);border:1px solid var(--l);border-radius:16px;padding:20px;margin:14px 0}h1{font-size:34px;margin:4px 0}h2{margin-top:0}.muted{color:var(--m)}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}label{display:flex;flex-direction:column;gap:6px}input,select{background:#0b1324;color:var(--t);border:1px solid var(--l);border-radius:10px;padding:11px}button,.btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.primary{background:linear-gradient(135deg,var(--a),#c4b5fd);color:#08111d}.pay{background:linear-gradient(135deg,#00a650,#38d178);color:white}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:var(--p2);border-radius:12px;padding:14px}.stat b{display:block;font-size:24px}pre{white-space:pre-wrap;word-break:break-word;background:#0b1324;border:1px solid var(--l);padding:14px;border-radius:12px;max-height:260px;overflow:auto}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.chip{border:1px solid var(--l);border-radius:999px;padding:6px 10px;color:#cbd5e1;font-size:13px}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.steps div{background:var(--p2);padding:14px;border-radius:12px}.steps b{display:block;color:var(--a);margin-bottom:4px}.faq details{border-top:1px solid var(--l);padding:12px 0}.faq summary{font-weight:800;cursor:pointer}.faq p{color:var(--m);margin:8px 0 0}#supportAfter{display:none;border-color:rgba(56,209,120,.45);background:rgba(0,166,80,.08)}@media(max-width:700px){.grid,.summary,.steps{grid-template-columns:1fr}}
 </style>
-<script src="/shared/metrics.js" defer></script>
+<script src="/shared/metrics.js" defer></script><script src="/shared/share.js" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Plantão.ics","url":"https://crs-digital-factory.vercel.app/Plantao_ICS_V1/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","inLanguage":"pt-BR","description":"Gerador gratuito de escalas 12x36, 24x48, 24x72 e personalizadas com exportação .ics para calendários.","offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"},"featureList":["Escala 12x36","Escala 24x48","Escala 24x72","Escala personalizada","Download .ics","Processamento local no navegador"]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Como colocar minha escala 12x36 no Google Calendar?","acceptedAnswer":{"@type":"Answer","text":"Informe o primeiro plantão, gere a sequência, baixe o arquivo .ics e importe o arquivo no calendário desejado. Revise as datas antes de usar."}},{"@type":"Question","name":"Preciso criar cadastro ou instalar aplicativo?","acceptedAnswer":{"@type":"Answer","text":"Não. O Plantão.ics funciona no navegador, sem cadastro e sem instalar aplicativo."}},{"@type":"Question","name":"A ferramenta também gera escala 24x48 e 24x72?","acceptedAnswer":{"@type":"Answer","text":"Sim. Há presets 12x36, 24x48 e 24x72 e uma opção personalizada para definir horas de trabalho e descanso."}},{"@type":"Question","name":"Meus dados de plantão são enviados para um servidor?","acceptedAnswer":{"@type":"Answer","text":"Não. A geração do calendário ocorre localmente no navegador. A ferramenta não precisa enviar sua agenda para gerar o arquivo .ics."}}]}]}</script>
 </head>
 <body data-crs-product="plantao-ics"><div class="wrap">
-<div class="muted">CRS Digital</div>
-<h1>Gerador de Escala 12x36 para calendário</h1>
+<div class="muted">CRS Digital</div><h1>Gerador de Escala 12x36 para calendário</h1>
 <p class="muted">Monte sua escala 12x36, 24x48, 24x72 ou personalizada e baixe um arquivo <strong>.ics</strong> para importar no Google Calendar, Apple Calendar, Outlook e outros calendários compatíveis.</p>
 <div class="chips"><span class="chip">Sem cadastro</span><span class="chip">Sem instalar app</span><span class="chip">Geração local no navegador</span><span class="chip">Download .ics</span></div>
 <p class="muted" style="font-size:13px">Útil para quem trabalha em plantões e turnos, como enfermagem, vigilância, portaria, limpeza, indústria e operações 24h. A ferramenta organiza datas; regras trabalhistas, trocas e folgas especiais devem ser conferidas separadamente.</p>
 
-<div class="card">
-<div class="grid">
-<label>Nome do evento<input id="title" value="Plantão"></label>
-<label>Escala
-<select id="preset">
-<option value="12,36">12x36</option>
-<option value="24,48">24x48</option>
-<option value="24,72">24x72</option>
-<option value="custom">Personalizada</option>
-</select></label>
-<label>Duração do plantão (horas)<input id="work" type="number" min="1" max="168" value="12"></label>
-<label>Descanso após plantão (horas)<input id="rest" type="number" min="1" max="720" value="36"></label>
-<label>Primeiro plantão<input id="start" type="datetime-local"></label>
-<label>Gerar por quantos meses?<input id="months" type="number" min="1" max="24" value="6"></label>
-<label>Local (opcional)<input id="location" placeholder="Hospital, empresa..."></label>
-<label>Observação (opcional)<input id="desc" placeholder="Setor, equipe..."></label>
-</div>
-<div class="actions"><button class="primary" id="generate" data-crs-track-content="plantao-calendar-generated">Gerar calendário</button></div>
-<p class="muted" style="font-size:12px">Tudo roda localmente no navegador. Nenhuma agenda é enviada para servidor.</p>
-</div>
+<div class="card"><h2>Como usar</h2><div class="steps"><div><b>1. Informe o primeiro plantão</b><span class="muted">Escolha data, horário e padrão da escala.</span></div><div><b>2. Confira a sequência</b><span class="muted">Gere e revise os próximos plantões no preview.</span></div><div><b>3. Baixe para sua agenda</b><span class="muted">Exporte .ics e importe no calendário que você usa.</span></div></div></div>
 
-<div class="card">
-<div class="summary"><div class="stat"><span class="muted">Plantões</span><b id="count">0</b></div>
-<div class="stat"><span class="muted">Primeiro</span><b id="first" style="font-size:15px">—</b></div>
-<div class="stat"><span class="muted">Último</span><b id="last" style="font-size:15px">—</b></div></div>
-<div class="actions"><button id="download" class="primary" data-crs-track-content="plantao-ics-downloaded" disabled>Baixar .ics</button></div>
-<pre id="preview">Configure a escala e gere o calendário.</pre>
-</div>
+<div class="card"><div class="grid">
+<label>Nome do evento<input id="title" value="Plantão"></label><label>Escala<select id="preset"><option value="12,36">12x36</option><option value="24,48">24x48</option><option value="24,72">24x72</option><option value="custom">Personalizada</option></select></label>
+<label>Duração do plantão (horas)<input id="work" type="number" min="1" max="168" value="12"></label><label>Descanso após plantão (horas)<input id="rest" type="number" min="1" max="720" value="36"></label>
+<label>Primeiro plantão<input id="start" type="datetime-local"></label><label>Gerar por quantos meses?<input id="months" type="number" min="1" max="24" value="6"></label>
+<label>Local (opcional)<input id="location" placeholder="Hospital, empresa..."></label><label>Observação (opcional)<input id="desc" placeholder="Setor, equipe..."></label>
+</div><div class="actions"><button class="primary" id="generate" data-crs-track-content="plantao-calendar-generated">Gerar calendário</button></div><p class="muted" style="font-size:12px">Tudo roda localmente no navegador. Nenhuma agenda é enviada para servidor.</p></div>
 
-<div class="card" id="supportAfter">
-<strong>O Plantão.ics te poupou tempo?</strong>
-<p class="muted">A ferramenta é gratuita. Se ela foi útil, você pode apoiar voluntariamente a CRS Digital para manter ferramentas simples assim disponíveis.</p>
-<div class="actions"><a class="btn pay" data-crs-support-link data-crs-track-content="plantao-support-click" href="https://link.mercadopago.com.br/crsdigital">☕ Apoiar — R$ 9,90 sugeridos</a></div>
-</div>
+<div class="card"><div class="summary"><div class="stat"><span class="muted">Plantões</span><b id="count">0</b></div><div class="stat"><span class="muted">Primeiro</span><b id="first" style="font-size:15px">—</b></div><div class="stat"><span class="muted">Último</span><b id="last" style="font-size:15px">—</b></div></div><div class="actions"><button id="download" class="primary" data-crs-track-content="plantao-ics-downloaded" data-crs-value-action data-crs-value-message="Seu calendário .ics foi baixado." disabled>Baixar .ics</button></div><pre id="preview">Configure a escala e gere o calendário.</pre></div>
 
-<div class="card muted" style="font-size:13px">Revise o calendário importado antes de usá-lo como referência de trabalho. Feriados, trocas de turno, folgas especiais e alterações da empresa não são inferidos automaticamente.</div>
-<div class="actions"><a class="btn" href="/" style="color:var(--a);border:1px solid var(--l)">← Ver todas as ferramentas da CRS Digital</a></div>
+<div class="card" id="supportAfter"><strong>O Plantão.ics te poupou tempo?</strong><p class="muted">A ferramenta é gratuita. Se ela foi útil, você pode apoiar voluntariamente a CRS Digital para manter ferramentas simples assim disponíveis.</p><div class="actions"><a class="btn pay" data-crs-support-link data-crs-track-content="plantao-support-click" href="https://link.mercadopago.com.br/crsdigital">☕ Apoiar — R$ 9,90 sugeridos</a></div></div>
+
+<section class="crs-share" data-crs-share data-crs-share-title="Plantão.ics — gerador de escala 12x36" data-crs-share-text="Gere sua escala 12x36, 24x48 ou 24x72 e baixe para o calendário sem cadastro." data-crs-share-campaign="plantao-ics" data-crs-share-content="ferramenta"></section>
+
+<div class="card faq"><h2>Perguntas frequentes</h2><details><summary>Como colocar minha escala 12x36 no Google Calendar?</summary><p>Informe o primeiro plantão, gere a sequência, baixe o arquivo .ics e importe no calendário desejado. Confira as datas antes de usar.</p></details><details><summary>Preciso criar cadastro ou instalar aplicativo?</summary><p>Não. A ferramenta funciona diretamente no navegador.</p></details><details><summary>Também funciona para 24x48 e 24x72?</summary><p>Sim. Esses dois padrões já estão prontos no seletor, além da opção personalizada.</p></details><details><summary>O arquivo fica sincronizado com mudanças futuras?</summary><p>Não. O .ics contém a sequência gerada naquele momento. Trocas de turno, folgas e mudanças posteriores precisam ser ajustadas no calendário.</p></details></div>
+
+<div class="card muted" style="font-size:13px">Revise o calendário importado antes de usá-lo como referência de trabalho. Feriados, trocas de turno, folgas especiais e alterações da empresa não são inferidos automaticamente.</div><div class="actions"><a class="btn" href="/guias/como-gerar-escala-12x36-calendario/" style="color:var(--a);border:1px solid var(--l)">Ler guia 12x36</a><a class="btn" href="/" style="color:var(--a);border:1px solid var(--l)">← Ver todas as ferramentas</a></div>
 </div>
 <script>
-const $=s=>document.querySelector(s); let ics="",events=[];
-function pad(n){return String(n).padStart(2,"0")}
-function utc(d){return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate())+"T"+pad(d.getUTCHours())+pad(d.getUTCMinutes())+pad(d.getUTCSeconds())+"Z"}
-function esc(s){return String(s||"").replace(/\\/g,"\\\\").replace(/\n/g,"\\n").replace(/,/g,"\\,").replace(/;/g,"\\;")}
-function fmt(d){return d.toLocaleString("pt-BR")}
-function setStartDefault(){const d=new Date();d.setMinutes(0,0,0);d.setHours(d.getHours()+1);$("#start").value=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes())}
-setStartDefault();
-$("#preset").addEventListener("change",e=>{if(e.target.value!=="custom"){const [w,r]=e.target.value.split(",");$("#work").value=w;$("#rest").value=r}});
-$("#work").addEventListener("input",()=>$("#preset").value="custom"); $("#rest").addEventListener("input",()=>$("#preset").value="custom");
-$("#generate").addEventListener("click",()=>{
- const start=new Date($("#start").value); const work=+$("#work").value,rest=+$("#rest").value,months=+$("#months").value;
- if(isNaN(start)||work<=0||rest<=0||months<=0) return alert("Revise os campos.");
- const until=new Date(start);until.setMonth(until.getMonth()+months);events=[];let cur=new Date(start);let i=1;
- while(cur<until && i<=1000){const end=new Date(cur.getTime()+work*3600000);events.push({start:new Date(cur),end,index:i});cur=new Date(end.getTime()+rest*3600000);i++}
- const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//CRS Digital//Plantao.ics//PT-BR","CALSCALE:GREGORIAN","METHOD:PUBLISH"];
- const title=esc($("#title").value||"Plantão"),loc=esc($("#location").value),desc=esc($("#desc").value);
- events.forEach(e=>{lines.push("BEGIN:VEVENT",`UID:${Date.now()}-${e.index}@crsdigital`,`DTSTAMP:${utc(new Date())}`,`DTSTART:${utc(e.start)}`,`DTEND:${utc(e.end)}`,`SUMMARY:${title}`,loc?`LOCATION:${loc}`:"",desc?`DESCRIPTION:${desc}`:"","END:VEVENT")});
- lines.push("END:VCALENDAR");ics=lines.filter(Boolean).join("\r\n");
- $("#count").textContent=events.length;$("#first").textContent=events.length?fmt(events[0].start):"—";$("#last").textContent=events.length?fmt(events[events.length-1].start):"—";
- $("#preview").textContent=events.slice(0,12).map(e=>`${e.index}. ${fmt(e.start)} → ${fmt(e.end)}`).join("\n")+(events.length>12?`\n... +${events.length-12} plantões`:"");
- $("#download").disabled=!events.length; $("#supportAfter").style.display="block";
-});
+const $=s=>document.querySelector(s);let ics="",events=[];function pad(n){return String(n).padStart(2,"0")}function utc(d){return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate())+"T"+pad(d.getUTCHours())+pad(d.getUTCMinutes())+pad(d.getUTCSeconds())+"Z"}function esc(s){return String(s||"").replace(/\\/g,"\\\\").replace(/\n/g,"\\n").replace(/,/g,"\\,").replace(/;/g,"\\;")}function fmt(d){return d.toLocaleString("pt-BR")}function setStartDefault(){const d=new Date();d.setMinutes(0,0,0);d.setHours(d.getHours()+1);$("#start").value=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes())}setStartDefault();
+$("#preset").addEventListener("change",e=>{if(e.target.value!=="custom"){const [w,r]=e.target.value.split(",");$("#work").value=w;$("#rest").value=r}});$("#work").addEventListener("input",()=>$("#preset").value="custom");$("#rest").addEventListener("input",()=>$("#preset").value="custom");
+$("#generate").addEventListener("click",()=>{const start=new Date($("#start").value);const work=+$("#work").value,rest=+$("#rest").value,months=+$("#months").value;if(isNaN(start)||work<=0||rest<=0||months<=0)return alert("Revise os campos.");const until=new Date(start);until.setMonth(until.getMonth()+months);events=[];let cur=new Date(start);let i=1;while(cur<until&&i<=1000){const end=new Date(cur.getTime()+work*3600000);events.push({start:new Date(cur),end,index:i});cur=new Date(end.getTime()+rest*3600000);i++}const lines=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//CRS Digital//Plantao.ics//PT-BR","CALSCALE:GREGORIAN","METHOD:PUBLISH"];const title=esc($("#title").value||"Plantão"),loc=esc($("#location").value),desc=esc($("#desc").value);events.forEach(e=>{lines.push("BEGIN:VEVENT",`UID:${Date.now()}-${e.index}@crsdigital`,`DTSTAMP:${utc(new Date())}`,`DTSTART:${utc(e.start)}`,`DTEND:${utc(e.end)}`,`SUMMARY:${title}`,loc?`LOCATION:${loc}`:"",desc?`DESCRIPTION:${desc}`:"","END:VEVENT")});lines.push("END:VCALENDAR");ics=lines.filter(Boolean).join("\r\n");$("#count").textContent=events.length;$("#first").textContent=events.length?fmt(events[0].start):"—";$("#last").textContent=events.length?fmt(events[events.length-1].start):"—";$("#preview").textContent=events.slice(0,12).map(e=>`${e.index}. ${fmt(e.start)} → ${fmt(e.end)}`).join("\n")+(events.length>12?`\n... +${events.length-12} plantões`:"");$("#download").disabled=!events.length;$("#supportAfter").style.display="block"});
 $("#download").addEventListener("click",()=>{const b=new Blob([ics],{type:"text/calendar;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="plantao.ics";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);$("#supportAfter").scrollIntoView({behavior:"smooth",block:"nearest"})});
 </script></body></html>
