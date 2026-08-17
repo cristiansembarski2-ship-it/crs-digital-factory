@@ -1,6 +1,6 @@
 # OPERACAO_ATUAL — CRS Digital
 
-Atualizado em: **2026-08-17 20:32 BRT**
+Atualizado em: **2026-08-17 20:46 BRT**
 
 Este arquivo é a fonte operacional compartilhada entre os chats. Leia antes de qualquer alteração relevante.
 
@@ -160,13 +160,16 @@ Critérios:
 - escopo compatível com piloto;
 - projeto ainda aparenta aceitar proposta/contato.
 
+Integração adicionada em 17/08/2026: para oportunidades fortes do 99Freelas, o radar deve confirmar a página atual, criar preço/prazo/risco/proposta personalizada e atualizar `crs99/opportunities.json` com status `ready`. Entradas `sent` devem ser preservadas. O radar não envia a proposta automaticamente.
+
 Quando encontrar oportunidade forte, deve entregar:
 - link;
 - resumo;
 - aderência;
 - risco técnico;
-- plausibilidade de R$790;
-- proposta curta pronta;
+- plausibilidade de preço;
+- proposta pronta;
+- pacote na fila CRS99 quando for 99Freelas;
 - barreira humana real, se existir.
 
 Não enviar cold email automaticamente.
@@ -243,7 +246,7 @@ Verificação direta em 17/08/2026 mostrou **Fechado**. Não enviar mais como op
 
 Enviar proposta em Workana/99Freelas normalmente exige conta/logon da plataforma. Isso é uma barreira humana legítima.
 
-Quando uma oportunidade realmente forte for escolhida, preparar toda a proposta antes de pedir ação ao proprietário. Pedir apenas o clique/login/envio inevitável.
+Com o CRS 99 Copilot instalado, a meta é reduzir a ação humana no 99Freelas a: abrir o projeto, revisar o pacote preenchido e fazer o clique final de envio.
 
 ## 12. Regra de compromisso
 
@@ -285,3 +288,33 @@ Não ficar parado aguardando a primeira proposta.
 Meta estrutural permanece:
 
 **1 cliente → 3 clientes semelhantes → núcleo reutilizável → oferta padronizada → recorrência → escala.**
+
+## 15. CRS 99 Copilot — automação assistida do 99Freelas
+
+Estado em 17/08/2026: **v0.1.1 implementada no repositório; teste autenticado ainda pendente.**
+
+Documentação detalhada: `CRS99_COPILOT.md`.
+
+Arquivos:
+- `crs99-extension/manifest.json`;
+- `crs99-extension/background.js`;
+- `crs99-extension/content.js`;
+- `crs99-extension/content.css`;
+- `crs99-extension/README.md`;
+- `crs99/opportunities.json`.
+
+Função atual:
+- reconhecer página de projeto do 99Freelas;
+- detectar fechado/exclusivo;
+- carregar pacote de oportunidade do radar;
+- mostrar aderência/preço/prazo/risco;
+- abrir fluxo de proposta;
+- preencher proposta, valor e prazo quando os campos forem reconhecidos;
+- bloquear texto com possível contato/link proibido;
+- nunca fazer o clique final de envio.
+
+Fila remota usa primeiro o domínio CRS Digital e possui fallback para o arquivo público raw do GitHub, evitando dependência do deploy Vercel para a sincronização.
+
+A automação `Radar Automação B2B` foi atualizada para alimentar a fila em futuras oportunidades do 99Freelas.
+
+Próxima barreira humana real: instalar a extensão localmente no Chrome/Edge e abrir uma página autenticada do 99Freelas para validar os seletores do formulário. Se algum campo não for reconhecido, corrigir o adaptador com base no HTML/print real, sem mudar a tese comercial.
