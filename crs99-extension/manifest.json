@@ -1,11 +1,12 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Copiloto interno da CRS Digital para validar e preencher propostas no 99Freelas sem envio automático.",
   "permissions": ["storage"],
   "host_permissions": [
-    "https://crs-digital-factory.vercel.app/*"
+    "https://crs-digital-factory.vercel.app/*",
+    "https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/*"
   ],
   "background": {
     "service_worker": "background.js"
