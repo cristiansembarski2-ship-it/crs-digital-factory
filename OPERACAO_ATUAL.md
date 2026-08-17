@@ -1,6 +1,6 @@
 # OPERACAO_ATUAL — CRS Digital
 
-Atualizado em: **2026-08-17 20:31 BRT**
+Atualizado em: **2026-08-17 20:32 BRT**
 
 Este arquivo é a fonte operacional compartilhada entre os chats. Leia antes de qualquer alteração relevante.
 
@@ -171,23 +171,25 @@ Quando encontrar oportunidade forte, deve entregar:
 
 Não enviar cold email automaticamente.
 
-## 10. Oportunidades prioritárias já identificadas
+## 10. Propostas e oportunidades
 
-### PRIORIDADE IMEDIATA — 99Freelas: estoque automatizado integrado à entrada e saída
+### PROPOSTA ENVIADA — 99Freelas: estoque automatizado integrado à entrada e saída
 
 Projeto:
 
 `https://www.99freelas.com.br/project/planilha-de-controle-de-estoque-automatizada-integrada-a-entrada-e-saida-776483`
 
-Status verificado diretamente na página em 17/08/2026: **exibe “Enviar proposta” e Orçamento: Aberto**.
+**Status comercial: proposta enviada pelo proprietário em 17/08/2026 às ~20:30 BRT.**
 
-Publicado em 15/08/2026. Cliente visualizou recentemente.
+Valor proposto: **R$ 790**.
+
+Prazo proposto: **4 dias úteis após receber o arquivo atual**.
 
 Problema: papelaria já possui planilha de entradas e saídas e quer eliminar lançamento duplicado. O estoque deve ser atualizado automaticamente, com SKU/material, estoque mínimo, alertas, reposição, lista automática de compras e histórico.
 
-Aderência: **9,2/10**. É processo operacional real de estoque/compras, usa planilha existente, tem dor de retrabalho explícita e cabe em piloto de escopo fechado.
+Aderência: **9,2/10**.
 
-Escopo recomendado por R$790:
+Escopo proposto:
 - analisar a planilha atual;
 - integrar entradas/saídas ao cálculo de estoque;
 - cadastro/categorias/unidades;
@@ -198,17 +200,18 @@ Escopo recomendado por R$790:
 - proteção das fórmulas;
 - uma rodada de pequenos ajustes após entrega.
 
-Prazo recomendado: **4 dias úteis após receber o arquivo atual**.
-
 Risco principal: a estrutura da planilha atual só será conhecida após contratação/alinhamento. Congelar escopo antes de implementar e tratar mudanças estruturais grandes como fase adicional.
 
-Concorrência observada na checagem: alta, com mais de 100 propostas. Mesmo assim, o encaixe com a tese é muito forte e a proposta precisa ser extremamente específica ao fluxo do cliente.
+Concorrência observada: alta, com mais de 100 propostas. Não baixar preço preventivamente; aguardar sinal do cliente antes de negociar.
+
+Próximo gatilho deste projeto:
+**qualquer mensagem, pergunta, aceite ou contraproposta do cliente vira prioridade máxima.**
 
 ### OPORTUNIDADE NOVA — 99Freelas: gestão e automação de estoque em Excel
 
 `https://www.99freelas.com.br/project/especialista-em-excel-para-gestao-e-automacao-de-estoque-776943`
 
-Publicado em 17/08/2026 às 17:55. Página verificada com **“Enviar proposta”**, mas marcada como projeto exclusivo temporariamente. Não depender dela até a conta do proprietário estar elegível ou o período exclusivo terminar.
+Publicado em 17/08/2026 às 17:55. Página observada com opção de proposta, mas marcada como projeto exclusivo temporariamente. Não depender dela até a conta do proprietário estar elegível ou o período exclusivo terminar.
 
 Aderência: **9,3/10**. Inclui Compras, Vendas, Estoque Atual, SKU, custo, validade e automação sobre arquivo existente.
 
@@ -269,13 +272,15 @@ Nunca expor o nome pessoal do proprietário publicamente. Identidade legal somen
 
 ## 14. Próximo marco
 
-Ação imediata:
+Marco comercial atual atingido:
 
-**enviar 1 proposta altamente aderente no 99Freelas para o projeto de estoque automatizado integrado à entrada e saída, pelo piloto fechado de R$790 / 4 dias úteis.**
+**1 proposta B2B aderente enviada.**
 
-Depois:
+Próxima sequência:
 
-**resposta → escopo congelado → pagamento/garantia da plataforma → entrega → registrar módulos reutilizáveis.**
+**continuar buscando oportunidades abertas → enviar propostas realmente aderentes → primeira resposta/conversa → escopo congelado → pagamento/garantia da plataforma → entrega → registrar módulos reutilizáveis.**
+
+Não ficar parado aguardando a primeira proposta.
 
 Meta estrutural permanece:
 
