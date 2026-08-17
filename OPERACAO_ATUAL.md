@@ -1,6 +1,6 @@
 # OPERACAO_ATUAL — Compra Sem Achismo / CRS Digital
 
-Atualizado em: **2026-08-16 04:49 BRT**
+Atualizado em: **2026-08-16 23:25 BRT**
 
 Este arquivo é a fonte operacional compartilhada entre os chats. Antes de qualquer alteração relevante, ler este arquivo e conferir o estado atual do repositório.
 
@@ -10,23 +10,17 @@ Prioridade absoluta:
 
 **R$0 → primeira venda real → identificar origem → repetir → automatizar → escalar.**
 
-Não considerar como sucesso isolado:
-- página criada;
-- e-mail enviado;
-- post publicado;
-- automação criada;
-- impressão sem clique;
-- tráfego sem sinal comercial.
+Não considerar como sucesso isolado página criada, commit, impressão, tráfego sem intenção, e-mail enviado ou automação criada.
 
 Sinais prioritários:
 1. venda/pagamento;
 2. checkout/clique de alta intenção;
-3. clique em produto pago;
+3. clique em produto pago ou apoio;
 4. uso real de ferramenta;
 5. compartilhamento/lead qualificado;
 6. visita/impressão.
 
-**Estado no encerramento deste ciclo: nenhuma venda confirmada.**
+**Estado confirmado no fechamento deste sprint: nenhuma venda nova confirmada.**
 
 ## 2. Fonte de verdade
 
@@ -37,7 +31,7 @@ Sinais prioritários:
 - Este arquivo = fonte de verdade operacional.
 - Estado recente confirmado prevalece sobre histórico antigo.
 
-## 3. Produtos pagos atuais
+## 3. Produtos e monetização atuais
 
 ### Mapa 3 Cotações Pro
 - Preço: **R$ 49,90**
@@ -51,150 +45,147 @@ Sinais prioritários:
 
 ### Apoio / Mercado Pago
 - Link: `https://link.mercadopago.com.br/crsdigital`
-- Uso atual: apoio/donationware; não confundir com checkout de produto.
+- Uso: apoio voluntário/donationware em ferramentas gratuitas.
+- Não confundir com checkout dos produtos pagos.
 - Em cálculos internos considerar aproximadamente 5% de taxa.
 
 ## 4. Funil prioritário
 
-**Descoberta → ferramenta gratuita → resultado útil → CTA contextual → produto pago → checkout → pagamento.**
+**Descoberta → ferramenta gratuita → resultado útil → CTA contextual → produto/apoio → checkout → pagamento.**
 
-O projeto já possui ativos suficientes. O gargalo continua sendo **aquisição qualificada + conversão**, não falta de produto.
+O gargalo continua sendo **aquisição qualificada + conversão**, não falta de produto.
 
-Regra: se o problema for falta de usuários, **distribuir antes de construir**.
+Regra: se faltam usuários, **distribuir antes de construir**.
 
-## 5. Ativos gratuitos principais
+## 5. Ativos prioritários agora
 
 - Mapa 3 Cotações gratuito;
+- Mapa 3 Cotações Pro;
 - Calculadora/Diagnóstico de Savings;
-- Diagnóstico de Maturidade em Compras;
-- Gerador de RFQ;
-- Link de Cotação para Fornecedores;
-- Custo Oculto de Fornecedor;
-- ferramentas para fornecedores;
-- guias, planilhas, widgets e embeds;
-- `Plantao_ICS_V1` — gerador local de `.ics` para escalas 12x36, 24x48, 24x72 e personalizada.
+- Painel de Savings Pro;
+- Plantão.ics;
+- FiscalSafe XML, operado pela Operação B;
+- demais guias e ferramentas existentes como infraestrutura de descoberta.
 
-Não criar ativo semelhante sem justificativa econômica clara.
+Não criar produto novo sem evidência de demanda ou intenção.
 
 ## 6. Conversão e tracking
 
 - Checkouts centralizados em `shared/config.js`.
-- UTMs/atribuição propagadas até checkout.
-- Comparador gratuito usa contexto do próprio resultado para CTA de upgrade.
+- UTMs/atribuição propagadas até checkout onde a infraestrutura existente permite.
+- Comparador gratuito usa o próprio resultado para contextualizar o upgrade.
 - Telemetria própria via `/api/track`, sem enviar preços/cotações pessoais.
 - Vercel Analytics / Speed Insights presentes no código.
-- Limitação atual: leitura automática de logs do projeto pelo conector Vercel continua indisponível.
+- Compartilhamento reutiliza `shared/share.js` com UTMs.
 
-## 7. Estado do deploy
+## 7. Estado do deploy — CORRIGIDO
 
-No ciclo atual, o commit mais recente consultado estava com status Vercel **failure por `build-rate-limit`**.
+O antigo bloqueio por `build-rate-limit` **não está mais ativo**.
 
-Regra até liberar:
-- evitar commits desnecessários;
-- não empilhar mudanças cosméticas;
-- priorizar ações que funcionem sem novo deploy.
+Status confirmado neste fechamento:
 
-A automação **Plantão Receita** só altera `Plantao_ICS_V1` quando o limite de build liberar.
+- Plantão.ics — commit `0219e8f6aa9c71ad8728e095705fdde0c950400c` — **Vercel success**.
+- Mapa 3 Cotações — commit `baec1770e7f6161a5faa529aaff6c7565b2034f2` — **Vercel success**.
 
-## 8. Aquisição / outbound
+Não fazer novo commit cosmético só porque o deploy está liberado. Próxima mudança deve responder a sinal real de uso, busca ou receita.
+
+## 8. Sprint autônomo 16/08 — mudanças concluídas
+
+### Plantão.ics
+
+Foi feita uma única rodada focada em descoberta, confiança e compartilhamento, sem transformar a ferramenta em sistema de RH.
+
+Estado publicado:
+- foco explícito em **escala 12x36, 24x48 e 24x72**;
+- posicionamento para Google Calendar / Apple Calendar / Outlook;
+- sem cadastro e sem instalar app;
+- geração local no navegador;
+- CTA voluntário de apoio via Mercado Pago somente após gerar/baixar valor;
+- FAQ e conteúdo de apoio para intenção de busca;
+- compartilhamento com UTM reutilizando infraestrutura existente;
+- tracking de geração/download/clique de apoio sem enviar conteúdo da agenda.
+
+Commit de fechamento desta frente no sprint: `0219e8f6aa9c71ad8728e095705fdde0c950400c`.
+
+### Mapa 3 Cotações gratuito
+
+A entrada da página foi alinhada à linguagem de intenção comercial real, sem alterar o funcionamento do comparador nem o checkout.
+
+Estado publicado:
+- reforço de termos como **planilha de cotação de preços**, **comparar 3 fornecedores** e **comparativo de orçamento**;
+- preço, frete, prazo, pagamento e qualidade descritos com mais clareza;
+- FAQ/conteúdo estruturado para descoberta;
+- caminho para Mapa 3 Cotações Pro preservado;
+- sem mudança no preço do Pro e sem criar novo produto.
+
+Commit: `baec1770e7f6161a5faa529aaff6c7565b2034f2`.
+
+## 9. Receita e respostas no fechamento do sprint
+
+Verificação no Gmail feita após as mudanças.
+
+Resultado:
+- **nenhum pagamento novo confirmado** de Kiwify ou Mercado Pago;
+- **nenhuma resposta comercial humana nova** no período final do sprint;
+- a busca recente retornou apenas mensagens anteriores/automáticas e não trouxe sinal quente novo.
+
+Não inferir venda por clique, impressão ou e-mail automático.
+
+## 10. Indexação pública no fechamento
+
+Foram pesquisadas consultas públicas específicas para:
+- `gerador escala 12x36` + nosso domínio;
+- `planilha cotação 3 fornecedores` + nosso domínio;
+- variações com `/Plantao_ICS_V1/` e `/mapa-3-cotacoes/`.
+
+**Resultado: nenhuma aparição pública confirmada nessas consultas neste fechamento.**
+
+Isso não significa que as páginas estejam fora do índice definitivamente; significa apenas que ainda não houve evidência pública nas consultas verificadas. Não contar concorrentes nem snippets de terceiros como indexação nossa.
+
+## 11. Aquisição / outbound
 
 Outreach por e-mail foi usado em volume alto no ciclo anterior e acumulou múltiplos bounces.
 
-Estado atual:
-- **Compradores Diretos: pausado**;
-- **Aquisição & Follow-up: pausado**;
-- **Follow-up Distribuição: pausado**;
-- bounces devem permanecer com rótulo `Prospeccao/Bounce` e em exclusão operacional;
+Estado operacional:
+- Compradores Diretos: pausado até liberação segura;
+- Aquisição & Follow-up: pausado até liberação segura;
+- Follow-up Distribuição: pausado;
+- endereços com bounce permanecem em exclusão operacional;
 - não reenviar para endereço com bounce sem nova fonte oficial atual.
 
-Existe uma tarefa **Liberar Outbound** que somente reativa Compradores Diretos + Aquisição & Follow-up quando:
-1. o Gmail cair abaixo de 50 envios nos últimos 7 dias;
-2. bounces não estiverem anormais;
-3. não existir novo alerta relevante de comprometimento da conta.
+Existe rotina de liberação que só deve retomar outbound quando o volume dos últimos 7 dias cair e não houver sinal anormal de bounces/segurança.
 
-Não aumentar volume manualmente antes disso.
+**Neste sprint nenhum novo cold email foi enviado.**
 
-## 9. TikTok — estado correto
+## 12. TikTok
 
 Conta usada: **`@compra121`**.
 
-Estado confirmado:
-- conta pública;
-- primeiro vídeo publicado;
-- carrossel de 6 fotos publicado e aprovado para exibição orgânica;
-- novo vídeo neutro também foi usado em tentativa de Promote;
-- conteúdo comercial foi marcado corretamente como **Sua marca**.
+Estado:
+- conteúdo orgânico existente permanece;
+- duas tentativas de Promote foram rejeitadas antes de veicular;
+- custo real dessas tentativas = R$0;
+- não insistir em Promote sem causa nova e verificável.
 
-### Promote / mídia paga
+**Neste sprint o TikTok Promote não foi alterado.**
 
-Foram feitos testes com orçamento baixo, mas **duas tentativas de promoção foram rejeitadas antes de veicular**.
-
-Motivo exibido pelo TikTok:
-- **Violação das Diretrizes da comunidade / conteúdo não elegível para Promoção / feed Para Você**.
-
-Consequências:
-- **custo real do anúncio = R$0**;
-- saldo do Programa de Promoção é devolvido automaticamente;
-- não continuar criando novos criativos pagos no escuro neste ciclo;
-- TikTok fica apenas orgânico até haver motivo claro para revisitar Promote.
-
-Regra: não gastar mais tempo hoje tentando contornar essa rejeição genérica.
-
-## 10. Plantão.ics — frente paralela de receita
-
-`Plantao_ICS_V1` foi escolhido como segunda frente de monetização independente de Compras/TikTok.
+## 13. Plantão.ics — modelo econômico atual
 
 Modelo:
-**busca/intenção → gerar agenda grátis → baixar `.ics` → apoio voluntário via Mercado Pago**.
 
-Diferenciação planejada:
-- sem cadastro;
-- sem instalar app;
-- geração local no navegador;
-- importação em Google Calendar / Apple Calendar / Outlook;
-- foco em 12x36, 24x48, 24x72 e turnos.
+**busca/intenção → gerar agenda grátis → baixar `.ics` → apoio voluntário via Mercado Pago.**
 
-Próxima mudança somente quando o Vercel liberar build-rate-limit.
+Não criar assinatura, app ou sistema completo de equipe sem uso real suficiente.
 
-## 11. Automações ativas — estado atual
+## 14. Operação B
 
-Há **5 tarefas ativas**; limite atual de tarefas foi atingido.
+A Operação B deve continuar independente da Operação A.
 
-1. **Respostas de Afiliados / Receita** — horário
-   - monitora Gmail por Kiwify, Mercado Pago, venda, pagamento e resposta comercial relevante.
+Fonte de sincronização: `OPERACAO_PARALELA.md`.
 
-2. **Venda Hoje — Radar** — horário até o fim de hoje
-   - busca demanda pública muito recente para Compras e Plantão;
-   - só sinaliza oportunidade concreta e compatível com regras da comunidade.
+Oportunidade vencedora registrada pela Operação B: **FiscalSafe XML Lite**, em donationware, sem duplicar Compras/TikTok/Plantão.
 
-3. **Indexação Pública** — diária
-   - monitora aparição real do domínio em buscas para Compras e Plantão.
-
-4. **Plantão Receita** — condition watch diário
-   - espera o limite do Vercel liberar;
-   - faz uma única melhoria de monetização/descoberta e para sem sinal real.
-
-5. **Liberar Outbound** — diária
-   - reativa outbound somente quando volume e segurança permitirem.
-
-### Pausadas
-- Search Console Baseline;
-- Compradores Diretos;
-- Aquisição & Follow-up;
-- Follow-up Distribuição.
-
-Não criar nova automação sem antes pausar/substituir uma das atuais.
-
-## 12. Search Console / SEO
-
-- propriedade verificada;
-- sitemaps enviados;
-- indexação pública ainda não confirmou crescimento útil no último ciclo conhecido;
-- SEO não deve paralisar receita/aquisição.
-
-A rotina de captura manual do Search Console foi pausada para preservar slots e evitar exigir ação do proprietário sem necessidade.
-
-## 13. Marca, e-mail e anonimato
+## 15. Marca e anonimato
 
 Marca pública:
 - **Compra Sem Achismo / CRS Digital**
@@ -204,62 +195,21 @@ E-mail:
 
 Regra:
 - não expor nome pessoal do proprietário em páginas, conteúdo ou marketing;
-- identidade legal só quando inevitável em pagamento/conta privada.
+- identidade legal somente quando inevitável em pagamento/conta privada.
 
-## 14. Regra de operação autônoma
+## 16. Próximos gatilhos — não trabalhar no vazio
 
-O proprietário é recurso escasso.
+A próxima ação deve ser disparada por pelo menos um destes sinais:
 
-Quando um ciclo terminar, iniciar o próximo ciclo de maior impacto **dentro da mesma execução**, sem pedir microdecisões.
+1. **pagamento/venda** → identificar origem imediatamente e repetir o caminho;
+2. **resposta humana com intenção** → avançar a conversa;
+3. **clique/uso real mensurável** → melhorar apenas o ponto do funil que vazou;
+4. **indexação/impressões reais** → otimizar a página/consulta que apareceu;
+5. **oportunidade pública recente permitida** → distribuir ferramenta útil, sem spam;
+6. **outbound liberado com volume seguro** → retomar baixo volume e personalização;
+7. **TikTok orgânico com distribuição real** → estudar e repetir o formato vencedor.
 
-Só interromper por barreira humana real:
-- CAPTCHA;
-- autenticação/código;
-- aceite jurídico;
-- pagamento;
-- identidade;
-- ação física;
-- permissão exclusiva do proprietário.
-
-Formato:
-
-**AÇÃO NECESSÁRIA DO PROPRIETÁRIO**  
-Faça: [uma única ação]  
-Depois: diga `pronto`.
-
-## 15. Divisão de trabalho entre chats
-
-### Chat central / Operação A
-- receita atual;
-- Gmail;
-- Compras;
-- TikTok;
-- Plantão.ics;
-- automações;
-- sinais de pagamento e conversão.
-
-### Operação B / outro chat
-- procurar e ativar **nova fonte de receita independente**;
-- não duplicar Compras, TikTok, Gmail ou Plantão;
-- registrar frente paralela em `OPERACAO_PARALELA.md` quando escolher oportunidade vencedora.
-
-## 16. Encerramento deste ciclo
-
-O que **não** fazer ao retomar:
-- criar outro anúncio TikTok imediatamente;
-- gastar saldo do Promote sem resolver elegibilidade;
-- aumentar cold email;
-- criar mais uma calculadora/planilha;
-- fazer polimento visual sem tráfego;
-- repetir buscas genéricas sem sinal novo.
-
-O que deve disparar ação quando retomarmos:
-1. **pagamento/venda** → identificar origem e repetir;
-2. **resposta humana com intenção** → avançar conversa;
-3. **oportunidade pública recente e permitida** → responder/distribuir;
-4. **Vercel libera build** → executar uma rodada Plantão Receita;
-5. **outbound cai abaixo do limite seguro** → reativar baixo volume;
-6. **TikTok orgânico começa a receber distribuição** → analisar formato vencedor antes de produzir mais.
+Sem um desses sinais, evitar redesign, nova calculadora, novo produto, novo anúncio pago e nova rodada de cold email.
 
 ## 17. Prioridade operacional permanente
 
@@ -270,7 +220,7 @@ O que deve disparar ação quando retomarmos:
 5. retenção/compartilhamento;
 6. automação;
 7. SEO;
-8. novos ativos só quando justificados.
+8. novos ativos somente quando justificados.
 
 Ciclo:
 
