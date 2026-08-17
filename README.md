@@ -4,6 +4,23 @@ Repositório central das ferramentas digitais da **CRS Digital**.
 
 **Acesse a fábrica:** https://crs-digital-factory.vercel.app/
 
+## Comece pelas ferramentas mais procuradas
+
+### Planilha de cotação de preços — compare 3 fornecedores
+
+Compare três propostas por **preço, frete, desconto, prazo, pagamento e qualidade** direto no navegador. Sem cadastro e com exportação CSV.
+
+**Usar o Mapa 3 Cotações grátis:** https://crs-digital-factory.vercel.app/mapa-3-cotacoes/?utm_source=github&utm_medium=readme&utm_campaign=mapa-3-cotacoes&utm_content=destaque
+
+Para compras recorrentes, a versão Pro adiciona até 50 itens, pesos, avaliação qualitativa, cadastro e histórico:
+https://crs-digital-factory.vercel.app/mapa-3-cotacoes-pro/?utm_source=github&utm_medium=readme&utm_campaign=mapa-3-cotacoes-pro&utm_content=destaque
+
+### Gerador de escala 12x36 para Google Calendar
+
+Gere escalas **12x36, 24x48, 24x72 ou personalizadas**, visualize os plantões e baixe um arquivo `.ics` para Google Calendar, Apple Calendar e Outlook. Sem cadastro e sem instalar app.
+
+**Usar o Plantão.ics grátis:** https://crs-digital-factory.vercel.app/Plantao_ICS_V1/?utm_source=github&utm_medium=readme&utm_campaign=plantao-ics&utm_content=destaque
+
 ## Fiscal / XML NF-e
 
 **FiscalSafe XML Lite** faz pré-conferência local de lotes de XML NF-e/NFC-e, sinaliza problemas estruturais básicos e duplicidades e gera **CSV que pode ser aberto no Excel**. Não exige cadastro e não envia o conteúdo fiscal para um servidor da CRS Digital durante a análise.
