@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Copiloto interno da CRS Digital para validar e preencher propostas no 99Freelas sem envio automático.",
   "permissions": ["storage"],
   "host_permissions": [
@@ -18,7 +18,7 @@
         "https://99freelas.com.br/project/*"
       ],
       "css": ["content.css"],
-      "js": ["content.js"],
+      "js": ["content.js", "title-fix.js"],
       "run_at": "document_idle"
     }
   ]
