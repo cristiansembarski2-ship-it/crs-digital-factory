@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-17T20:52:00-03:00",
+  "updatedAt": "2026-08-17T20:55:00-03:00",
   "rules": {
     "minimumFit": 8,
     "autoSubmit": false,
@@ -23,11 +23,11 @@
       "projectKey": "desenvolver-dashboard-automatizado-de-indicadores-em-google-sheets-764554",
       "title": "Desenvolver dashboard automatizado de indicadores em Google Sheets",
       "url": "https://www.99freelas.com.br/project/desenvolver-dashboard-automatizado-de-indicadores-em-google-sheets-764554",
-      "status": "ready",
+      "status": "closed",
       "fit": 8.8,
       "price": 790,
       "days": 5,
-      "risk": "KPIs e formato da base precisam ser confirmados antes da implementação; Apps Script fica limitado ao que for realmente necessário",
+      "risk": "projeto confirmado como fechado na interface autenticada do proprietário; resultados públicos estavam desatualizados/contraditórios",
       "proposal": "Olá!\n\nEntendi que você precisa transformar uma base operacional em um dashboard no Google Sheets que atualize os indicadores sem depender de cálculos e ajustes manuais a cada período.\n\nEu estruturaria o projeto em duas camadas: uma base organizada para receber/importar os dados e uma camada de indicadores com filtros e visualização.\n\nPara esta primeira entrega, proponho incluir:\n\n- dashboard visual no Google Sheets;\n- indicadores de produtividade, qualidade, ociosidade e SLA conforme as regras definidas;\n- filtros por data, turno, gestor e colaborador;\n- ranking automático;\n- gráficos dinâmicos;\n- atualização dos cálculos a partir da base;\n- proteção das áreas com fórmulas;\n- documentação simples de uso;\n- uma rodada de pequenos ajustes após a entrega.\n\nAntes de implementar, eu confirmaria com você a estrutura da base e a regra exata de cada KPI. Google Apps Script entra apenas onde realmente trouxer ganho; se fórmulas e recursos nativos resolverem de forma mais simples, prefiro manter a solução mais fácil de manter.\n\nPrazo: 5 dias úteis após receber a base e as regras dos indicadores.\nValor: R$ 790."
     }
   ]
