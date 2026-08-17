@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "updatedAt": "2026-08-17T20:40:00-03:00",
+  "rules": {
+    "minimumFit": 8,
+    "autoSubmit": false,
+    "forbidExternalContacts": true,
+    "requireOpenProject": true
+  },
+  "opportunities": [
+    {
+      "projectKey": "planilha-de-controle-de-estoque-automatizada-integrada-a-entrada-e-saida-776483",
+      "url": "https://www.99freelas.com.br/project/planilha-de-controle-de-estoque-automatizada-integrada-a-entrada-e-saida-776483",
+      "status": "sent",
+      "fit": 9.2,
+      "price": 790,
+      "days": 4,
+      "risk": "estrutura da planilha existente ainda não conhecida; congelar escopo antes da implementação",
+      "proposal": "Olá!\n\nEntendi que o ponto principal não é criar outra planilha de estoque, e sim fazer a sua planilha atual de entradas e saídas alimentar o estoque automaticamente, sem lançar a mesma informação duas vezes.\n\nEu faria a integração preservando sua estrutura atual e usando as movimentações como origem dos cálculos.\n\nA entrega pode incluir:\n\n- atualização automática do estoque por entradas e saídas;\n- cadastro e padronização dos materiais;\n- diferentes unidades de medida;\n- estoque mínimo e alertas;\n- identificação de itens zerados ou abaixo do mínimo;\n- cálculo da necessidade de reposição;\n- lista automática de materiais para compra;\n- histórico e filtros;\n- proteção das fórmulas para evitar alterações acidentais;\n- uma rodada de pequenos ajustes após a entrega.\n\nAntes de alterar o arquivo, primeiro analiso a estrutura existente para garantir que a automação não quebre o fluxo que você já utiliza.\n\nTrabalho com Excel e Google Sheets.\n\nValor: R$ 790\nPrazo: 4 dias úteis após receber o arquivo atual."
+    }
+  ]
+}
