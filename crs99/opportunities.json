@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-17T20:55:00-03:00",
+  "updatedAt": "2026-08-17T20:57:00-03:00",
   "rules": {
     "minimumFit": 8,
     "autoSubmit": false,
@@ -29,6 +29,45 @@
       "days": 5,
       "risk": "projeto confirmado como fechado na interface autenticada do proprietário; resultados públicos estavam desatualizados/contraditórios",
       "proposal": "Olá!\n\nEntendi que você precisa transformar uma base operacional em um dashboard no Google Sheets que atualize os indicadores sem depender de cálculos e ajustes manuais a cada período.\n\nEu estruturaria o projeto em duas camadas: uma base organizada para receber/importar os dados e uma camada de indicadores com filtros e visualização.\n\nPara esta primeira entrega, proponho incluir:\n\n- dashboard visual no Google Sheets;\n- indicadores de produtividade, qualidade, ociosidade e SLA conforme as regras definidas;\n- filtros por data, turno, gestor e colaborador;\n- ranking automático;\n- gráficos dinâmicos;\n- atualização dos cálculos a partir da base;\n- proteção das áreas com fórmulas;\n- documentação simples de uso;\n- uma rodada de pequenos ajustes após a entrega.\n\nAntes de implementar, eu confirmaria com você a estrutura da base e a regra exata de cada KPI. Google Apps Script entra apenas onde realmente trouxer ganho; se fórmulas e recursos nativos resolverem de forma mais simples, prefiro manter a solução mais fácil de manter.\n\nPrazo: 5 dias úteis após receber a base e as regras dos indicadores.\nValor: R$ 790."
+    },
+    {
+      "projectKey": "representante-comercial-para-agencia-de-design-774016",
+      "title": "Representante comercial para agência de design — pesquisa inicial de 10 empresas",
+      "url": "https://www.99freelas.com.br/project/representante-comercial-para-agencia-de-design-774016",
+      "status": "candidate",
+      "fit": 9.6,
+      "price": 220,
+      "days": 1,
+      "difficulty": "baixa",
+      "executionEstimate": "2 a 4 horas após receber o nicho e critérios",
+      "risk": "a listagem pública pode estar desatualizada; validar abertura no CRS 99 Copilot antes de preencher. O escopo inicial é apenas pesquisa de 10 empresas, sem contato comercial.",
+      "proposal": "Olá!\n\nPara esse primeiro teste de 10 empresas, consigo fazer um levantamento organizado e verificável, sem entrar em contato com os leads.\n\nEu entregaria uma planilha limpa com os campos solicitados, como nome da empresa, site, canais públicos de contato e redes sociais, além de observações úteis para facilitar a próxima etapa comercial.\n\nA pesquisa será feita com conferência manual das fontes públicas para evitar duplicidades e cadastros desatualizados. Se você enviar o nicho e os critérios de seleção, consigo iniciar pela amostra de 10 empresas e entregar em até 1 dia útil.\n\nValor: R$ 220\nPrazo: 1 dia útil."
+    },
+    {
+      "projectKey": "revisao-bibliografica-para-graduacao-772870",
+      "title": "Revisão bibliográfica para graduação",
+      "url": "https://www.99freelas.com.br/project/revisao-bibliografica-para-graduacao-772870",
+      "status": "candidate",
+      "fit": 9.0,
+      "price": 280,
+      "days": 1,
+      "difficulty": "baixa a média",
+      "executionEstimate": "3 a 6 horas, dependendo do tamanho do material",
+      "risk": "listagem indica projeto exclusivo e prazo curto; validar acesso e abertura no CRS 99 Copilot. Escopo deve permanecer em formatação, organização e adequação às normas, sem inventar conteúdo acadêmico.",
+      "proposal": "Olá!\n\nPosso organizar o material no Word e fazer a adequação de formatação às normas ABNT, preservando integralmente o conteúdo da sua revisão bibliográfica.\n\nO trabalho pode incluir padronização de títulos e subtítulos, margens, fonte, espaçamento, paginação, citações, referências e revisão visual final do documento. Se houver referências incompletas, eu sinalizo os pontos que precisam de confirmação em vez de inventar dados.\n\nConsigo priorizar esse trabalho para entrega rápida após receber o arquivo completo e as orientações da instituição, caso existam.\n\nValor: R$ 280\nPrazo: até 1 dia útil após receber o material."
+    },
+    {
+      "projectKey": "pesquisa-de-editais-de-artes-e-literatura-no-ceara-2026-774318",
+      "title": "Pesquisa de editais de artes e literatura no Ceará (2026)",
+      "url": "https://www.99freelas.com.br/project/pesquisa-de-editais-de-artes-e-literatura-no-ceara-2026-774318",
+      "status": "candidate",
+      "fit": 8.8,
+      "price": 590,
+      "days": 3,
+      "difficulty": "média",
+      "executionEstimate": "8 a 14 horas de pesquisa e consolidação",
+      "risk": "listagem indica projeto exclusivo; validar acesso e abertura no CRS 99 Copilot. Pesquisa precisa usar fontes oficiais e documentos comprobatórios, não somente resultados de busca.",
+      "proposal": "Olá!\n\nEntendi que o objetivo não é receber uma lista superficial de links, mas um levantamento verificável de editais de artes e literatura no Ceará em 2026, incluindo situações já realizadas, aprovadas, em andamento e oportunidades ainda abertas.\n\nEu estruturaria a entrega em planilha, separando por órgão, município/estado, nome do edital, situação, período, área cultural, fonte oficial e link do documento comprobatório quando disponível. Para os editais ligados ao artista informado, também registraria a evidência encontrada e a respectiva fonte oficial.\n\nA pesquisa será priorizada em portais de cultura, diários oficiais, páginas de prefeituras e órgãos estaduais, com conferência das informações antes da inclusão.\n\nValor: R$ 590\nPrazo: 3 dias úteis após receber o nome do artista e qualquer referência inicial que você já possua."
     }
   ]
 }
