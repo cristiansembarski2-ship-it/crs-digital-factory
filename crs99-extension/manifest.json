@@ -1,36 +1,24 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.6.5",
-  "description": "Copiloto CRS rápido com fila por ID real, descarte de propostas enviadas, autofill protegido e repopulação automática quando a fila fica vazia.",
+  "version": "1.0.0",
+  "description": "Fluxo simples para 99Freelas: botões na lista, nova aba por projeto, autofill protegido e clique final sempre humano.",
   "permissions": ["storage"],
-  "host_permissions": [
-    "https://www.99freelas.com.br/*",
-    "https://99freelas.com.br/*"
-  ],
   "content_scripts": [
-    {
-      "matches": [
-        "https://www.99freelas.com.br/project/*",
-        "https://99freelas.com.br/project/*"
-      ],
-      "js": ["autopilot-fast-v2.js", "queue-fast.js"],
-      "run_at": "document_idle"
-    },
     {
       "matches": [
         "https://www.99freelas.com.br/projects*",
         "https://99freelas.com.br/projects*"
       ],
-      "js": ["scanner-fast.js", "queue-fast.js"],
+      "js": ["core.js", "projects.js"],
       "run_at": "document_idle"
     },
     {
       "matches": [
-        "https://www.99freelas.com.br/p/*",
-        "https://99freelas.com.br/p/*"
+        "https://www.99freelas.com.br/project/*",
+        "https://99freelas.com.br/project/*"
       ],
-      "js": ["queue-fast.js"],
+      "js": ["core.js", "project.js"],
       "run_at": "document_idle"
     }
   ]
