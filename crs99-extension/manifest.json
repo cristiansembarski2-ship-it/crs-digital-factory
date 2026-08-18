@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "1.3.2",
-  "description": "Fluxo seguro para 99Freelas com Radar confiável, links nativos para preparar propostas, autofill validado e auditoria em Minhas Propostas.",
+  "version": "1.3.3",
+  "description": "Fluxo seguro para 99Freelas com Radar sincronizado com Minhas Propostas, links nativos, autofill validado e auditoria assistida.",
   "permissions": ["storage"],
   "content_scripts": [
     {
