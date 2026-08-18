@@ -83,7 +83,15 @@
 
   let timer;
   const schedule = () => { clearTimeout(timer); timer = setTimeout(() => scan().catch(() => {}), 250); };
-  new MutationObserver(schedule).observe(document.body || document.documentElement, { childList: true, subtree: true });
+  const observer = new MutationObserver((mutations) => {
+    const relevant = mutations.some((m) => {
+      const target = m.target instanceof Element ? m.target : null;
+      if (target?.closest?.("#crs99-quick-queue")) return false;
+      return [...m.addedNodes].some((node) => node instanceof Element && !node.closest?.("#crs99-quick-queue") && node.id !== "crs99-quick-queue");
+    });
+    if (relevant) schedule();
+  });
+  observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
   window.addEventListener("crs99:rescan", schedule);
   scan().catch(() => {});
 })();
