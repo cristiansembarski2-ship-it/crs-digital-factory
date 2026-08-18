@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         CRS99 Projetos ao Vivo
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      1.0.2
-// @description  Destaca os projetos mais alinhados na lista logada do 99Freelas. Não envia propostas.
-// @match        https://www.99freelas.com.br/projects*
-// @match        https://99freelas.com.br/projects*
+// @version      1.0.3
+// @description  Diagnostica e destaca projetos carregados na lista logada do 99Freelas. Não envia propostas.
+// @match        https://www.99freelas.com.br/*
+// @match        https://99freelas.com.br/*
 // @run-at       document-idle
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/main/crs99-mobile/crs99-live-projects.user.js
@@ -14,114 +14,78 @@
 (() => {
   'use strict';
 
+  if (!location.pathname.startsWith('/projects')) return;
+
   const BOX_ID = 'crs99-live-box';
   const norm = (v='') => String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
   const esc = (v='') => String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
+  function ensureBox() {
+    let box = document.getElementById(BOX_ID);
+    if (!box) {
+      box = document.createElement('section');
+      box.id = BOX_ID;
+      box.style.cssText = 'position:relative;z-index:2147483000;margin:10px 8px 14px;padding:12px;border-radius:12px;background:#0b1220;color:#fff;font:14px/1.35 Arial,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.22)';
+      (document.body || document.documentElement).insertBefore(box, (document.body || document.documentElement).firstChild || null);
+    }
+    return box;
+  }
+
   function projectId(href='') {
-    try {
-      const u = new URL(String(href||''), location.origin);
-      const m = u.pathname.match(/\/project\/[^/]*?(\d{4,})(?:\/|$)/i);
-      return m ? m[1] : '';
-    } catch { return ''; }
+    const s = String(href || '');
+    const m = s.match(/\/project\/[^?#]*?(\d{4,})(?:[/?#]|$)/i);
+    return m ? m[1] : '';
   }
 
   function score(text='') {
     const t = norm(text);
-    if (/\b(video|videos|reels|ugc|capcut|gravacao|gravar|filmagem|camera|motion|after effects|premiere)\b/.test(t)) return { n:-999, tag:'VÍDEO — IGNORAR' };
-
+    if (/\b(video|videos|reels|ugc|capcut|gravacao|gravar|filmagem|camera|motion|after effects|premiere)\b/.test(t)) return -999;
     let n = 0;
-    let tag = 'OUTRO';
-
-    if (/\b(wordpress|elementor|woocommerce|landing page|landing pages|site|sites|loja virtual|pagina web|web design|blog)\b/.test(t)) {
-      n += 100;
-      tag = 'SITE';
-    }
-
-    if (/\b(excel|planilha|planilhas|google sheets|sheets|dashboard|estoque|orcamento|custos|precificacao|financeir|csv|vba|power query|formulario)\b/.test(t)) {
-      n += 98;
-      tag = tag === 'SITE' ? 'SITE + PLANILHA' : 'PLANILHA';
-    }
-
-    if (/\b(automacao|automatizar|dados|data entry|digitacao|pesquisa|revisao|formatacao|traducao|seo|cadastro|python|javascript)\b/.test(t)) n += 50;
-    if (/\b(canva|apresentacao|slides|cartilha|material institucional|design|copy|texto|conteudo)\b/.test(t)) n += 20;
+    if (/\b(wordpress|elementor|woocommerce|landing page|landing pages|site|sites|loja virtual|pagina web|web design|blog)\b/.test(t)) n += 100;
+    if (/\b(excel|planilha|planilhas|google sheets|sheets|dashboard|estoque|orcamento|custos|precificacao|financeir|csv|vba|power query|formulario)\b/.test(t)) n += 98;
+    if (/\b(automacao|automatizar|dados|data entry|digitacao|pesquisa|revisao|formatacao|traducao|seo|cadastro|python|javascript)\b/.test(t)) n += 45;
     if (/\b(prospeccao|sdr|bdr|closer|trafego|social media|redes sociais|meta ads)\b/.test(t)) n -= 45;
-    if (/\b(django|multi-tenant|seguranca da informacao)\b/.test(t)) n -= 35;
-
-    const proposals = t.match(/propostas?\s*[:：]?\s*(\d+)/);
-    if (proposals) {
-      const p = Number(proposals[1]);
-      if (p <= 10) n += 20;
-      else if (p <= 30) n += 10;
-      else if (p >= 100) n -= 25;
-      else if (p >= 60) n -= 12;
+    const p = t.match(/propostas?\s*[:：]?\s*(\d+)/);
+    if (p) {
+      const q = Number(p[1]);
+      if (q <= 10) n += 20;
+      else if (q <= 30) n += 10;
+      else if (q >= 100) n -= 25;
+      else if (q >= 60) n -= 12;
     }
-
-    if (/publicado\s*[:：]?\s*(1 hora|2 horas|3 horas|4 horas|5 horas|6 horas)/.test(t)) n += 8;
-    return { n, tag: n >= 90 ? `TOP • ${tag}` : n >= 50 ? `BOA • ${tag}` : tag };
+    return n;
   }
 
-  function cardText(anchor) {
-    let el = anchor;
-    for (let i=0; i<8 && el; i++, el=el.parentElement) {
-      if (el.id === BOX_ID) break;
-      const t = norm(el.innerText || '');
-      if (t.length > 100 && (t.includes('propostas') || t.includes('publicado') || t.includes('cliente'))) return el.innerText || '';
-    }
-    return anchor.textContent || '';
-  }
-
-  function collect() {
+  function scan() {
+    const box = ensureBox();
+    const rawLinks = [...document.querySelectorAll('a[href]')].filter(a => !a.closest('#' + BOX_ID));
+    const projectLinks = rawLinks.filter(a => /\/project\//i.test(a.getAttribute('href') || a.href || ''));
     const seen = new Set();
     const jobs = [];
-    const links = [...document.querySelectorAll('a[href*="/project/"]')].filter(a => !a.closest(`#${BOX_ID}`));
 
-    for (const a of links) {
-      const id = projectId(a.href);
+    for (const a of projectLinks) {
+      const href = a.href || a.getAttribute('href') || '';
+      const id = projectId(href);
       if (!id || seen.has(id)) continue;
-
       const title = String(a.textContent || '').replace(/\s+/g,' ').trim();
-      if (title.length < 8 || title.length > 180) continue;
-
+      if (title.length < 6) continue;
       seen.add(id);
-      const s = score(cardText(a));
-      jobs.push({ id, title, href:a.href, n:s.n, tag:s.tag });
+      let node = a;
+      let text = title;
+      for (let i=0; i<7 && node; i++, node=node.parentElement) {
+        const t = norm(node.innerText || '');
+        if (t.includes('propostas') || t.includes('publicado') || t.includes('cliente')) { text = node.innerText || title; break; }
+      }
+      jobs.push({ id, href, title, n: score(text) });
     }
 
-    return jobs.sort((a,b) => b.n - a.n);
+    jobs.sort((a,b) => b.n - a.n);
+    const good = jobs.filter(j => j.n > 35).slice(0, 8);
+    const rows = good.map((j,i) => `<a href="${esc(j.href)}" style="display:block;margin-top:7px;padding:9px;border-radius:9px;background:#172033;color:#fff;text-decoration:none"><strong>${i+1}. ${esc(j.title)}</strong></a>`).join('');
+
+    box.innerHTML = `<strong>CRS99 v1.0.3 • ATIVO</strong><div style="margin-top:4px;opacity:.8">Links na página: ${rawLinks.length} • links de projeto: ${projectLinks.length} • projetos identificados: ${jobs.length}</div>${rows || '<div style="margin-top:7px;opacity:.8">Nenhum projeto identificado ainda.</div>'}`;
   }
 
-  function getHost() {
-    return document.querySelector('main') || document.querySelector('[role="main"]') || document.body;
-  }
-
-  function render() {
-    const jobs = collect();
-    let box = document.getElementById(BOX_ID);
-
-    if (!jobs.length) {
-      if (box) box.remove();
-      return false;
-    }
-
-    const good = jobs.filter(j => j.n > 35).slice(0, 10);
-    if (!box) {
-      box = document.createElement('section');
-      box.id = BOX_ID;
-      box.style.cssText = 'margin:12px auto 16px;max-width:980px;padding:14px;border-radius:14px;background:#0b1220;color:#fff;font:14px/1.35 Arial,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.22)';
-      const host = getHost();
-      host.insertBefore(box, host.firstChild || null);
-    }
-
-    const rows = good.length
-      ? good.map((j,i) => `<a href="${esc(j.href)}" style="display:block;margin-top:8px;padding:10px;border-radius:10px;background:${i<3?'#16351f':'#172033'};color:#fff;text-decoration:none"><strong>${i+1}. ${esc(j.title)}</strong><br><span style="opacity:.75">${esc(j.tag)}</span></a>`).join('')
-      : '<div style="margin-top:8px;opacity:.75">Nenhum projeto com aderência alta nesta tela.</div>';
-
-    box.innerHTML = `<strong>CRS99 • melhores projetos carregados agora</strong><div style="opacity:.75;margin-top:4px">${jobs.length} projetos lidos diretamente desta tela</div>${rows}`;
-    return true;
-  }
-
-  // O 99Freelas pode terminar de montar a lista alguns segundos depois do carregamento.
-  // Fazemos poucas leituras e paramos; sem MutationObserver e sem loop contínuo.
-  [300, 1200, 3000, 6000].forEach(ms => setTimeout(render, ms));
+  ensureBox().innerHTML = '<strong>CRS99 v1.0.3 • ATIVO</strong><div style="margin-top:4px;opacity:.8">Lendo a página…</div>';
+  [200, 1000, 2500, 5000, 9000].forEach(ms => setTimeout(scan, ms));
 })();
