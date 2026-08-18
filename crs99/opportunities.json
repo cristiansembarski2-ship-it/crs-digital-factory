@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-18T04:16:00-03:00",
+  "updatedAt": "2026-08-18T05:16:00-03:00",
   "rules": {
     "minimumFit": 8,
     "autoSubmit": false,
@@ -210,7 +210,7 @@
       "effort": 8.4,
       "price": 280,
       "days": 7,
-      "risk": "Exclusivo Premium; 30 propostas e 82 interessados. Publicado ontem às 11:58. Não há proposta de Cristian visível na página pública. Alto esforço manual, mas escopo objetivo. Sugerir piloto de 10 imóveis e não alegar experiência específica no Imoview sem comprovação.",
+      "risk": "Exclusivo Premium; 30 propostas e 82 interessados. Publicado ontem às 11:58. Alto esforço manual; sugerir piloto de 10 imóveis e não alegar experiência específica no Imoview sem comprovação.",
       "proposal": "Olá! Posso assumir o cadastro dos imóveis com foco em conferência e padronização. Como o volume é grande, sugiro começar com um piloto de 10 imóveis para validarmos o padrão de preenchimento e a ordem das fotos antes de seguir com o lote completo. Proposta inicial de referência: R$ 280 para o lote, com prazo de até 7 dias após receber os acessos e materiais organizados."
     },
     {
@@ -226,7 +226,7 @@
       "effort": 6.3,
       "price": 450,
       "days": 4,
-      "risk": "Exclusivo Premium; 46 propostas e 51 interessados. Página pública indica hoje às 12:31 e não mostra proposta de Cristian. Escopo envolve cores, logo, tipografia, menu, rodapé, blog e responsividade sobre site existente.",
+      "risk": "Exclusivo Premium; 46 propostas e 51 interessados. Escopo envolve cores, logo, tipografia, menu, rodapé, blog e responsividade sobre site existente.",
       "proposal": "Olá! Posso trabalhar sobre a estrutura já existente no Elementor, preservando o tema e concentrando a primeira entrega nos ajustes visuais, menu, rodapé, blog e responsividade. Proposta inicial: R$ 450, com prazo de 4 dias úteis após receber os acessos e confirmar a lista final de prioridades."
     },
     {
@@ -242,7 +242,7 @@
       "effort": 8.3,
       "price": 900,
       "days": 10,
-      "risk": "Exclusivo Premium, 1 proposta e 1 interessado na listagem ao vivo. Cliente exige experiência comprovada em Shopify Liquid e 2–3 lojas Shopify publicadas. Não inventar cases. Só abordar com transparência e proposta de etapa inicial/spec se o cliente aceitar.",
+      "risk": "Exclusivo Premium, 1 proposta e 1 interessado. Cliente exige experiência comprovada em Shopify Liquid e lojas publicadas. Não inventar cases; só abordar com transparência e etapa inicial/spec.",
       "proposal": "Olá! Vi que você exige experiência comprovada em Shopify Liquid e lojas publicadas, então prefiro ser transparente e não atribuir a mim cases que eu não possa comprovar. Posso, porém, propor uma etapa inicial curta para mapear o tema, apps, pontos de CRO e alterações necessárias e, a partir disso, validar tecnicamente a execução antes do escopo completo."
     },
     {
@@ -260,6 +260,86 @@
       "days": 10,
       "risk": "Exclusivo Premium e sem propostas/interessados na listagem ao vivo. Escopo amplo inclui logo, brandbook, splash animada, tokens, templates e motion/Lottie; cliente dá peso alto a portfólio. Candidatura só com primeira fase delimitada e amostra/spec transparente.",
       "proposal": "Olá! O escopo mistura branding, aplicações digitais e motion, então eu estruturaria a entrega por fases para manter consistência. Posso começar por uma fase fechada de direção visual, logo, paleta, tipografia e componentes-base, deixando splash, motion e demais aplicações para a etapa seguinte após aprovação da identidade central."
+    },
+    {
+      "projectKey": "desenvolvimento-de-planilha-de-precificacao-para-produtos-importados-766241",
+      "title": "Desenvolvimento de planilha de precificação para produtos importados",
+      "url": "https://www.99freelas.com.br/project/desenvolvimento-de-planilha-de-precificacao-para-produtos-importados-766241",
+      "status": "candidate",
+      "fit": 9.5,
+      "technical": 9.5,
+      "commercialChance": 9.0,
+      "financial": 8.5,
+      "automation": 9.5,
+      "effort": 5.5,
+      "price": 390,
+      "days": 3,
+      "risk": "Índice público mostra ontem às 21:16, 17 propostas e 30 interessados. Escopo claro e diretamente alinhado a Excel; confirmar moeda/câmbio, regras tributárias fornecidas pelo cliente e formato final no Copilot autenticado.",
+      "proposal": "Olá! Posso montar a planilha com rateio proporcional de frete por peso, impostos por valor de compra, custo total por item e sugestão de preço de venda, deixando os cálculos transparentes e fáceis de auditar. Proposta inicial: R$ 390 e prazo de 3 dias úteis após receber um exemplo real de compra e as regras de margem/câmbio que deseja utilizar."
+    },
+    {
+      "projectKey": "video-comercial-763238",
+      "title": "Vídeo comercial",
+      "url": "https://www.99freelas.com.br/project/video-comercial-763238?fs=t",
+      "status": "candidate",
+      "fit": 9.0,
+      "technical": 8.8,
+      "commercialChance": 9.4,
+      "financial": 7.5,
+      "automation": 8.8,
+      "effort": 5.0,
+      "price": 220,
+      "days": 3,
+      "risk": "Índice público mostra ontem às 16:11 com apenas 4 propostas e 8 interessados. Escopo curto, mas é necessário confirmar duração final, acesso/gravação do painel e se o cliente fornece roteiro/locução.",
+      "proposal": "Olá! Posso produzir o vídeo demonstrando o painel no computador e no celular/tablet com gravação de tela, cortes objetivos, destaques visuais e ritmo comercial. Para fechar o escopo, só preciso confirmar a duração desejada e se você fornece acesso ao sistema e roteiro/locução. Proposta inicial de referência: R$ 220, prazo de 3 dias úteis após receber os acessos e materiais."
+    },
+    {
+      "projectKey": "projeto-piloto-de-edicao-de-videos-e-assistente-virtual-765679",
+      "title": "Projeto piloto de edição de vídeos e assistente virtual",
+      "url": "https://www.99freelas.com.br/project/projeto-piloto-de-edicao-de-videos-e-assistente-virtual-765679?fs=t",
+      "status": "candidate",
+      "fit": 8.8,
+      "technical": 8.6,
+      "commercialChance": 9.1,
+      "financial": 7.6,
+      "automation": 8.5,
+      "effort": 7.5,
+      "price": 250,
+      "days": 5,
+      "risk": "Índice público mostra ontem às 15:27, 12 propostas e 17 interessados. Há componente contínuo de assistente virtual e preferência por CapCut Pro desktop; propor piloto fechado e não assumir disponibilidade recorrente ilimitada.",
+      "proposal": "Olá! Posso começar com um piloto fechado para validar o fluxo de edição e apoio operacional, usando ChatGPT, Excel/Word e edição de vídeo curta. Sugiro um primeiro pacote de entregas com escopo e volume definidos antes de assumir rotina contínua. Proposta inicial de referência: R$ 250 para o piloto, com prazo de até 5 dias após receber os materiais e prioridades."
+    },
+    {
+      "projectKey": "desenvolver-e-finalizar-site-profissional-em-wordpress-e-elementor-764627",
+      "title": "Desenvolver e finalizar site profissional em WordPress e Elementor",
+      "url": "https://www.99freelas.com.br/project/desenvolver-e-finalizar-site-profissional-em-wordpress-e-elementor-764627?fs=t",
+      "status": "candidate",
+      "fit": 8.9,
+      "technical": 8.5,
+      "commercialChance": 8.6,
+      "financial": 8.3,
+      "automation": 7.5,
+      "effort": 6.5,
+      "price": 450,
+      "days": 4,
+      "risk": "Índice público mostra ontem às 20:19, 32 propostas e 41 interessados. Site já iniciado; confirmar número de páginas, tema e lista objetiva de problemas antes de congelar preço.",
+      "proposal": "Olá! Como o WordPress e o Elementor já estão instalados e o layout foi iniciado, posso focar em finalizar cabeçalho, tema, responsividade e acabamento visual sem refazer o site do zero. Proposta inicial: R$ 450, prazo de 4 dias úteis após receber os acessos e uma lista das páginas/ajustes prioritários."
+    },
+    {
+      "projectKey": "criacao-de-site-institucional-para-escritorio-de-advocacia-735757",
+      "title": "Criação de site institucional para escritório de advocacia",
+      "url": "https://www.99freelas.com.br/project/criacao-de-site-institucional-para-escritorio-de-advocacia-735757",
+      "status": "candidate",
+      "fit": 8.7,
+      "technical": 8.5,
+      "commercialChance": 8.2,
+      "financial": 8.4,
+      "automation": 7.6,
+      "effort": 7.0,
+      "price": 650,
+      "days": 5,
+      "risk": "Índice público mostra ontem às 21:37, 43 propostas e 50 interessados. Cliente pede portfólio/exemplos semelhantes; não inventar cases. Oferecer estrutura/spec transparente e usar apenas trabalhos que possam ser comprovados.",
+      "proposal": "Olá! Posso desenvolver um site institucional responsivo com Home, Sobre, Áreas de atuação, Blog e Contato, incluindo formulário, WhatsApp, Google Maps e estrutura básica de SEO. Não vou atribuir a mim cases que eu não possa comprovar; posso apresentar a estrutura proposta e, se desejar, uma primeira direção visual antes do desenvolvimento completo. Proposta inicial: R$ 650, prazo de 5 dias úteis após receber identidade visual e conteúdos."
     }
   ]
 }
