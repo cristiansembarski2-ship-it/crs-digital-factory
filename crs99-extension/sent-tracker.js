@@ -9,7 +9,6 @@
   if (!projectKey) return;
 
   let marked = false;
-  const pendingKey = `crs99PendingSend:${projectKey}`;
 
   function officialSubmitIn(root = document) {
     return [...root.querySelectorAll('button, input[type="submit"]')].find((el) => {
@@ -20,45 +19,23 @@
 
   function pageConfirmsSent() {
     const text = normalize(document.body?.innerText || "");
-    return [
-      "proposta enviada com sucesso",
-      "sua proposta foi enviada",
-      "voce enviou uma proposta",
-      "voce ja enviou uma proposta",
-      "proposta ja enviada",
-      "editar sua proposta"
-    ].some((term) => text.includes(term));
+    return ["proposta enviada com sucesso","sua proposta foi enviada","voce enviou uma proposta","voce ja enviou uma proposta","editar sua proposta","editar proposta"].some(t => text.includes(t));
   }
 
-  function showPending() {
-    const panel = document.querySelector("#crs99-copilot");
-    const message = panel?.querySelector(".crs99-message");
-    if (message) message.textContent = "Envio solicitado. Aguardando confirmação do 99Freelas antes de retirar da fila.";
-  }
-
-  async function rememberSent(reason = "confirmed") {
+  async function rememberSent(reason = "human-submit") {
     if (marked || !chrome?.storage?.local) return;
     marked = true;
-    sessionStorage.removeItem(pendingKey);
-
     const now = new Date().toISOString();
-    const result = await chrome.storage.local.get(["crs99BlockedProjects", "crs99History"]);
-    const blocked = result?.crs99BlockedProjects || {};
-    blocked[projectKey] = { status: "sent", sentAt: now, seenAt: now, reason, url: location.href.split("#")[0] };
+    const result = await chrome.storage.local.get(["crs99BlockedProjects","crs99History","crs99ActiveQueue"]);
+    const blocked = result.crs99BlockedProjects || {};
+    blocked[projectKey] = { ...(blocked[projectKey] || {}), status:"sent", sentAt:now, seenAt:now, reason, url:location.href.split("#")[0] };
 
-    const history = Array.isArray(result?.crs99History) ? result.crs99History : [];
-    const existing = history.find((item) => item.projectKey === projectKey) || {};
-    const entry = { ...existing, projectKey, url: existing.url || location.href.split("?")[0].split("#")[0], status: "sent", sentAt: now };
-    const nextHistory = [entry, ...history.filter((item) => item.projectKey !== projectKey)].slice(0, 300);
-    await chrome.storage.local.set({ crs99BlockedProjects: blocked, crs99History: nextHistory });
-
-    const panel = document.querySelector("#crs99-copilot");
-    if (panel) {
-      const status = panel.querySelector(".crs99-status");
-      const message = panel.querySelector(".crs99-message");
-      if (status) status.innerHTML = '<span class="crs99-badge good">ENVIADA</span> Confirmada pelo 99Freelas e removida da fila de novas.';
-      if (message) message.textContent = "Proposta confirmada como enviada. Este projeto não volta para a fila ativa.";
-    }
+    const history = Array.isArray(result.crs99History) ? result.crs99History : [];
+    const existing = history.find(x => x.projectKey === projectKey) || {};
+    const entry = { ...existing, projectKey, status:"sent", sentAt:now, url:existing.url || location.href.split("?")[0].split("#")[0] };
+    const nextHistory = [entry, ...history.filter(x => x.projectKey !== projectKey)].slice(0,300);
+    const active = (Array.isArray(result.crs99ActiveQueue) ? result.crs99ActiveQueue : []).filter(x => x.key !== projectKey);
+    await chrome.storage.local.set({ crs99BlockedProjects:blocked, crs99History:nextHistory, crs99ActiveQueue:active });
   }
 
   if (pageConfirmsSent()) rememberSent("page-confirmation").catch(() => {});
@@ -66,18 +43,20 @@
   document.addEventListener("submit", (event) => {
     if (!isBidPage) return;
     const form = event.target instanceof HTMLFormElement ? event.target : null;
-    if (!form) return;
-    const submit = officialSubmitIn(form) || officialSubmitIn(document);
-    if (!submit) return;
-    sessionStorage.setItem(pendingKey, new Date().toISOString());
-    showPending();
-    setTimeout(() => {
-      if (pageConfirmsSent()) rememberSent("post-submit-confirmation").catch(() => {});
-    }, 800);
+    if (!form || !officialSubmitIn(form) && !officialSubmitIn(document)) return;
+    rememberSent("human-submit").catch(() => {});
   }, true);
 
-  const observer = new MutationObserver(() => {
+  document.addEventListener("click", (event) => {
+    if (!isBidPage) return;
+    const target = event.target instanceof Element ? event.target.closest('button, input[type="submit"]') : null;
+    if (!target) return;
+    const text = normalize(target.textContent || target.value || "");
+    if (!text.includes("enviar proposta") && !text.includes("fazer proposta")) return;
+    setTimeout(() => rememberSent("human-submit-click").catch(() => {}), 100);
+  }, true);
+
+  new MutationObserver(() => {
     if (!marked && pageConfirmsSent()) rememberSent("ajax-confirmation").catch(() => {});
-  });
-  observer.observe(document.body || document.documentElement, { childList: true, subtree: true, characterData: true });
+  }).observe(document.body || document.documentElement, { childList:true, subtree:true, characterData:true });
 })();
