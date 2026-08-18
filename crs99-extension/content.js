@@ -2,6 +2,8 @@
   if (window.__CRS99_COPILOT__) return;
   window.__CRS99_COPILOT__ = true;
 
+  const PREMIUM_MODE = true;
+  const VERSION = "0.3.0";
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
   const normalize = (value = "") => value
@@ -28,7 +30,16 @@
     "orcamento: fechado",
     "orcamento fechado",
     "nao esta recebendo propostas",
-    "nao aceita mais propostas"
+    "nao aceita mais propostas",
+    "projeto cancelado"
+  ].some((term) => pageText.includes(term));
+
+  const unavailable = [
+    "projeto em andamento",
+    "em andamento",
+    "projeto concluido",
+    "projeto finalizado",
+    "contratacao concluida"
   ].some((term) => pageText.includes(term));
 
   const exclusive = [
@@ -43,7 +54,7 @@
 
     return $$('a, button').find((el) => {
       const text = normalize(el.textContent || "");
-      return text === "enviar proposta" || text.includes("enviar proposta");
+      return text === "enviar proposta" || text.includes("enviar proposta") || text.includes("fazer proposta");
     }) || null;
   }
 
@@ -53,18 +64,33 @@
       "estoque": 1.4,
       "fornecedor": 1.2,
       "fornecedores": 1.2,
-      "excel": 1.0,
-      "google sheets": 1.0,
-      "planilha": 0.8,
-      "csv": 0.9,
+      "excel": 1.3,
+      "google sheets": 1.3,
+      "planilha": 1.0,
+      "csv": 1.0,
       "sku": 1.0,
       "cotacao": 1.2,
       "pedido": 0.8,
-      "dashboard": 0.7,
+      "dashboard": 0.8,
       "automacao": 1.2,
       "automatizar": 1.2,
-      "power query": 0.7,
-      "relatorio": 0.5
+      "power query": 0.8,
+      "relatorio": 0.7,
+      "pesquisa": 0.8,
+      "levantamento": 0.8,
+      "landing page": 1.0,
+      "pagina de vendas": 1.0,
+      "html": 0.7,
+      "css": 0.6,
+      "javascript": 0.7,
+      "python": 0.8,
+      "apresentacao": 0.7,
+      "powerpoint": 0.8,
+      "canva": 0.6,
+      "word": 0.5,
+      "pdf": 0.5,
+      "traducao": 0.6,
+      "espanhol": 0.5
     };
     const negative = {
       "erp completo": 2.5,
@@ -73,7 +99,20 @@
       "aplicativo mobile": 1.5,
       "full stack": 1.0,
       "whatsapp api": 0.8,
-      "sistema completo": 1.2
+      "sistema completo": 1.2,
+      "sdr": 3.5,
+      "atender leads": 3.0,
+      "atender os leads": 3.0,
+      "follow-up": 2.5,
+      "follow up": 2.5,
+      "contornar objecoes": 3.0,
+      "atendimento comercial": 3.0,
+      "horario comercial": 2.0,
+      "ligacoes para clientes": 2.5,
+      "prospeccao ativa": 2.5,
+      "presencial": 3.0,
+      "experiencia comprovada": 1.0,
+      "portfolio obrigatorio": 1.5
     };
 
     let score = 3.5;
@@ -83,6 +122,8 @@
     Object.entries(negative).forEach(([term, weight]) => {
       if (pageText.includes(term)) score -= weight;
     });
+    if (exclusive && PREMIUM_MODE) score += 0.5;
+    if (closed || unavailable) score = 0;
     return Math.max(0, Math.min(10, Math.round(score * 10) / 10));
   }
 
@@ -138,7 +179,7 @@
         if (context.includes(normalize(term))) score += 10 - index;
       });
       if (kind === "textarea" && el.tagName === "TEXTAREA") score += 2;
-      return { el, score, context };
+      return { el, score };
     }).filter((item) => item.score > 0);
 
     scored.sort((a, b) => b.score - a.score);
@@ -183,9 +224,9 @@
   }
 
   function fillBid(opportunity) {
-    if (closed) return { ok: false, message: "Projeto detectado como fechado. Preenchimento bloqueado." };
-    if (exclusive && opportunity?.allowExclusive !== true) {
-      return { ok: false, message: "Projeto exclusivo detectado. Confirme elegibilidade antes de continuar." };
+    if (closed || unavailable) return { ok: false, message: "Projeto indisponível para novas propostas. Preenchimento bloqueado." };
+    if (exclusive && !PREMIUM_MODE && opportunity?.allowExclusive !== true) {
+      return { ok: false, message: "Projeto exclusivo detectado. Esta conta não está configurada como elegível." };
     }
     if (!opportunity?.proposal) return { ok: false, message: "Não há proposta aprovada na fila CRS para este projeto." };
 
@@ -260,7 +301,7 @@
     <div class="crs99-head">
       <div>
         <strong>CRS 99 Copilot</strong>
-        <span>v0.1</span>
+        <span>v${VERSION} · Premium</span>
       </div>
       <button type="button" class="crs99-minimize" aria-label="Minimizar">−</button>
     </div>
@@ -275,7 +316,7 @@
         <button type="button" class="crs99-secondary crs99-copy">Copiar briefing</button>
         <button type="button" class="crs99-secondary crs99-refresh">Atualizar fila</button>
       </div>
-      <small class="crs99-foot">Nunca envia proposta sozinho. Revise antes do clique final.</small>
+      <small class="crs99-foot">Premium ativo. Nunca envia proposta sozinho; revise antes do clique final.</small>
     </div>`;
   document.documentElement.appendChild(panel);
 
@@ -302,24 +343,28 @@
   function renderBase() {
     refs.title.textContent = title || projectKey || "Projeto 99Freelas";
 
-    if (closed) {
-      refs.status.innerHTML = '<span class="crs99-badge danger">FECHADO</span> Preenchimento bloqueado.';
+    if (closed || unavailable) {
+      refs.status.innerHTML = '<span class="crs99-badge danger">INDISPONÍVEL</span> Projeto não aceita nova proposta.';
+    } else if (exclusive && PREMIUM_MODE) {
+      refs.status.innerHTML = '<span class="crs99-badge good">EXCLUSIVO · PREMIUM</span> Pode concorrer agora.';
     } else if (exclusive) {
-      refs.status.innerHTML = '<span class="crs99-badge warn">EXCLUSIVO</span> Verifique sua elegibilidade.';
+      refs.status.innerHTML = '<span class="crs99-badge warn">EXCLUSIVO</span> Verifique elegibilidade.';
     } else if (findBidAction() || isBidPage) {
       refs.status.innerHTML = '<span class="crs99-badge good">ABERTO</span> Página aceita fluxo de proposta.';
     } else {
       refs.status.innerHTML = '<span class="crs99-badge neutral">INCERTO</span> Não encontrei confirmação de envio.';
     }
 
-    refs.score.textContent = `Aderência local estimada: ${localFitScore().toFixed(1)}/10`;
+    const score = localFitScore();
+    const decision = score >= 7 ? "ATACAR" : score >= 5 ? "REVISAR" : "PULAR";
+    refs.score.textContent = `Aderência local: ${score.toFixed(1)}/10 · ${decision}`;
   }
 
   function renderOpportunity() {
     if (!opportunity) {
       refs.package.innerHTML = '<strong>Fila CRS:</strong> nenhum pacote aprovado para esta URL.';
       refs.main.textContent = isBidPage ? "Sem pacote aprovado" : "Abrir formulário";
-      refs.main.disabled = closed || (!isBidPage && !findBidAction());
+      refs.main.disabled = closed || unavailable || (!isBidPage && !findBidAction());
       return;
     }
 
@@ -338,8 +383,8 @@
       return;
     }
 
-    if (closed) {
-      refs.main.textContent = "Projeto fechado";
+    if (["closed", "unavailable"].includes(status) || closed || unavailable) {
+      refs.main.textContent = "Projeto indisponível";
       refs.main.disabled = true;
       return;
     }
@@ -348,7 +393,7 @@
       refs.main.textContent = "Preencher proposta";
       refs.main.disabled = false;
     } else {
-      refs.main.textContent = "Abrir formulário da proposta";
+      refs.main.textContent = exclusive && PREMIUM_MODE ? "Abrir proposta Premium" : "Abrir formulário da proposta";
       refs.main.disabled = !findBidAction() && !opportunity.bidUrl;
     }
   }
@@ -372,7 +417,7 @@
   }
 
   refs.main.addEventListener("click", () => {
-    if (refs.main.disabled || closed) return;
+    if (refs.main.disabled || closed || unavailable) return;
 
     if (!isBidPage) {
       const action = findBidAction();
@@ -399,8 +444,8 @@
   refs.copy.addEventListener("click", async () => {
     try {
       await copyBriefing();
-      setMessage("Briefing copiado. Use isso apenas quando o radar ainda não tiver criado um pacote.", "success");
-    } catch (error) {
+      setMessage("Briefing copiado. Use isso quando a fila ainda não tiver criado um pacote.", "success");
+    } catch {
       setMessage("Não consegui copiar o briefing automaticamente.", "error");
     }
   });
