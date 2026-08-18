@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-18T03:39:00-03:00",
+  "updatedAt": "2026-08-18T04:16:00-03:00",
   "rules": {
     "minimumFit": 8,
     "autoSubmit": false,
@@ -196,6 +196,70 @@
       "days": 4,
       "risk": "Índice público exibe data relativa 'ontem' e 34 propostas, mas pode estar desatualizado. Validar no CRS 99 Copilot. A integração por API não entra no preço-base sem documentação; primeira entrega cobre dashboard, filtros, histórico e alertas sobre a base existente.",
       "proposal": "Olá! Posso estruturar uma primeira versão funcional do dashboard no Google Sheets usando suas abas atuais, com filtros, histórico mensal, gráficos e alertas definidos sobre os dados já disponíveis. Proposta inicial: R$ 690 e 4 dias úteis. A integração direta com a API pode ser incluída depois de validar a documentação e autenticação da ferramenta externa, evitando prometer uma integração antes de conhecer as limitações técnicas."
+    },
+    {
+      "projectKey": "cadastro-de-200-imoveis-no-sistema-imoview-data-entry-776812",
+      "title": "Cadastro de 200 imóveis no sistema Imoview (data entry)",
+      "url": "https://www.99freelas.com.br/project/cadastro-de-200-imoveis-no-sistema-imoview-data-entry-776812?fs=t",
+      "status": "candidate",
+      "fit": 8.5,
+      "technical": 9.0,
+      "commercialChance": 7.3,
+      "financial": 6.8,
+      "automation": 6.2,
+      "effort": 8.4,
+      "price": 280,
+      "days": 7,
+      "risk": "Exclusivo Premium; 30 propostas e 82 interessados. Publicado ontem às 11:58. Não há proposta de Cristian visível na página pública. Alto esforço manual, mas escopo objetivo. Sugerir piloto de 10 imóveis e não alegar experiência específica no Imoview sem comprovação.",
+      "proposal": "Olá! Posso assumir o cadastro dos imóveis com foco em conferência e padronização. Como o volume é grande, sugiro começar com um piloto de 10 imóveis para validarmos o padrão de preenchimento e a ordem das fotos antes de seguir com o lote completo. Proposta inicial de referência: R$ 280 para o lote, com prazo de até 7 dias após receber os acessos e materiais organizados."
+    },
+    {
+      "projectKey": "ajustes-e-implementacao-do-site-em-wordpress-elementor-776824",
+      "title": "Ajustes e Implementação do Site em Wordpress + Elementor",
+      "url": "https://www.99freelas.com.br/project/ajustes-e-implementacao-do-site-em-wordpress-elementor-776824?fs=t",
+      "status": "candidate",
+      "fit": 8.6,
+      "technical": 8.4,
+      "commercialChance": 6.7,
+      "financial": 7.8,
+      "automation": 7.4,
+      "effort": 6.3,
+      "price": 450,
+      "days": 4,
+      "risk": "Exclusivo Premium; 46 propostas e 51 interessados. Página pública indica hoje às 12:31 e não mostra proposta de Cristian. Escopo envolve cores, logo, tipografia, menu, rodapé, blog e responsividade sobre site existente.",
+      "proposal": "Olá! Posso trabalhar sobre a estrutura já existente no Elementor, preservando o tema e concentrando a primeira entrega nos ajustes visuais, menu, rodapé, blog e responsividade. Proposta inicial: R$ 450, com prazo de 4 dias úteis após receber os acessos e confirmar a lista final de prioridades."
+    },
+    {
+      "projectKey": "personalizacao-completa-de-tema-shopify-loja-pet-mdash-design-conversao-i-777050",
+      "title": "Personalização Completa de Tema Shopify (Loja PET) — Design + Conversão",
+      "url": "https://www.99freelas.com.br/project/personalizacao-completa-de-tema-shopify-loja-pet-mdash-design-conversao-i-777050?fs=t",
+      "status": "candidate",
+      "fit": 7.4,
+      "technical": 6.5,
+      "commercialChance": 5.2,
+      "financial": 8.5,
+      "automation": 6.5,
+      "effort": 8.3,
+      "price": 900,
+      "days": 10,
+      "risk": "Exclusivo Premium, 1 proposta e 1 interessado na listagem ao vivo. Cliente exige experiência comprovada em Shopify Liquid e 2–3 lojas Shopify publicadas. Não inventar cases. Só abordar com transparência e proposta de etapa inicial/spec se o cliente aceitar.",
+      "proposal": "Olá! Vi que você exige experiência comprovada em Shopify Liquid e lojas publicadas, então prefiro ser transparente e não atribuir a mim cases que eu não possa comprovar. Posso, porém, propor uma etapa inicial curta para mapear o tema, apps, pontos de CRO e alterações necessárias e, a partir disso, validar tecnicamente a execução antes do escopo completo."
+    },
+    {
+      "projectKey": "criacao-de-identidade-visual-completa-para-plataforma-digital-app-e-site-777049",
+      "title": "Criação de Identidade Visual Completa para Plataforma Digital (App e Site)",
+      "url": "https://www.99freelas.com.br/projects",
+      "status": "candidate",
+      "fit": 7.6,
+      "technical": 6.8,
+      "commercialChance": 6.0,
+      "financial": 8.4,
+      "automation": 8.0,
+      "effort": 9.0,
+      "price": 750,
+      "days": 10,
+      "risk": "Exclusivo Premium e sem propostas/interessados na listagem ao vivo. Escopo amplo inclui logo, brandbook, splash animada, tokens, templates e motion/Lottie; cliente dá peso alto a portfólio. Candidatura só com primeira fase delimitada e amostra/spec transparente.",
+      "proposal": "Olá! O escopo mistura branding, aplicações digitais e motion, então eu estruturaria a entrega por fases para manter consistência. Posso começar por uma fase fechada de direção visual, logo, paleta, tipografia e componentes-base, deixando splash, motion e demais aplicações para a etapa seguinte após aprovação da identidade central."
     }
   ]
 }
