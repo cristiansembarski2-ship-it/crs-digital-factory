@@ -5,6 +5,7 @@
   const QUEUE_SCHEMA=3;
   const HIDDEN=new Set(["sent","sent_pending","closed","unavailable"]);
   const norm=(v="")=>String(v).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/\s+/g," ").trim();
+  let seeding=false;
 
   function idFrom(value=""){
     let text=String(value||"");
@@ -79,7 +80,7 @@
 
   async function render(){
     const q=await getQueue();count.textContent=`${q.length} novas`;list.innerHTML="";
-    if(!q.length){list.innerHTML='<div class="e">Sem novas na fila.</div>';return;}
+    if(!q.length){list.innerHTML='<div class="e">Buscando novas oportunidades…</div>';return;}
     q.slice(0,15).forEach((item,i)=>{
       const id=idFrom(item.href);if(!id||id!==String(item.key))return;
       const b=document.createElement("button");b.type="button";b.className="go";const t=titleFromHref(item.href);b.textContent=`${i+1}. Enviar — ${t.length>58?t.slice(0,55)+"…":t}`;b.title=`Projeto ${id}: ${t}`;
@@ -101,6 +102,29 @@
       out.push({key:id,projectId:id,href,title:titleFromHref(href),score:Math.min(10,score),proposals,discoveredAt:new Date().toISOString(),seenAt:new Date().toISOString()});seen.add(id);
     }
     return out;
+  }
+
+  async function seedQueueLight(){
+    if(seeding)return;
+    const current=await getQueue();
+    if(current.length)return;
+    seeding=true;
+    count.textContent="buscando…";
+    try{
+      const source="https://www.99freelas.com.br/projects";
+      const res=await fetch(source,{credentials:"include",cache:"no-store"});
+      if(!res.ok)return;
+      const found=parseProjects(await res.text(),location.origin);
+      const d=await chrome.storage.local.get(["crs99BlockedProjects"]),blocked=blockedSet(d.crs99BlockedProjects||{});
+      const fresh=[];
+      for(const x of found)if(!blocked.has(x.key)&&idFrom(x.href)===x.key)fresh.push(x);
+      await chrome.storage.local.set({crs99ActiveQueue:fresh.slice(0,80),crs99SourceUrl:source,crs99LastScanAt:new Date().toISOString()});
+    }catch{}finally{
+      seeding=false;
+      const q=await getQueue();
+      if(!q.length){count.textContent="0 novas";list.innerHTML='<div class="e">Sem novas na fila. Use Atualizar.</div>';}
+      else await render();
+    }
   }
 
   async function refreshListAndCleanup(){
@@ -137,6 +161,6 @@
 
   refresh.addEventListener("click",()=>refreshListAndCleanup().catch(()=>render()));
   chrome.storage.onChanged.addListener((changes,area)=>{if(area==="local"&&(changes.crs99ActiveQueue||changes.crs99BlockedProjects))render().catch(()=>{});});
-  ensureSchema().then(()=>reconcileCurrent()).then(render).catch(()=>render());
+  ensureSchema().then(()=>reconcileCurrent()).then(render).then(()=>setTimeout(()=>seedQueueLight().catch(()=>{}),250)).catch(()=>setTimeout(()=>seedQueueLight().catch(()=>{}),250));
   setTimeout(()=>reconcileCurrent().then(render).catch(()=>{}),1200);
 })();
