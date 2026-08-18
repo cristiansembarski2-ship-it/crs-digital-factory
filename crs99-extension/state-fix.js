@@ -4,12 +4,11 @@
 
   const HIDDEN = new Set(["sent", "sent_pending", "closed", "unavailable"]);
   let migrating = false;
+  let lastSignature = "";
 
   function canonical(value = "") {
     let text = String(value || "");
-    try {
-      if (/^https?:/i.test(text)) text = new URL(text).pathname;
-    } catch {}
+    try { if (/^https?:/i.test(text)) text = new URL(text).pathname; } catch {}
     text = text.replace(/[?#].*$/, "").replace(/\/+$/, "");
     const bid = text.match(/\/project\/bid\/(\d{4,})(?:\/|$)/i);
     if (bid) return bid[1];
@@ -18,7 +17,7 @@
     const project = text.match(/\/project\/[^/]*?(\d{4,})(?:\/|$)/i);
     if (project) return project[1];
     const suffix = text.match(/(?:^|[-/])(\d{4,})$/);
-    return suffix ? suffix[1] : text.split("/").filter(Boolean).pop() || "";
+    return suffix ? suffix[1] : "";
   }
 
   function statusRank(status = "") {
@@ -63,6 +62,7 @@
 
       const writes = { crs99BlockedProjects: blocked, crs99ActiveQueue: queue, crs99History: history };
       const removals = [];
+      const planSignature = [];
       for (const [key, value] of Object.entries(all)) {
         if (!key.startsWith("crs99Plan:")) continue;
         const raw = key.slice("crs99Plan:".length);
@@ -70,6 +70,7 @@
         if (!id) continue;
         const canonicalKey = `crs99Plan:${id}`;
         const plan = { ...value, projectKey: id, projectId: id };
+        planSignature.push([canonicalKey, plan.generatedAt || ""]);
         if (!all[canonicalKey] || key === canonicalKey) writes[canonicalKey] = plan;
         else {
           const a = new Date(value?.generatedAt || 0).getTime();
@@ -79,6 +80,9 @@
         if (key !== canonicalKey) removals.push(key);
       }
 
+      const signature = JSON.stringify({ blocked, queue, history, planSignature: planSignature.sort() });
+      if (signature === lastSignature && removals.length === 0) return;
+      lastSignature = signature;
       await chrome.storage.local.set(writes);
       if (removals.length) await chrome.storage.local.remove([...new Set(removals)]);
     } finally {
@@ -91,15 +95,13 @@
     if (!id) return;
     const body = (document.body?.innerText || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ");
     const conversation = /^\/p\/\d+/i.test(location.pathname);
-    const confirms = [
-      "voce ja enviou uma proposta", "voce enviou uma proposta", "sua proposta foi enviada",
-      "editar sua proposta", "editar proposta", "retirar proposta"
-    ].some(t => body.includes(t));
+    const confirms = ["voce ja enviou uma proposta", "voce enviou uma proposta", "sua proposta foi enviada", "editar sua proposta", "editar proposta", "retirar proposta"].some(t => body.includes(t));
     const conversationConfirms = conversation && ["enviada pelo sistema", "enviei uma proposta", "detalhes da proposta"].some(t => body.includes(t));
     if (!confirms && !conversationConfirms) return;
 
     const data = await chrome.storage.local.get(["crs99BlockedProjects", "crs99ActiveQueue", "crs99History"]);
     const blocked = data.crs99BlockedProjects || {};
+    if (blocked[id]?.status === "sent") return;
     const now = new Date().toISOString();
     blocked[id] = { ...(blocked[id] || {}), projectId: id, status: "sent", seenAt: now, sentAt: blocked[id]?.sentAt || now, reason: "page-reconciliation", url: location.href };
     const queue = (Array.isArray(data.crs99ActiveQueue) ? data.crs99ActiveQueue : []).filter(x => canonical(x?.key || x?.href) !== id);
@@ -113,10 +115,16 @@
   chrome.storage.onChanged.addListener((_changes, area) => {
     if (area !== "local" || migrating) return;
     clearTimeout(migrateTimer);
-    migrateTimer = setTimeout(() => migrate().catch(() => {}), 80);
+    migrateTimer = setTimeout(() => migrate().catch(() => {}), 120);
   });
+
+  let sentTimer;
+  const scheduleSentCheck = () => {
+    clearTimeout(sentTimer);
+    sentTimer = setTimeout(() => markCurrentSent().catch(() => {}), 180);
+  };
 
   migrate().then(markCurrentSent).catch(() => {});
   window.addEventListener("pageshow", () => { migrate().then(markCurrentSent).catch(() => {}); });
-  new MutationObserver(() => markCurrentSent().catch(() => {})).observe(document.body || document.documentElement, { childList: true, subtree: true });
+  new MutationObserver(scheduleSentCheck).observe(document.body || document.documentElement, { childList: true, subtree: true });
 })();
