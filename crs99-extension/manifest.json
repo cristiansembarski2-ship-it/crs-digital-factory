@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "1.2.1",
-  "description": "Fluxo seguro para 99Freelas com Radar, autofill validado e auditoria manual de propostas enviadas com correção assistida.",
+  "version": "1.3.0",
+  "description": "Fluxo seguro para 99Freelas com Radar, autofill validado e auditoria direta na página Minhas Propostas.",
   "permissions": ["storage"],
   "content_scripts": [
     {
@@ -10,7 +10,15 @@
         "https://www.99freelas.com.br/projects*",
         "https://99freelas.com.br/projects*"
       ],
-      "js": ["core.js", "projects-flow.js", "audit.js"],
+      "js": ["core.js", "projects-flow.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.99freelas.com.br/my-proposals*",
+        "https://99freelas.com.br/my-proposals*"
+      ],
+      "js": ["core.js", "my-proposals.js"],
       "run_at": "document_idle"
     },
     {
