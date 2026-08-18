@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CRS99 Auto Preencher
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      2.0.0
+// @version      2.1.0
 // @description  Preenche automaticamente Sua oferta, Duracao estimada e Detalhes no 99Freelas. Nunca envia a proposta.
 // @match        https://www.99freelas.com.br/project/*
 // @match        https://99freelas.com.br/project/*
@@ -14,7 +14,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.0.0';
+  const VERSION = '2.1.0';
   const STORAGE_KEY = 'crs99PayloadV2';
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const norm = (v = '') => String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -43,18 +43,67 @@
       try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(fromHash)); } catch {}
       return fromHash;
     }
-    try {
-      const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
-      return saved;
-    } catch { return null; }
+    try { return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null'); }
+    catch { return null; }
   }
 
-  function projectId() {
-    const p = location.pathname.replace(/\/+$/, '');
-    const direct = p.match(/\/project\/bid\/(\d{4,})$/i);
-    if (direct) return direct[1];
-    const slug = p.match(/\/project\/[^/]*?(\d{4,})$/i);
-    return slug ? slug[1] : '';
+  function idFromUrl(value = '') {
+    try {
+      const u = new URL(String(value || ''), location.origin);
+      const p = u.pathname.replace(/\/+$/, '');
+      let m = p.match(/\/project\/bid\/(\d{4,})(?:\/|$)/i);
+      if (m) return m[1];
+      m = p.match(/\/project\/[^/]*?[-/](\d{4,})(?:\/|$)/i);
+      if (m) return m[1];
+      m = p.match(/\/project\/[^/]*?(\d{4,})(?:\/|$)/i);
+      return m ? m[1] : '';
+    } catch { return ''; }
+  }
+
+  function projectIdsOnPage() {
+    const ids = new Set();
+    const add = (value) => {
+      const id = idFromUrl(value);
+      if (id) ids.add(String(id));
+    };
+
+    add(location.href);
+
+    const canonical = document.querySelector('link[rel="canonical"]')?.href;
+    if (canonical) add(canonical);
+
+    const backLinks = [...document.querySelectorAll('a[href]')].filter((a) => {
+      const t = norm(a.textContent || '');
+      const href = String(a.getAttribute('href') || '');
+      return t.includes('voltar a pagina do projeto') || /\/project\//i.test(href);
+    });
+    backLinks.forEach((a) => add(a.href || a.getAttribute('href')));
+
+    return [...ids];
+  }
+
+  function titleLooksSame(payloadTitle = '') {
+    const expected = norm(payloadTitle);
+    if (!expected) return false;
+    const headings = [...document.querySelectorAll('h1,h2,h3')]
+      .map((el) => norm(el.textContent || ''))
+      .filter(Boolean);
+    if (headings.some((h) => h.includes(expected) || expected.includes(h))) return true;
+
+    const expectedTokens = expected.split(' ').filter((x) => x.length >= 4);
+    if (expectedTokens.length < 3) return false;
+    return headings.some((h) => {
+      const matched = expectedTokens.filter((t) => h.includes(t)).length;
+      return matched / expectedTokens.length >= 0.7;
+    });
+  }
+
+  function sameProject(payload) {
+    const ids = projectIdsOnPage();
+    const wanted = String(payload?.id || '');
+    if (ids.includes(wanted)) return { ok: true, ids };
+    if (ids.length > 0) return { ok: false, ids };
+    return { ok: titleLooksSame(payload?.title || ''), ids };
   }
 
   function visible(el) {
@@ -125,7 +174,6 @@
       }) || null;
     }
 
-    // Nunca usar o campo calculado "Oferta final".
     if (price) {
       const nearFinal = tinyTextElements('Oferta final').some((label) => {
         const lr = label.getBoundingClientRect();
@@ -173,13 +221,8 @@
     const next = String(value);
     for (let i = 0; i < 8; i++) {
       try { el.focus({ preventScroll: true }); } catch { try { el.focus(); } catch {} }
-      try {
-        if (el._valueTracker?.setValue) el._valueTracker.setValue('');
-      } catch {}
-      try {
-        nativeSetter(el, next);
-        emit(el, next);
-      } catch {}
+      try { if (el._valueTracker?.setValue) el._valueTracker.setValue(''); } catch {}
+      try { nativeSetter(el, next); emit(el, next); } catch {}
       await sleep(180);
       const current = el.value ?? el.textContent ?? '';
       const ok = mode === 'number' ? numericEqual(current, next) : textEqual(current, next);
@@ -218,9 +261,9 @@
     const payload = loadPayload();
     if (!payload) return;
 
-    const id = projectId();
-    if (!id || String(id) !== String(payload.id)) {
-      banner('bloqueado: projeto diferente do preparado.', 'bad');
+    const match = sameProject(payload);
+    if (!match.ok) {
+      banner(`bloqueado: projeto diferente do preparado${match.ids.length ? ` (página: ${match.ids.join(', ')} / preparado: ${payload.id})` : ''}.`, 'bad');
       return;
     }
 
@@ -248,7 +291,6 @@
       banner(`teste ${result.count}/3 — oferta ${result.ok.price ? '✓' : '✗'} | duração ${result.ok.days ? '✓' : '✗'} | detalhes ${result.ok.proposal ? '✓' : '✗'}`, result.count === 3 ? 'good' : 'warn');
 
       if (result.count === 3) {
-        // Confere se o site não apagou os valores logo depois.
         await sleep(900);
         const check = fields();
         const stable = check.price && check.days && check.proposal
@@ -273,9 +315,6 @@
     run().catch((e) => banner(`erro: ${String(e?.message || e)}`, 'bad'));
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', start, { once: true });
-  } else {
-    start();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
 })();
