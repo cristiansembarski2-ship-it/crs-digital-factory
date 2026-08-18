@@ -27,7 +27,7 @@
         "https://99freelas.com.br/projects*"
       ],
       "css": ["scanner.css"],
-      "js": ["scanner.js", "scanner-sync.js"],
+      "js": ["scanner.js", "scanner-sync.js", "duplicate-watch.js"],
       "run_at": "document_idle"
     }
   ]
