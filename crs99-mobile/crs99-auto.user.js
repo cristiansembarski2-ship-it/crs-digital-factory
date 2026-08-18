@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CRS99 Auto Preencher
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      2.1.0
+// @version      2.2.0
 // @description  Preenche automaticamente Sua oferta, Duracao estimada e Detalhes no 99Freelas. Nunca envia a proposta.
 // @match        https://www.99freelas.com.br/project/*
 // @match        https://99freelas.com.br/project/*
@@ -14,7 +14,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.1.0';
+  const VERSION = '2.2.0';
   const STORAGE_KEY = 'crs99PayloadV2';
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const norm = (v = '') => String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -68,41 +68,32 @@
     };
 
     add(location.href);
-
     const canonical = document.querySelector('link[rel="canonical"]')?.href;
     if (canonical) add(canonical);
 
-    const backLinks = [...document.querySelectorAll('a[href]')].filter((a) => {
+    [...document.querySelectorAll('a[href]')].forEach((a) => {
       const t = norm(a.textContent || '');
       const href = String(a.getAttribute('href') || '');
-      return t.includes('voltar a pagina do projeto') || /\/project\//i.test(href);
+      if (t.includes('voltar a pagina do projeto') || /\/project\//i.test(href)) add(a.href || href);
     });
-    backLinks.forEach((a) => add(a.href || a.getAttribute('href')));
-
     return [...ids];
   }
 
   function titleLooksSame(payloadTitle = '') {
     const expected = norm(payloadTitle);
     if (!expected) return false;
-    const headings = [...document.querySelectorAll('h1,h2,h3')]
-      .map((el) => norm(el.textContent || ''))
-      .filter(Boolean);
+    const headings = [...document.querySelectorAll('h1,h2,h3')].map((el) => norm(el.textContent || '')).filter(Boolean);
     if (headings.some((h) => h.includes(expected) || expected.includes(h))) return true;
-
-    const expectedTokens = expected.split(' ').filter((x) => x.length >= 4);
-    if (expectedTokens.length < 3) return false;
-    return headings.some((h) => {
-      const matched = expectedTokens.filter((t) => h.includes(t)).length;
-      return matched / expectedTokens.length >= 0.7;
-    });
+    const tokens = expected.split(' ').filter((x) => x.length >= 4);
+    if (tokens.length < 3) return false;
+    return headings.some((h) => tokens.filter((t) => h.includes(t)).length / tokens.length >= 0.7);
   }
 
   function sameProject(payload) {
     const ids = projectIdsOnPage();
     const wanted = String(payload?.id || '');
     if (ids.includes(wanted)) return { ok: true, ids };
-    if (ids.length > 0) return { ok: false, ids };
+    if (ids.length) return { ok: false, ids };
     return { ok: titleLooksSame(payload?.title || ''), ids };
   }
 
@@ -128,19 +119,14 @@
     const fields = [...document.querySelectorAll(selector)].filter(visible);
     let best = null;
     let bestScore = Infinity;
-
     for (const label of labels) {
       const lr = label.getBoundingClientRect();
       for (const field of fields) {
         const fr = field.getBoundingClientRect();
         const vertical = fr.top - lr.bottom;
         if (vertical < -20 || vertical > maxGap) continue;
-        const horizontal = Math.abs(fr.left - lr.left);
-        const score = Math.max(0, vertical) * 4 + horizontal;
-        if (score < bestScore) {
-          bestScore = score;
-          best = field;
-        }
+        const score = Math.max(0, vertical) * 4 + Math.abs(fr.left - lr.left);
+        if (score < bestScore) { bestScore = score; best = field; }
       }
     }
     return best;
@@ -156,23 +142,15 @@
     let days = nearestBelow('Duração estimada', 'input', 240) || nearestBelow('Duracao estimada', 'input', 240);
     let proposal = nearestBelow('Detalhes', 'textarea', 300);
 
-    if (!proposal) {
-      proposal = [...document.querySelectorAll('textarea')].find((el) => visible(el) && norm(el.placeholder).includes('detalhes da proposta')) || null;
-    }
-
-    if (!price) {
-      price = allInputs.find((el) => {
-        const m = norm([el.name, el.id, el.placeholder, el.getAttribute('aria-label')].filter(Boolean).join(' '));
-        return m.includes('oferta') && !m.includes('final');
-      }) || null;
-    }
-
-    if (!days) {
-      days = allInputs.find((el) => {
-        const m = norm([el.name, el.id, el.placeholder, el.getAttribute('aria-label')].filter(Boolean).join(' '));
-        return m.includes('duracao') || m.includes('prazo') || m.includes('dias');
-      }) || null;
-    }
+    if (!proposal) proposal = [...document.querySelectorAll('textarea')].find((el) => visible(el) && norm(el.placeholder).includes('detalhes da proposta')) || null;
+    if (!price) price = allInputs.find((el) => {
+      const m = norm([el.name, el.id, el.placeholder, el.getAttribute('aria-label')].filter(Boolean).join(' '));
+      return m.includes('oferta') && !m.includes('final');
+    }) || null;
+    if (!days) days = allInputs.find((el) => {
+      const m = norm([el.name, el.id, el.placeholder, el.getAttribute('aria-label')].filter(Boolean).join(' '));
+      return m.includes('duracao') || m.includes('prazo') || m.includes('dias');
+    }) || null;
 
     if (price) {
       const nearFinal = tinyTextElements('Oferta final').some((label) => {
@@ -182,7 +160,6 @@
       });
       if (nearFinal) price = nearestBelow('Sua oferta', 'input', 220);
     }
-
     return { price, days, proposal };
   }
 
@@ -193,42 +170,69 @@
   }
 
   function emit(el, value) {
-    try { el.dispatchEvent(new InputEvent('beforeinput', { bubbles: true, cancelable: true, inputType: 'insertText', data: value })); } catch {}
-    try { el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: value })); } catch { el.dispatchEvent(new Event('input', { bubbles: true })); }
+    try { el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: String(value) })); }
+    catch { el.dispatchEvent(new Event('input', { bubbles: true })); }
     el.dispatchEvent(new Event('change', { bubbles: true }));
-    el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: 'Unidentified' }));
-    el.dispatchEvent(new Event('blur', { bubbles: true }));
+  }
+
+  function parseNumber(v) {
+    const text = String(v ?? '').trim().replace(/[^0-9,.-]/g, '');
+    if (!text) return NaN;
+    let cleaned = text;
+    if (cleaned.includes(',') && cleaned.includes('.')) cleaned = cleaned.replace(/\./g, '').replace(',', '.');
+    else if (cleaned.includes(',')) cleaned = cleaned.replace(',', '.');
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : NaN;
   }
 
   function numericEqual(a, b) {
-    const parse = (v) => {
-      const s = String(v ?? '').replace(/[^0-9,.-]/g, '').replace(/\./g, '').replace(',', '.');
-      const n = Number(s);
-      return Number.isFinite(n) ? n : NaN;
-    };
-    const x = parse(a), y = parse(b);
+    const x = parseNumber(a), y = Number(b);
     return Number.isFinite(x) && Number.isFinite(y) && Math.abs(x - y) < 0.01;
   }
 
-  function textEqual(current, expected) {
-    const a = norm(current);
-    const b = norm(expected);
-    return a === b || (b.length > 20 && a.includes(b.slice(0, 20)));
+  function textEqual(a, b) {
+    return norm(a) === norm(b);
   }
 
-  async function writeStable(el, value, mode) {
+  async function setSimple(el, value, mode = 'text') {
     if (!el) return false;
     const next = String(value);
-    for (let i = 0; i < 8; i++) {
-      try { el.focus({ preventScroll: true }); } catch { try { el.focus(); } catch {} }
-      try { if (el._valueTracker?.setValue) el._valueTracker.setValue(''); } catch {}
-      try { nativeSetter(el, next); emit(el, next); } catch {}
-      await sleep(180);
-      const current = el.value ?? el.textContent ?? '';
-      const ok = mode === 'number' ? numericEqual(current, next) : textEqual(current, next);
-      if (ok) return true;
-    }
-    return false;
+    try {
+      if (el._valueTracker?.setValue) el._valueTracker.setValue('');
+      nativeSetter(el, next);
+      emit(el, next);
+    } catch { return false; }
+    await sleep(180);
+    return mode === 'number' ? numericEqual(el.value, value) : textEqual(el.value, next);
+  }
+
+  async function setCurrency(el, value) {
+    if (!el) return false;
+    const amount = Number(value);
+    if (!Number.isFinite(amount)) return false;
+
+    // O campo do 99Freelas usa máscara em centavos. Ex.: "690" vira R$ 6,90.
+    // Enviamos os centavos (69000) para a máscara resultar em R$ 690,00.
+    const centsDigits = String(Math.round(amount * 100));
+    try {
+      if (el._valueTracker?.setValue) el._valueTracker.setValue('');
+      nativeSetter(el, '');
+      emit(el, '');
+      nativeSetter(el, centsDigits);
+      emit(el, centsDigits);
+    } catch { return false; }
+
+    await sleep(260);
+    if (numericEqual(el.value, amount)) return true;
+
+    // Fallback único para páginas sem a máscara em centavos.
+    try {
+      const formatted = amount.toFixed(2).replace('.', ',');
+      nativeSetter(el, formatted);
+      emit(el, formatted);
+    } catch { return false; }
+    await sleep(220);
+    return numericEqual(el.value, amount);
   }
 
   function opener() {
@@ -238,23 +242,6 @@
       const t = norm(el.textContent || el.value || '');
       return t === 'enviar proposta' || t === 'fazer proposta' || t === 'enviar uma proposta';
     }) || null;
-  }
-
-  function status() {
-    const f = fields();
-    return {
-      f,
-      label: `campos: oferta ${f.price ? '✓' : '✗'} | duração ${f.days ? '✓' : '✗'} | detalhes ${f.proposal ? '✓' : '✗'}`
-    };
-  }
-
-  async function fillOnce(payload) {
-    const { f } = status();
-    const ok = { price: false, days: false, proposal: false };
-    if (f.price) ok.price = await writeStable(f.price, payload.price, 'number');
-    if (f.days) ok.days = await writeStable(f.days, payload.days, 'number');
-    if (f.proposal) ok.proposal = await writeStable(f.proposal, payload.proposal, 'text');
-    return { f, ok, count: Object.values(ok).filter(Boolean).length };
   }
 
   async function run() {
@@ -273,48 +260,42 @@
       return;
     }
 
-    banner('iniciando…');
-
-    for (let round = 0; round < 18; round++) {
-      const s = status();
-      if (!s.f.price || !s.f.days || !s.f.proposal) {
-        if (round === 2) {
-          const open = opener();
-          if (open) open.click();
-        }
-        if (round % 4 === 0) banner(s.label, 'warn');
-        await sleep(300);
-        continue;
-      }
-
-      const result = await fillOnce(payload);
-      banner(`teste ${result.count}/3 — oferta ${result.ok.price ? '✓' : '✗'} | duração ${result.ok.days ? '✓' : '✗'} | detalhes ${result.ok.proposal ? '✓' : '✗'}`, result.count === 3 ? 'good' : 'warn');
-
-      if (result.count === 3) {
-        await sleep(900);
-        const check = fields();
-        const stable = check.price && check.days && check.proposal
-          && numericEqual(check.price.value, payload.price)
-          && numericEqual(check.days.value, payload.days)
-          && textEqual(check.proposal.value, payload.proposal);
-
-        if (stable) {
-          try { history.replaceState(null, '', location.pathname + location.search); } catch {}
-          banner('OK: oferta, duração e detalhes preenchidos. Revise e envie manualmente.');
-          return;
-        }
-      }
-      await sleep(250);
+    let f = fields();
+    if (!f.price || !f.days || !f.proposal) {
+      const open = opener();
+      if (open) open.click();
+      await sleep(650);
+      f = fields();
     }
 
-    const s = status();
-    banner(`não concluiu — ${s.label}. Não envie antes de revisar.`, 'bad');
+    if (!f.price || !f.days || !f.proposal) {
+      banner(`campos encontrados: oferta ${f.price ? '✓' : '✗'} | duração ${f.days ? '✓' : '✗'} | detalhes ${f.proposal ? '✓' : '✗'}.`, 'bad');
+      return;
+    }
+
+    banner('preenchendo uma vez…', 'warn');
+    const okPrice = await setCurrency(f.price, payload.price);
+    const okDays = await setSimple(f.days, payload.days, 'number');
+    const okProposal = await setSimple(f.proposal, payload.proposal, 'text');
+
+    await sleep(500);
+    f = fields();
+    const stablePrice = okPrice && f.price && numericEqual(f.price.value, payload.price);
+    const stableDays = okDays && f.days && numericEqual(f.days.value, payload.days);
+    const stableProposal = okProposal && f.proposal && textEqual(f.proposal.value, payload.proposal);
+    const count = [stablePrice, stableDays, stableProposal].filter(Boolean).length;
+
+    if (count === 3) {
+      try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+      try { sessionStorage.removeItem(STORAGE_KEY); } catch {}
+      banner('OK: oferta, duração e detalhes preenchidos. Revise e envie manualmente.');
+      return;
+    }
+
+    banner(`parou após 1 tentativa — oferta ${stablePrice ? '✓' : '✗'} | duração ${stableDays ? '✓' : '✗'} | detalhes ${stableProposal ? '✓' : '✗'}. Não envie ainda.`, 'bad');
   }
 
-  function start() {
-    run().catch((e) => banner(`erro: ${String(e?.message || e)}`, 'bad'));
-  }
-
+  function start() { run().catch((e) => banner(`erro: ${String(e?.message || e)}`, 'bad')); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
   else start();
 })();
