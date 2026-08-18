@@ -2,7 +2,7 @@
 
 Pré-conferência **local e gratuita** de lotes XML de NF-e/NFC-e pela CRS Digital.
 
-**Usar online:** https://crs-digital-factory.vercel.app/fiscalsafe/
+**Usar online:** https://crs-digital-factory.vercel.app/fiscalsafe/?utm_source=github&utm_medium=fiscalsafe_readme&utm_campaign=fiscalsafe
 
 O foco é simples: antes de importar ou revisar uma pasta de XML manualmente, separar rapidamente arquivos básicos OK de itens que merecem atenção — sem enviar os XMLs para um servidor da CRS Digital.
 
