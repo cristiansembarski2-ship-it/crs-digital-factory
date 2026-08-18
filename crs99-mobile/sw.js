@@ -1,9 +1,11 @@
-const CACHE = "crs99-mobile-v2";
+const CACHE = "crs99-mobile-v3";
 const SHELL = [
   "/crs99-mobile/",
   "/crs99-mobile/index.html",
   "/crs99-mobile/styles.css",
   "/crs99-mobile/app.js",
+  "/crs99-mobile/route-fix.js",
+  "/crs99-mobile/fallback.js",
   "/crs99-mobile/manifest.webmanifest",
   "/crs99-mobile/icon.svg"
 ];
