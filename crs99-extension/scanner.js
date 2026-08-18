@@ -1,8 +1,41 @@
-(() => {
+(async () => {
   if (window.__CRS99_SCANNER__) return;
   window.__CRS99_SCANNER__ = true;
 
   const normalize = (value = "") => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+
+  function getQueue() {
+    return new Promise((resolve) => {
+      chrome.runtime.sendMessage({ type: "CRS99_GET_QUEUE" }, (response) => {
+        if (chrome.runtime.lastError) return resolve(null);
+        resolve(response?.ok ? response.data : null);
+      });
+    });
+  }
+
+  function projectKeyFromUrl(href) {
+    try {
+      const path = new URL(href, location.origin).pathname.replace(/\/+$/, "");
+      return path.replace(/^\/project\//, "").split("/")[0];
+    } catch {
+      return "";
+    }
+  }
+
+  const queue = await getQueue();
+  const queueMap = new Map((queue?.opportunities || []).map((item) => [item.projectKey, item]));
+
+  function isBlockedByQueue(key) {
+    const item = queueMap.get(key);
+    if (!item) return false;
+    if (item.status === "sent" || item.status === "closed") return true;
+    if (item.status === "exclusive") {
+      const until = item.reopenAt ? Date.parse(item.reopenAt) : NaN;
+      return Number.isFinite(until) ? Date.now() < until : true;
+    }
+    return false;
+  }
+
   const links = [...document.querySelectorAll('a[href*="/project/"]')]
     .filter(a => !/\/project\/(new|bid)\//.test(a.getAttribute('href') || '') && !/\/project\/new/.test(a.getAttribute('href') || ''));
 
@@ -34,7 +67,7 @@
     for (const [term, weight] of Object.entries(negatives)) {
       if (n.includes(term)) score -= weight;
     }
-    if (n.includes('projeto exclusivo') || n.includes('exclusivo para')) score -= 2.5;
+    if (n.includes('projeto exclusivo') || n.includes('exclusivo para')) score -= 3.0;
     const proposalMatch = n.match(/propostas?:\s*(\d+)/);
     const proposals = proposalMatch ? Number(proposalMatch[1]) : null;
     if (proposals != null) {
@@ -48,16 +81,19 @@
 
   const seen = new Set();
   const items = [];
+  let skippedKnown = 0;
   for (const a of links) {
     const href = new URL(a.href, location.origin).href;
     if (seen.has(href)) continue;
+    const key = projectKeyFromUrl(href);
+    if (isBlockedByQueue(key)) { skippedKnown += 1; seen.add(href); continue; }
     const card = cardFor(a);
     const text = (card?.innerText || a.textContent || '').trim();
     if (text.length < 40) continue;
     seen.add(href);
     const title = (a.textContent || '').trim().replace(/\s+/g, ' ');
     const data = scoreText(text);
-    items.push({ href, title: title || 'Projeto 99Freelas', text, ...data });
+    items.push({ href, key, title: title || 'Projeto 99Freelas', text, ...data });
   }
 
   items.sort((a, b) => b.score - a.score || (a.proposals ?? 999) - (b.proposals ?? 999));
@@ -66,9 +102,9 @@
   const panel = document.createElement('aside');
   panel.id = 'crs99-live-scanner';
   panel.innerHTML = `
-    <div class="crs99s-head"><strong>CRS 99 — Radar ao vivo</strong><span>${items.length} projetos lidos</span></div>
+    <div class="crs99s-head"><strong>CRS 99 — Radar ao vivo</strong><span>${items.length} projetos úteis</span></div>
     <div class="crs99s-body">
-      <div class="crs99s-note">Ranking local desta página. A confirmação final acontece ao abrir o projeto.</div>
+      <div class="crs99s-note">Ranking desta página. ${skippedKnown ? `${skippedKnown} já enviados/fechados/exclusivos foram pulados.` : 'A confirmação final acontece ao abrir o projeto.'}</div>
       <div class="crs99s-list"></div>
       <button class="crs99s-refresh" type="button">Reanalisar página</button>
     </div>`;
