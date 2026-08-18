@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="CRS 99 Mobile — somente oportunidades disponíveis e alinhadas ao perfil.">
+  <title>CRS 99 — Disponíveis</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css?v=1733">
+</head>
+<body>
+  <header class="topbar">
+    <div><p class="eyebrow">CRS 99 COPILOT</p><h1>Disponíveis</h1></div>
+    <button id="refreshBtn" class="icon-btn" type="button" aria-label="Atualizar fila" title="Atualizar fila">↻</button>
+  </header>
+
+  <main>
+    <section class="hero card">
+      <div><span class="pill good">Seu perfil</span><span id="syncPill" class="pill neutral">Sincronizando…</span></div>
+      <h2>Sites, Excel e automações primeiro</h2>
+      <p>Mostrando somente projetos compatíveis com seu perfil e confirmados como disponíveis. O envio final continua manual.</p>
+    </section>
+
+    <section class="toolbar">
+      <div class="search-wrap"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" autocomplete="off" placeholder="Buscar projeto…"></div>
+      <select id="statusFilter" aria-label="Filtrar status">
+        <option value="active">Disponíveis</option>
+        <option value="candidate">Candidatos</option>
+        <option value="prepared">Preparados</option>
+        <option value="sent">Enviados</option>
+        <option value="closed">Fechados</option>
+        <option value="all">Todos</option>
+      </select>
+    </section>
+
+    <section class="summary" aria-live="polite"><strong id="countText">0 projetos</strong><span id="updatedText">—</span></section>
+    <section id="list" class="list" aria-live="polite"></section>
+    <section id="emptyState" class="empty card hidden"><strong>Nenhum projeto disponível neste momento.</strong><p>Toque em ↻ para validar novamente.</p></section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <template id="cardTemplate">
+    <article class="job card">
+      <div class="job-top"><div class="job-badges"></div><button class="more-btn" type="button" aria-label="Mais ações">•••</button></div>
+      <h3 class="job-title"></h3>
+      <div class="metrics">
+        <div><span>Aderência</span><strong class="job-fit">—</strong></div>
+        <div><span>Valor</span><strong class="job-price">—</strong></div>
+        <div><span>Prazo</span><strong class="job-days">—</strong></div>
+      </div>
+      <p class="job-risk"></p>
+      <div class="proposal-preview"></div>
+      <div class="copy-grid">
+        <button class="copy-proposal secondary" type="button">Copiar proposta</button>
+        <button class="copy-price secondary" type="button">Copiar valor</button>
+        <button class="copy-days secondary" type="button">Copiar prazo</button>
+        <button class="copy-all secondary" type="button">Copiar tudo</button>
+      </div>
+      <button class="prepare-bid primary" type="button">Preparar e abrir</button>
+      <button class="open-bid secondary full secondary-open" type="button">Só abrir anúncio</button>
+      <div class="job-menu hidden">
+        <button class="mark-sent" type="button">Marcar como enviada neste celular</button>
+        <button class="mark-unprepared" type="button">Remover marca de preparada</button>
+        <button class="remove-local hidden" type="button">Remover item local</button>
+      </div>
+    </article>
+  </template>
+
+  <button id="quickBtn" class="hidden" type="button"></button>
+  <button id="setupBtn" class="hidden" type="button"></button>
+  <button id="installBtn" class="hidden" type="button"></button>
+  <section id="setupPanel" class="hidden"></section>
+  <button id="closeSetupBtn" class="hidden" type="button"></button>
+  <textarea id="bookmarkletCode" class="hidden"></textarea>
+  <button id="copyBookmarkletBtn" class="hidden" type="button"></button>
+  <section id="quickPanel" class="hidden"></section>
+  <button id="closeQuickBtn" class="hidden" type="button"></button>
+  <input id="quickUrl" class="hidden"><input id="quickTitleInput" class="hidden"><input id="quickPrice" class="hidden"><input id="quickDays" class="hidden"><textarea id="quickProposal" class="hidden"></textarea><button id="saveQuickBtn" class="hidden" type="button"></button><button id="openQuickBtn" class="hidden" type="button"></button>
+
+  <script src="./app.js?v=1733" defer></script>
+  <script src="./route-fix.js?v=1733" defer></script>
+  <script src="./fallback.js?v=1733" defer></script>
+  <script src="./profile-filter.js?v=1733" defer></script>
+</body>
+</html>
