@@ -39,8 +39,7 @@
   function isBlockedByQueue(key) {
     if (localBlocked?.[key]) return true;
     const item = queueMap.get(key);
-    if (!item) return false;
-    return ["sent", "closed", "unavailable"].includes(item.status);
+    return !!item && ["sent", "closed", "unavailable"].includes(item.status);
   }
 
   function isVisible(el) {
@@ -52,24 +51,27 @@
   }
 
   const positives = {
-    "excel": 2.0, "google sheets": 2.0, "planilha": 1.6, "csv": 1.5, "dashboard": 1.4,
-    "automacao": 1.8, "automatizar": 1.8, "estoque": 1.6, "compras": 1.6, "fornecedor": 1.4,
-    "pesquisa": 1.2, "levantamento": 1.2, "organizar dados": 1.2, "limpeza de dados": 1.2,
-    "landing page": 1.5, "pagina de vendas": 1.4, "site institucional": 1.1, "html": 1.0, "css": 1.0, "javascript": 1.0,
-    "powerpoint": 1.2, "canva": 1.0, "apresentacao": 1.1, "word": 0.9, "pdf": 0.8, "formatacao": 0.9, "revisao": 0.8,
-    "copy": 0.9, "descricao de produto": 1.0, "python": 1.2, "script": 1.0, "web scraping": 1.0,
-    "traducao": 0.8, "espanhol": 0.8
+    "excel": 2.0, "google sheets": 2.0, "planilha": 1.7, "csv": 1.5, "dashboard": 1.4,
+    "automacao": 1.8, "automatizar": 1.8, "estoque": 1.5, "compras": 1.5, "fornecedor": 1.3,
+    "pesquisa": 1.3, "levantamento": 1.2, "lista": 0.8, "dados": 0.7, "data entry": 1.0,
+    "cadastro": 0.9, "digitacao": 0.9, "transcricao": 0.9, "organizar": 0.8, "limpeza de dados": 1.2,
+    "landing page": 1.5, "pagina de vendas": 1.4, "site": 0.7, "html": 1.0, "css": 1.0, "javascript": 1.0,
+    "wordpress": 0.8, "elementor": 0.8, "loja virtual": 0.6, "catalogo": 0.8, "produto": 0.5,
+    "powerpoint": 1.2, "canva": 1.1, "apresentacao": 1.1, "design": 0.7, "criativo": 0.8,
+    "word": 0.9, "pdf": 0.8, "formatacao": 1.0, "revisao": 1.0, "correcao": 0.9, "apa": 1.0, "abnt": 1.0,
+    "copy": 1.0, "vsl": 1.1, "redacao": 0.9, "roteiro": 1.0, "descricao de produto": 1.0, "seo": 0.7,
+    "python": 1.2, "script": 1.1, "web scraping": 1.0, "api": 0.7,
+    "traducao": 1.0, "espanhol": 0.9, "ingles": 0.6,
+    "video": 0.7, "reels": 0.8, "edicao": 0.7, "social media": 0.6,
+    "curriculo": 0.8, "buscar vagas": 1.0, "candidatura": 0.9
   };
 
+  // No modo validação, dificuldade não elimina. Só incompatibilidades reais pesam forte.
   const negatives = {
-    "trafego pago": 2.0, "gestor de trafego": 2.0, "atendimento integral": 2.5, "segunda a sabado": 1.5,
-    "presencial": 3.0, "arquitetura": 2.5, "engenheiro": 1.5, "advogado": 1.0, "contador": 1.5,
-    "woocommerce": 1.8, "wordpress": 1.0, "erp completo": 3.0, "aplicativo mobile": 2.0, "full stack": 1.8,
-    "experiencia comprovada": 1.2, "portfolio obrigatorio": 1.8,
-    "sdr": 4.0, "atender os leads": 3.5, "atender leads": 3.5, "follow-up": 3.0, "follow up": 3.0,
-    "contornar objecoes": 3.5, "vender a proxima etapa": 4.0, "acompanhar os leads": 3.0,
-    "recuperar pacientes": 3.0, "fazer atendimento comercial": 3.5, "conversao para agendamento": 3.5,
-    "horario comercial": 2.5, "ligacoes para clientes": 3.0, "prospeccao ativa": 3.0, "closer": 3.5
+    "presencial obrigatorio": 4.0, "trabalho presencial": 3.0,
+    "responsavel tecnico": 3.5, "crc obrigatorio": 3.5, "oab obrigatoria": 3.5,
+    "crea obrigatorio": 3.5, "crm obrigatorio": 3.5,
+    "segunda a sabado em horario fixo": 1.5, "atendimento integral": 1.4
   };
 
   const unavailableTerms = ["em andamento", "projeto em andamento", "projeto fechado", "encerrado", "finalizado", "concluido", "cancelado"];
@@ -81,7 +83,7 @@
 
   function scoreText(text) {
     const n = normalize(text);
-    let score = 3.0;
+    let score = 3.6;
     const hits = [];
 
     for (const [term, weight] of Object.entries(positives)) {
@@ -90,31 +92,33 @@
         hits.push(term);
       }
     }
-
     for (const [term, weight] of Object.entries(negatives)) {
       if (n.includes(term)) score -= weight;
     }
 
     const exclusive = exclusiveTerms.some(term => n.includes(term));
-    if (exclusive) score += PREMIUM_MODE ? 1.2 : -3.0;
+    if (exclusive) score += PREMIUM_MODE ? 1.4 : -3.0;
     if (unavailableTerms.some(term => n.includes(term))) score = 0;
 
     const proposalMatch = n.match(/propostas?:\s*(\d+)/);
     const proposals = proposalMatch ? Number(proposalMatch[1]) : null;
     if (proposals != null) {
-      if (proposals <= 5) score += 1.8;
-      else if (proposals <= 15) score += 1.0;
-      else if (proposals >= 80) score -= 1.4;
-      else if (proposals >= 40) score -= 0.7;
+      if (proposals <= 3) score += 2.3;
+      else if (proposals <= 7) score += 1.8;
+      else if (proposals <= 15) score += 1.2;
+      else if (proposals <= 30) score += 0.3;
+      else if (proposals <= 60) score -= 0.5;
+      else score -= 1.0;
     }
 
-    if (/publicado hoje|hoje[,\s]/.test(n)) score += 0.5;
+    if (/publicado hoje|publicada hoje|hoje[,\s]/.test(n)) score += 0.8;
+    if (/ha \d+ minutos|há \d+ minutos/.test(n)) score += 0.8;
 
     return {
       score: Math.max(0, Math.min(10, Math.round(score * 10) / 10)),
       proposals,
       exclusive,
-      hits: [...new Set(hits)].slice(0, 4)
+      hits: [...new Set(hits)].slice(0, 5)
     };
   }
 
@@ -125,22 +129,21 @@
   }
 
   function addInlinePrepareButton(card, item) {
-    if (!card || !item?.key || item.score < 3.5) return;
+    if (!card || !item?.key || item.score < 2.0) return;
     if (card.querySelector(`.crs99-inline-prepare[data-project-key="${CSS.escape(item.key)}"]`)) return;
 
     const button = document.createElement("button");
     button.type = "button";
     button.className = "crs99-inline-prepare";
     button.dataset.projectKey = item.key;
-    button.textContent = item.score >= 7 ? "CRS: Preparar proposta" : "CRS: Analisar e preparar";
-    button.title = "Abre o projeto, executa a análise completa e, se aprovado, preenche a proposta.";
+    button.textContent = item.score >= 6.5 ? "CRS: Preparar proposta" : "CRS: Analisar oportunidade";
+    button.title = "Abre o projeto para análise completa. Dificuldade sozinha não elimina a vaga.";
     button.style.cssText = "margin:8px 0 4px;padding:7px 11px;border:0;border-radius:7px;font-weight:700;cursor:pointer;background:#2563eb;color:#fff;font-size:12px;line-height:1.2;position:relative;z-index:20;";
     button.addEventListener("click", (event) => {
       event.preventDefault();
       event.stopPropagation();
       openPrepared(item.href);
     });
-
     card.appendChild(button);
   }
 
@@ -155,7 +158,6 @@
     for (const a of links) {
       const href = new URL(a.href, location.origin).href;
       if (byHref.has(href)) continue;
-
       const key = projectKeyFromUrl(href);
       if (!key || isBlockedByQueue(key)) {
         skippedKnown += 1;
@@ -164,9 +166,8 @@
 
       const card = cardFor(a);
       if (!card || !isVisible(card)) continue;
-
       const text = (card.innerText || a.textContent || "").trim();
-      if (text.length < 40) continue;
+      if (text.length < 30) continue;
       if (unavailableTerms.some(term => normalize(text).includes(term))) {
         skippedKnown += 1;
         continue;
@@ -184,22 +185,21 @@
     const items = [...byHref.values()];
     items.sort((a, b) => {
       if (a.exclusive !== b.exclusive) return a.exclusive ? -1 : 1;
-      return b.score - a.score || (a.proposals ?? 999) - (b.proposals ?? 999);
+      if ((a.proposals ?? 999) !== (b.proposals ?? 999) && Math.abs(a.score - b.score) < 1.2) return (a.proposals ?? 999) - (b.proposals ?? 999);
+      return b.score - a.score;
     });
-
     return { items, skippedKnown };
   }
 
   function ensurePanel() {
     let panel = document.querySelector("#crs99-live-scanner");
     if (panel) return panel;
-
     panel = document.createElement("aside");
     panel.id = "crs99-live-scanner";
     panel.innerHTML = `
-      <div class="crs99s-head"><strong>CRS 99 — Radar Autopilot</strong><span>analisando…</span></div>
+      <div class="crs99s-head"><strong>CRS 99 — Radar Validação</strong><span>analisando…</span></div>
       <div class="crs99s-body">
-        <div class="crs99s-note">Premium ativo. O Radar acompanha os projetos carregados enquanto você rola a página.</div>
+        <div class="crs99s-note">Modo validação: amplitude alta. Dificuldade não elimina; enviados e fechados somem.</div>
         <div class="crs99s-list"></div>
         <button class="crs99s-refresh" type="button">Reanalisar carregados</button>
       </div>`;
@@ -215,19 +215,15 @@
     const note = panel.querySelector(".crs99s-note");
     const list = panel.querySelector(".crs99s-list");
 
-    if (count) count.textContent = `${items.length} projetos carregados`;
-    if (note) {
-      note.textContent = `Premium ativo. Role a página: novos projetos recebem botão automaticamente.${skippedKnown ? ` ${skippedKnown} enviados/fechados foram ignorados.` : ""}`;
-    }
+    if (count) count.textContent = `${items.length} candidatas carregadas`;
+    if (note) note.textContent = `Modo validação. Abrimos mais possibilidades e priorizamos recência + baixa concorrência.${skippedKnown ? ` ${skippedKnown} já enviados/fechados foram ignorados.` : ""}`;
 
-    const strong = items.filter(i => i.score >= 6.5);
-    const top = (strong.length >= 4 ? strong : items.filter(i => i.score >= 3.5)).slice(0, 12);
-
+    const top = items.filter(i => i.score >= 2.0).slice(0, 20);
     if (!list) return;
     list.innerHTML = "";
 
     if (!top.length) {
-      list.innerHTML = '<div class="crs99s-empty">Nenhuma vaga útil entre os projetos carregados. Continue descendo ou vá para a próxima página.</div>';
+      list.innerHTML = '<div class="crs99s-empty">Sem novas candidatas entre os projetos carregados. Continue descendo ou vá para a próxima página.</div>';
       return;
     }
 
@@ -235,12 +231,12 @@
       const row = document.createElement("div");
       row.className = "crs99s-item";
       row.dataset.projectKey = item.key;
-      const decision = item.score >= 7 ? "ATACAR" : item.score >= 5 ? "REVISAR" : "PRÉ-FILTRO";
+      const decision = item.score >= 7 ? "ABRIR AGORA" : item.score >= 5 ? "BOA CANDIDATA" : "VALIDAR";
       row.innerHTML = `
-        <div class="crs99s-rank">#${index + 1} · ${item.score.toFixed(1)}/10 · ${decision}${item.exclusive ? " · PREMIUM EXCLUSIVO" : ""}${item.proposals != null ? ` · ${item.proposals} propostas` : ""}</div>
+        <div class="crs99s-rank">#${index + 1} · pré-filtro ${item.score.toFixed(1)}/10 · ${decision}${item.exclusive ? " · PREMIUM EXCLUSIVO" : ""}${item.proposals != null ? ` · ${item.proposals} propostas` : ""}</div>
         <div class="crs99s-title"></div>
-        <div class="crs99s-tags">${item.hits.length ? item.hits.join(" · ") : "aderência geral"}</div>
-        <button type="button">Preparar proposta</button>`;
+        <div class="crs99s-tags">${item.hits.length ? item.hits.join(" · ") : "aderência ampla"}</div>
+        <button type="button">Analisar e preparar</button>`;
       row.querySelector(".crs99s-title").textContent = item.title;
       row.querySelector("button").addEventListener("click", () => openPrepared(item.href));
       list.appendChild(row);
@@ -258,7 +254,6 @@
       const target = mutation.target instanceof Element ? mutation.target : null;
       if (target?.closest("#crs99-live-scanner")) return false;
       const nodes = [...mutation.addedNodes].filter(node => node instanceof Element);
-      if (!nodes.length) return false;
       return nodes.some(node => !node.matches?.(".crs99-inline-prepare") && !node.closest?.("#crs99-live-scanner"));
     });
     if (relevant) scheduleRender();
