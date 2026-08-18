@@ -26,7 +26,7 @@
         <span id="syncPill" class="pill neutral">Sincronizando…</span>
       </div>
       <h2>Proposta pronta no celular</h2>
-      <p>Escolha o projeto, abra o formulário correto e preencha proposta, valor e prazo com o ativador CRS. O clique oficial de envio continua sempre manual.</p>
+      <p>Escolha o projeto, abra a página real do anúncio e preencha proposta, valor e prazo com o ativador CRS. O clique oficial de envio continua sempre manual.</p>
       <div class="hero-actions">
         <button id="quickBtn" class="primary" type="button">+ Proposta rápida</button>
         <button id="setupBtn" class="secondary" type="button">Ativar preenchimento (1x)</button>
@@ -42,11 +42,11 @@
         </div>
         <button id="closeSetupBtn" class="icon-btn" type="button" aria-label="Fechar">×</button>
       </div>
-      <p class="setup-copy">O navegador não permite que um site altere os campos de outro site sozinho. Este ativador roda dentro da página do 99Freelas e preenche os três campos sem clicar em “Enviar proposta”.</p>
+      <p class="setup-copy">O navegador não permite que um site altere os campos de outro site sozinho. Este ativador roda dentro da página do 99Freelas, abre a área de proposta quando necessário e preenche os três campos sem clicar em “Enviar proposta”.</p>
       <ol class="steps">
         <li>Toque em <strong>Copiar ativador</strong>.</li>
         <li>Crie/edite um favorito do navegador com o nome <strong>CRS99 preencher</strong> e cole o código copiado no campo de URL.</li>
-        <li>Depois use <strong>Preparar e abrir</strong> em qualquer projeto. No formulário do 99Freelas, execute o favorito “CRS99 preencher”.</li>
+        <li>Depois use <strong>Preparar e abrir</strong> em qualquer projeto. Na página do anúncio no 99Freelas, execute o favorito “CRS99 preencher”.</li>
       </ol>
       <textarea id="bookmarkletCode" class="code-box" readonly rows="4" aria-label="Código do ativador"></textarea>
       <button id="copyBookmarkletBtn" class="primary full" type="button">Copiar ativador</button>
@@ -137,7 +137,7 @@
         <button class="copy-all secondary" type="button">Copiar tudo</button>
       </div>
       <button class="prepare-bid primary" type="button">Preparar e abrir</button>
-      <button class="open-bid secondary full secondary-open" type="button">Só abrir formulário</button>
+      <button class="open-bid secondary full secondary-open" type="button">Só abrir anúncio</button>
       <div class="job-menu hidden">
         <button class="mark-sent" type="button">Marcar como enviada neste celular</button>
         <button class="mark-unprepared" type="button">Remover marca de preparada</button>
@@ -148,5 +148,6 @@
 
   <script src="./app.js" defer></script>
   <script src="./fallback.js?v=202608181545" defer></script>
+  <script src="./route-fix.js?v=202608181552" defer></script>
 </body>
 </html>
