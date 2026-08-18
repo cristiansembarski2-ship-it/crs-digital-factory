@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.6.4",
-  "description": "Copiloto CRS rápido com fila reconstruída por ID real, descarte de propostas já enviadas e autofill protegido por projeto.",
+  "version": "0.6.5",
+  "description": "Copiloto CRS rápido com fila por ID real, descarte de propostas enviadas, autofill protegido e repopulação automática quando a fila fica vazia.",
   "permissions": ["storage"],
   "host_permissions": [
     "https://www.99freelas.com.br/*",
