@@ -2,15 +2,14 @@
   if (window.__CRS99_PROJECTS_FLOW__) return;
   window.__CRS99_PROJECTS_FLOW__ = true;
 
-  const { idFrom, normalize, migrateOnce, getJobs } = window.CRS99;
+  const { idFrom, normalize, migrateOnce, getJobs, setJob } = window.CRS99;
 
   const style = document.createElement("style");
   style.textContent = `
     .crs99-action-wrap{display:block;margin:8px 0 4px;clear:both}
-    .crs99-action{display:inline-block;padding:8px 12px;border-radius:7px;background:#0ea5e9;color:#fff!important;text-decoration:none!important;font:700 12px/1.2 Arial,sans-serif;cursor:pointer}
-    .crs99-action:hover{filter:brightness(1.06);text-decoration:none!important}
-    .crs99-action.prepared{background:#2563eb}
-    .crs99-action.sent{background:#8a94a3;cursor:default;pointer-events:none}
+    .crs99-action{display:inline-block;padding:8px 12px;border:0;border-radius:7px;background:#0ea5e9;color:#fff!important;font:700 12px/1.2 Arial,sans-serif;cursor:pointer}
+    .crs99-action:hover{filter:brightness(1.06)}
+    .crs99-action.sent{background:#8a94a3;cursor:default}
     #crs99-rescan{position:fixed;right:16px;bottom:16px;z-index:2147483646;border:0;border-radius:9px;padding:9px 12px;background:#101827;color:#fff;font:700 12px Arial,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.24);cursor:pointer}
   `;
   document.documentElement.appendChild(style);
@@ -19,9 +18,7 @@
     try {
       const path = new URL(href, location.origin).pathname.replace(/\/+$/, "");
       return /^\/project\/(?!bid(?:\/|$)|new(?:\/|$))[^/]*\d{4,}$/i.test(path);
-    } catch {
-      return false;
-    }
+    } catch { return false; }
   }
 
   function anchorScore(anchor) {
@@ -51,6 +48,7 @@
           id,
           anchor,
           href: new URL(href, location.origin).href.split("#")[0],
+          title: (anchor.textContent || "").replace(/\s+/g, " ").trim(),
           score
         });
       }
@@ -66,33 +64,44 @@
       wrap.dataset.crs99Id = item.id;
       item.anchor.insertAdjacentElement("afterend", wrap);
     }
-
     wrap.innerHTML = "";
-    const status = job?.status || "new";
-    if (status === "closed") {
+
+    if (job?.status === "closed") {
       wrap.remove();
       return;
     }
-
-    if (status === "sent") {
-      const sent = document.createElement("span");
+    if (job?.status === "sent") {
+      const sent = document.createElement("button");
+      sent.type = "button";
       sent.className = "crs99-action sent";
+      sent.disabled = true;
       sent.textContent = "Enviada";
       wrap.appendChild(sent);
       return;
     }
 
-    const action = document.createElement("a");
-    action.className = `crs99-action${status === "prepared" ? " prepared" : ""}`;
-    action.textContent = status === "prepared" ? "Continuar proposta" : "Preparar proposta";
-    const url = new URL(item.href, location.origin);
-    url.searchParams.set("crs99", "prepare");
-    url.searchParams.set("crs99id", item.id);
-    action.href = url.href;
-    action.target = "_blank";
-    action.rel = "noopener noreferrer";
-    action.dataset.crs99Id = item.id;
-    wrap.appendChild(action);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "crs99-action";
+    button.textContent = "Preparar proposta";
+    button.dataset.crs99Id = item.id;
+    button.addEventListener("click", () => {
+      const url = new URL(item.href, location.origin);
+      url.searchParams.set("crs99", "prepare");
+      url.searchParams.set("crs99id", item.id);
+
+      // Window.open runs synchronously inside the user click so the /projects tab stays untouched.
+      const opened = window.open(url.href, "_blank");
+      if (opened) opened.opener = null;
+      else location.href = url.href;
+
+      setJob(item.id, {
+        projectUrl: item.href,
+        title: item.title,
+        status: "new"
+      }).catch(() => {});
+    });
+    wrap.appendChild(button);
   }
 
   async function scan() {
@@ -118,12 +127,11 @@
   rescan.addEventListener("click", () => scan().catch(() => {}));
   document.documentElement.appendChild(rescan);
 
-  let scrollTimer = null;
+  let timer = null;
   window.addEventListener("scroll", () => {
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(() => scan().catch(() => {}), 300);
+    clearTimeout(timer);
+    timer = setTimeout(() => scan().catch(() => {}), 350);
   }, { passive: true });
-
   window.addEventListener("pageshow", () => scan().catch(() => {}));
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area === "local" && changes.crs99Jobs) scan().catch(() => {});
