@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-18T18:34:57-03:00",
+  "updatedAt": "2026-08-18T19:07:28-03:00",
   "rules": {
     "minimumFit": 8,
     "autoSubmit": false,
@@ -20,6 +20,72 @@
       "days": 5,
       "risk": "Projeto Exclusivo Premium e publicamente sinalizado como muito recente, porém a página pública do 99Freelas não é autoridade final de disponibilidade. O cliente quer organizar histórico e estruturar controles futuros com relatórios exportados de plataformas, compras, vendas, fornecedores e indicadores. O maior risco é o volume do histórico e o escopo virar operação/BPO contínuo; limitar a proposta à estruturação inicial e consolidação de uma primeira base funcional. Validar abertura e exclusividade na sessão autenticada pelo CRS 99 Copilot v0.3 antes de preencher.",
       "proposal": "Olá! Pelo que você descreveu, entendi que a prioridade não é criar um software novo, e sim organizar o que já existe e deixar uma estrutura simples que você consiga manter no dia a dia.\n\nPosso começar consolidando compras, vendas e movimentações financeiras dos relatórios que você já exporta e, a partir disso, montar uma base organizada no Excel ou Google Sheets com visão de margem por produto, faturamento, custos e lucratividade.\n\nPara não transformar o projeto em algo aberto demais, minha proposta é fechar uma primeira etapa funcional por R$ 790, com prazo de até 5 dias após receber os arquivos e regras atuais da operação. A ideia é entregar a estrutura pronta para uso e fácil de continuar alimentando, sem depender de manutenção constante.\n\nSe o histórico tiver um volume muito acima do esperado, mantenho a estrutura da primeira etapa e alinhamos apenas uma expansão separada, sem mudar o que já estiver combinado."
+    },
+    {
+      "projectKey": "catalogo-de-pecas-diesel-impacto-distribuidora-diesel-777207",
+      "title": "Catálogo de Peças Diesel - Impacto Distribuidora Diesel",
+      "url": "https://www.99freelas.com.br/project/catalogo-de-pecas-diesel-impacto-distribuidora-diesel-777207?fs=t",
+      "status": "candidate",
+      "fit": 9.1,
+      "price": 1490,
+      "days": 10,
+      "risk": "Aproximadamente 100 páginas, então o principal risco é volume de itens, qualidade/organização das fotos e quantidade de dados por página. O preço é referência inicial e deve ser confirmado após ver a base de produtos. Baixíssima concorrência observada publicamente.",
+      "proposal": "Olá! Consigo assumir a criação e diagramação do catálogo, organizando o visual e a inserção das informações de forma consistente para impressão. Como são cerca de 100 páginas e ainda é uma fase inicial, eu começaria definindo uma página-modelo e o padrão visual antes de replicar para o restante do catálogo.\n\nMinha referência inicial é R$ 1.490 com prazo de até 10 dias, considerando que fotos e dados dos produtos sejam fornecidos de forma organizada. Se o volume de itens por página ou o tratamento das imagens estiver muito acima do esperado, eu confirmo o ajuste antes de avançar para não gerar surpresa no valor."
+    },
+    {
+      "projectKey": "design-para-criar-logo-id-visual-e-post-para-instagram-777206",
+      "title": "Design para criar logo, ID visual e post para instagram",
+      "url": "https://www.99freelas.com.br/project/design-para-criar-logo-id-visual-e-post-para-instagram-777206?fs=t",
+      "status": "candidate",
+      "fit": 9.3,
+      "price": 320,
+      "days": 3,
+      "risk": "Escopo curto e aderente, mas a quantidade exata de posts/carrosséis não foi informada. Proposta deve limitar a primeira entrega a identidade visual + modelos iniciais editáveis e tratar peças adicionais à parte.",
+      "proposal": "Olá! Consigo criar uma identidade visual limpa e profissional para o Instagram, com um padrão que funcione tanto em posts únicos quanto em carrosséis e mantenha consistência no perfil.\n\nPara começar de forma objetiva, proponho uma primeira entrega com definição visual da marca, logo/ajustes necessários e 3 modelos de post editáveis por R$ 320, com prazo de até 3 dias. Depois de aprovado o padrão, novas peças podem seguir a mesma identidade sem precisar reinventar o visual a cada postagem."
+    },
+    {
+      "projectKey": "reorganizacao-financeira-e-conciliacao-contabil-777266",
+      "title": "Reorganização financeira e conciliação contábil",
+      "url": "https://www.99freelas.com.br/project/reorganizacao-financeira-e-conciliacao-contabil-777266?fs=t",
+      "status": "candidate",
+      "fit": 8.7,
+      "price": 590,
+      "days": 4,
+      "risk": "O anúncio mistura organização financeira e conciliação contábil. Podemos executar organização, categorização e relatório em Excel, mas não devemos assumir assinatura, responsabilidade técnica contábil ou atividade que exija CRC. Escopo deve ficar explicitamente operacional e analítico.",
+      "proposal": "Olá! Posso organizar o histórico das movimentações e estruturar uma conciliação mensal em Excel, com categorias padronizadas de receitas e despesas e uma visão clara das divergências encontradas.\n\nMinha referência para uma primeira etapa é R$ 590 com prazo de até 4 dias, considerando o recebimento dos extratos/arquivos em formato utilizável. Meu escopo aqui é a organização e conciliação operacional dos dados; qualquer atividade que exija responsabilidade técnica contábil formal fica fora da entrega."
+    },
+    {
+      "projectKey": "bdr-para-prospeccao-ativa-b2b-para-clinicas-odontologicas-777194",
+      "title": "BDR para prospecção ativa B2B para clínicas odontológicas",
+      "url": "https://www.99freelas.com.br/project/bdr-para-prospeccao-ativa-b2b-para-clinicas-odontologicas-777194?fs=t",
+      "status": "candidate",
+      "fit": 8.0,
+      "price": 250,
+      "days": 2,
+      "risk": "Alto esforço humano e parte do contato pode exigir telefone/WhatsApp. O anúncio pede experiência como BDR, que não deve ser inventada. Melhor abordagem é piloto curto e transparente focado em pesquisa, organização, abordagem inicial e registro dos leads.",
+      "proposal": "Olá! Posso assumir um piloto curto de prospecção para validar rapidamente o processo antes de transformar a demanda em uma rotina maior. A ideia seria começar pela pesquisa e organização dos leads, abordagem inicial pelos canais combinados, qualificação básica e registro do status de cada contato.\n\nPara esse piloto, proponho R$ 250 por 2 dias de operação. Não vou inventar histórico ou resultados anteriores: prefiro validar na prática com uma amostra pequena, deixar tudo documentado e, se o processo fizer sentido para vocês, aí sim alinhar uma continuidade."
+    },
+    {
+      "projectKey": "evolucao-de-15-a-20-slides-de-apresentacao-institucional-777213",
+      "title": "Evolução de 15 a 20 slides de apresentação institucional",
+      "url": "https://www.99freelas.com.br/project/evolucao-de-15-a-20-slides-de-apresentacao-institucional-777213?fs=t",
+      "status": "sent",
+      "fit": 9.4,
+      "price": 320,
+      "days": 2,
+      "risk": "Já há proposta do perfil Cristian visível na página pública; não reenviar. Projeto recebeu mais propostas após a primeira leitura.",
+      "proposal": ""
+    },
+    {
+      "projectKey": "cadastro-em-seguradoras-de-cargas-para-motorista-777208",
+      "title": "Cadastro em seguradoras de cargas para motorista",
+      "url": "https://www.99freelas.com.br/project/cadastro-em-seguradoras-de-cargas-para-motorista-777208?fs=t",
+      "status": "sent",
+      "fit": 8.1,
+      "price": 0,
+      "days": 0,
+      "risk": "Já há proposta do perfil Cristian visível na página pública; não reenviar. Há dependência de contato com seguradoras, documentos e possíveis taxas pagas pelo cliente.",
+      "proposal": ""
     }
   ]
 }
