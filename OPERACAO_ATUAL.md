@@ -1,6 +1,6 @@
 # OPERACAO_ATUAL — CRS Digital
 
-Atualizado em: **2026-08-17 20:46 BRT**
+Atualizado em: **2026-08-17 21:34 BRT**
 
 Este arquivo é a fonte operacional compartilhada entre os chats. Leia antes de qualquer alteração relevante.
 
@@ -118,7 +118,7 @@ Não apagar nem reconstruir esses ativos sem sinal real.
 
 ## 7. Receita atual
 
-Verificação no Gmail em 17/08/2026 às ~20:20 BRT:
+Última verificação no Gmail registrada em 17/08/2026 às ~20:20 BRT:
 
 - nenhuma venda nova confirmada de Kiwify;
 - nenhum pagamento novo confirmado de Mercado Pago;
@@ -142,37 +142,41 @@ Cold email em volume continua proibido enquanto a rotina de segurança/volume n�
 
 Não usar spam, scraping abusivo, urgência falsa ou contato fora das regras da plataforma.
 
-## 9. Radar Automação B2B
+## 9. Radares ativos
 
-A antiga automação `Venda Hoje — Radar` foi substituída por:
+### Radar Automação B2B
 
-**Radar Automação B2B**
+Estado em 17/08/2026: **ativo, hourly, condition watch**.
 
-Estado verificado em 17/08/2026: **ativo**.
+O proprietário possui **99Freelas Premium**. Portanto, projetos exclusivos no 99Freelas agora são **elegíveis e prioritários**, não bloqueios.
 
-Cadência: a cada 6 horas, condition watch.
-
-Critérios:
+Critérios principais:
 - Brasil;
 - intenção explícita de contratar;
 - Excel/CSV/Sheets/fornecedores/compras/estoque/consolidação/dashboard/importação/normalização;
 - aderência >= 8/10;
-- escopo compatível com piloto;
-- projeto ainda aparenta aceitar proposta/contato.
+- escopo compatível com entrega de 1–5 dias;
+- prioridade para últimas 24h, baixa concorrência e projetos exclusivos Premium.
 
-Integração adicionada em 17/08/2026: para oportunidades fortes do 99Freelas, o radar deve confirmar a página atual, criar preço/prazo/risco/proposta personalizada e atualizar `crs99/opportunities.json` com status `ready`. Entradas `sent` devem ser preservadas. O radar não envia a proposta automaticamente.
+Resultados públicos do 99Freelas são apenas candidatos; a página autenticada e o CRS 99 Copilot são a autoridade final. O radar grava candidatos em `crs99/opportunities.json`, preservando `sent`, `closed` e `unavailable`. Não envia a proposta automaticamente.
 
-Quando encontrar oportunidade forte, deve entregar:
-- link;
-- resumo;
-- aderência;
-- risco técnico;
-- plausibilidade de preço;
-- proposta pronta;
-- pacote na fila CRS99 quando for 99Freelas;
-- barreira humana real, se existir.
+### Radar Caixa Rápido
 
-Não enviar cold email automaticamente.
+Estado em 17/08/2026: **ativo, hourly, condition watch**.
+
+Objetivo: encontrar oportunidades que o proprietário + ChatGPT consigam executar com >=80% de execução pelo ChatGPT e gerar caixa nesta semana.
+
+Escopos aceitos incluem:
+- Excel/Sheets/CSV/dados;
+- pesquisa web e listas públicas conformes;
+- landing pages/sites estáticos simples;
+- Word/PDF/revisão/formatação;
+- PowerPoint/Canva;
+- copy prática;
+- scripts Python/JavaScript;
+- tradução PT-BR/espanhol.
+
+Descartar SDR, atendimento contínuo, follow-up comercial humano, presencial, tráfego pago do cliente, ERP/app complexo, integrações críticas e credenciais/portfólio que não podem ser provados.
 
 ## 10. Propostas e oportunidades
 
@@ -210,13 +214,13 @@ Concorrência observada: alta, com mais de 100 propostas. Não baixar preço pre
 Próximo gatilho deste projeto:
 **qualquer mensagem, pergunta, aceite ou contraproposta do cliente vira prioridade máxima.**
 
-### OPORTUNIDADE NOVA — 99Freelas: gestão e automação de estoque em Excel
+### PRIORIDADE PREMIUM — 99Freelas: gestão e automação de estoque em Excel
 
 `https://www.99freelas.com.br/project/especialista-em-excel-para-gestao-e-automacao-de-estoque-776943`
 
-Publicado em 17/08/2026 às 17:55. Página observada com opção de proposta, mas marcada como projeto exclusivo temporariamente. Não depender dela até a conta do proprietário estar elegível ou o período exclusivo terminar.
+Publicado em 17/08/2026 às 17:55. Foi observado anteriormente como projeto exclusivo temporário. Como a conta agora possui **Premium**, exclusividade deixou de ser barreira. Se a página autenticada ainda aceitar proposta, este projeto deve ser atacado imediatamente.
 
-Aderência: **9,3/10**. Inclui Compras, Vendas, Estoque Atual, SKU, custo, validade e automação sobre arquivo existente.
+Aderência observada: **~9,3–9,7/10**. Inclui Compras, Vendas, Estoque Atual, SKU, custo, validade e automação sobre arquivo existente.
 
 ### BACKUP — Workana: processo diário de compras de mercadorias
 
@@ -234,13 +238,13 @@ Barreira atual: perfil do proprietário na Workana ainda está em análise; não
 
 `https://www.99freelas.com.br/project/dashboard-em-google-sheets-com-integracao-via-api-764647`
 
-O proprietário confirmou em 17/08/2026 que o projeto já aparece **fechado na interface da conta**. Removido imediatamente da fila. Não voltar a recomendar esse projeto mesmo que algum índice público/cache ainda mostre estado antigo.
+O proprietário confirmou em 17/08/2026 que o projeto já aparece **fechado na interface da conta**. Não voltar a recomendar mesmo que índice público mostre estado antigo.
 
 ### DESCARTADA — 99Freelas: gestão de compras e estoque em Google Sheets
 
 `https://www.99freelas.com.br/project/reestruturar-planilha-de-controle-e-automacao-no-google-sheets-750631`
 
-Verificação direta em 17/08/2026 mostrou **Fechado**. Não enviar mais como oportunidade ativa.
+Verificação direta em 17/08/2026 mostrou **Fechado**.
 
 ## 11. Barreiras humanas previsíveis
 
@@ -281,7 +285,9 @@ Marco comercial atual atingido:
 
 Próxima sequência:
 
-**continuar buscando oportunidades abertas → enviar propostas realmente aderentes → primeira resposta/conversa → escopo congelado → pagamento/garantia da plataforma → entrega → registrar módulos reutilizáveis.**
+**Premium ativo → atacar exclusivos e projetos recém-publicados → propostas fortes → primeira resposta/conversa → escopo congelado → pagamento/garantia da plataforma → entrega → registrar módulos reutilizáveis.**
+
+Meta imediata desta janela operacional: **fechar pelo menos 1 negócio que ajude a recuperar o custo do Premium antes do próximo pagamento**, sem baixar qualidade nem aceitar trabalho inviável.
 
 Não ficar parado aguardando a primeira proposta.
 
@@ -289,32 +295,57 @@ Meta estrutural permanece:
 
 **1 cliente → 3 clientes semelhantes → núcleo reutilizável → oferta padronizada → recorrência → escala.**
 
-## 15. CRS 99 Copilot — automação assistida do 99Freelas
+## 15. CRS 99 Copilot — v0.3.0 Premium
 
-Estado em 17/08/2026: **v0.1.1 implementada no repositório; teste autenticado ainda pendente.**
+Estado em 17/08/2026: **v0.3.0 consolidada no repositório após testes reais em sessão autenticada.**
 
-Documentação detalhada: `CRS99_COPILOT.md`.
-
-Arquivos:
+Arquivos principais:
 - `crs99-extension/manifest.json`;
 - `crs99-extension/background.js`;
 - `crs99-extension/content.js`;
 - `crs99-extension/content.css`;
-- `crs99-extension/README.md`;
+- `crs99-extension/title-fix.js`;
+- `crs99-extension/status-fix.js`;
+- `crs99-extension/scanner.js`;
+- `crs99-extension/scanner.css`;
 - `crs99/opportunities.json`.
 
-Função atual:
-- reconhecer página de projeto do 99Freelas;
-- detectar fechado/exclusivo;
-- carregar pacote de oportunidade do radar;
-- mostrar aderência/preço/prazo/risco;
-- abrir fluxo de proposta;
-- preencher proposta, valor e prazo quando os campos forem reconhecidos;
-- bloquear texto com possível contato/link proibido;
-- nunca fazer o clique final de envio.
+Mudanças consolidadas na v0.3.0:
+- modo Premium ativo;
+- projetos exclusivos passam a ser elegíveis e priorizados;
+- exclusivos não são mais descartados pela fila;
+- páginas com `Em andamento`, fechado, encerrado ou concluído são tratadas como indisponíveis;
+- radar reanalisa corretamente ao mudar de página;
+- cards ocultos/antigos são ignorados;
+- enviados/fechados/indisponíveis conhecidos são pulados;
+- ranking ampliado para Excel/Sheets/dados, pesquisa, landing pages, documentos, apresentações, scripts e tradução;
+- SDR, atendimento de leads, follow-up contínuo e trabalho comercial humano recebem forte penalização;
+- baixa concorrência e recência recebem bônus;
+- painel mostra decisão local `ATACAR`, `REVISAR` ou `PULAR`;
+- proposta continua sem envio automático: clique final permanece humano;
+- texto com possível contato/link externo continua bloqueado antes do preenchimento.
 
-Fila remota usa primeiro o domínio CRS Digital e possui fallback para o arquivo público raw do GitHub, evitando dependência do deploy Vercel para a sincronização.
+A versão local instalada não se atualiza sozinha; para usar v0.3.0 é necessário substituir/recarregar a pasta da extensão uma vez.
 
-A automação `Radar Automação B2B` foi atualizada para alimentar a fila em futuras oportunidades do 99Freelas.
+## 16. 99Freelas Premium — controle de retorno
 
-Próxima barreira humana real: instalar a extensão localmente no Chrome/Edge e abrir uma página autenticada do 99Freelas para validar os seletores do formulário. Se algum campo não for reconhecido, corrigir o adaptador com base no HTML/print real, sem mudar a tese comercial.
+Ativado em 17/08/2026.
+
+Dados informados na conta:
+- custo: **R$ 89,90**;
+- 240 conexões mensais;
+- taxa de intermediação: **10%**;
+- recebimento em 2 dias úteis;
+- 5 propostas promovidas;
+- acesso a projetos exclusivos.
+
+Regra financeira: tratar Premium como investimento de aquisição que precisa produzir conversa e contrato, não como custo permanente automático.
+
+Avaliar ao longo do ciclo:
+- número de propostas aderentes;
+- respostas/conversas;
+- contratos;
+- receita líquida após taxa;
+- vantagem real dos exclusivos e propostas promovidas.
+
+Se não houver retorno suficiente até o próximo ciclo de cobrança, reavaliar/cancelar antes de comprometer caixa.
