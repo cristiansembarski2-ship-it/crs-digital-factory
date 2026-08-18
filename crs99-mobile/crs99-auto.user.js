@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         CRS99 Auto Preencher
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      1.1.0
+// @version      1.2.0
 // @description  Preenche automaticamente proposta, valor e prazo no 99Freelas quando a página é aberta pelo CRS99 Mobile. Nunca envia a proposta.
 // @match        https://www.99freelas.com.br/project/*
 // @run-at       document-idle
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/main/crs99-mobile/crs99-auto.user.js
+// @downloadURL  https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/main/crs99-mobile/crs99-auto.user.js
 // ==/UserScript==
 
 (() => {
@@ -96,28 +98,23 @@
 
   function scoreField(element, positives, negatives = [], preferTag = '') {
     if (!usable(element)) return -Infinity;
-
     let score = 0;
     const meta = metadataText(element);
 
     positives.forEach((term, index) => {
-      const t = normalize(term);
-      if (meta.includes(t)) score += 500 - index * 12;
+      if (meta.includes(normalize(term))) score += 500 - index * 12;
     });
     negatives.forEach((term, index) => {
-      const t = normalize(term);
-      if (meta.includes(t)) score -= 800 - index * 10;
+      if (meta.includes(normalize(term))) score -= 800 - index * 10;
     });
 
     ancestorTexts(element).forEach(({ text, distance }) => {
       const proximity = Math.max(1, 7 - distance);
       positives.forEach((term, index) => {
-        const t = normalize(term);
-        if (text.includes(t)) score += proximity * (60 - Math.min(index, 8) * 4);
+        if (text.includes(normalize(term))) score += proximity * (60 - Math.min(index, 8) * 4);
       });
       negatives.forEach((term, index) => {
-        const t = normalize(term);
-        if (text.includes(t)) score -= proximity * (110 - Math.min(index, 8) * 5);
+        if (text.includes(normalize(term))) score -= proximity * (110 - Math.min(index, 8) * 5);
       });
     });
 
@@ -133,66 +130,105 @@
     return ranked[0]?.score > 0 ? ranked[0].element : null;
   }
 
-  function setValue(element, value) {
-    if (!element || value == null) return false;
-    try {
-      const next = String(value);
-      element.focus();
+  function detailsField() {
+    const textareas = all('textarea').filter(usable);
+    const exactPlaceholder = textareas.find((element) => {
+      const p = normalize(element.placeholder || '');
+      return p.includes('escreva aqui os detalhes da proposta') || p.includes('detalhes da proposta');
+    });
+    if (exactPlaceholder) return exactPlaceholder;
 
-      if (element.isContentEditable) {
-        element.textContent = next;
-        element.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: next }));
-      } else {
-        const proto = element.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
-        const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
-        if (setter) setter.call(element, next); else element.value = next;
-        element.dispatchEvent(new Event('input', { bubbles: true }));
-      }
-
-      element.dispatchEvent(new Event('change', { bubbles: true }));
-      element.dispatchEvent(new Event('keyup', { bubbles: true }));
-      element.dispatchEvent(new Event('blur', { bubbles: true }));
-      return normalize(element.value ?? element.textContent).length > 0;
-    } catch {
-      return false;
-    }
+    const labelled = textareas.find((element) => {
+      const meta = metadataText(element);
+      if (meta.includes('detalhes')) return true;
+      return ancestorTexts(element, 4).some(({ text }) => text.includes('detalhes'));
+    });
+    return labelled || textareas[0] || null;
   }
 
   function fields() {
-    const textCandidates = [...all('textarea'), ...all('[contenteditable="true"]')];
     const inputs = all('input').filter(usable);
-
-    const proposal = bestField(
-      textCandidates,
-      ['escreva aqui os detalhes da proposta', 'detalhes da proposta', 'detalhes', 'proposta', 'mensagem', 'descricao', 'apresentacao'],
-      [],
-      'TEXTAREA'
-    ) || textCandidates.filter(usable)[0] || null;
-
+    const proposal = detailsField();
     const price = bestField(
       inputs,
       ['sua oferta', 'valor da proposta', 'oferta', 'preco', 'valor', 'r$'],
       ['oferta final', 'como e calculada', 'taxa']
     );
-
     const days = bestField(
       inputs,
       ['duracao estimada', 'duracao', 'dias', 'prazo', 'entrega', 'tempo'],
       ['sua oferta', 'oferta final', 'valor', 'r$']
     );
-
     return { proposal, price, days };
   }
 
-  function fill(payload) {
+  function nativeSet(element, next) {
+    const proto = element.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+    const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
+    const tracker = element._valueTracker;
+    if (tracker && typeof tracker.setValue === 'function') {
+      try { tracker.setValue(''); } catch {}
+    }
+    if (setter) setter.call(element, next);
+    else element.value = next;
+  }
+
+  function emit(element, next) {
+    try {
+      element.dispatchEvent(new InputEvent('beforeinput', { bubbles: true, cancelable: true, inputType: 'insertText', data: next }));
+    } catch {}
+    try {
+      element.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: next }));
+    } catch {
+      element.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+    element.dispatchEvent(new Event('change', { bubbles: true }));
+    element.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: 'Unidentified' }));
+  }
+
+  async function forceValue(element, value) {
+    if (!element || value == null) return false;
+    const next = String(value);
+
+    for (let attempt = 0; attempt < 5; attempt++) {
+      try {
+        element.focus({ preventScroll: true });
+      } catch {
+        try { element.focus(); } catch {}
+      }
+
+      try {
+        nativeSet(element, next);
+        emit(element, next);
+      } catch {}
+
+      await sleep(90);
+      const current = String(element.value ?? element.textContent ?? '');
+      if (current === next || normalize(current) === normalize(next)) return true;
+
+      try {
+        element.value = next;
+        emit(element, next);
+      } catch {}
+      await sleep(90);
+
+      const fallbackCurrent = String(element.value ?? element.textContent ?? '');
+      if (fallbackCurrent === next || normalize(fallbackCurrent) === normalize(next)) return true;
+    }
+
+    return false;
+  }
+
+  async function fill(payload) {
     const f = fields();
-    let count = 0;
+    const result = { count: 0, fields: f, ok: { proposal: false, price: false, days: false } };
 
-    if (f.proposal && setValue(f.proposal, payload.proposal)) count++;
-    if (f.price && setValue(f.price, payload.price)) count++;
-    if (f.days && setValue(f.days, payload.days)) count++;
+    if (f.price) result.ok.price = await forceValue(f.price, payload.price);
+    if (f.days) result.ok.days = await forceValue(f.days, payload.days);
+    if (f.proposal) result.ok.proposal = await forceValue(f.proposal, payload.proposal);
 
-    return { count, fields: f };
+    result.count = Object.values(result.ok).filter(Boolean).length;
+    return result;
   }
 
   function alreadySent() {
@@ -240,7 +276,6 @@
       banner('CRS99: esta proposta já aparece como enviada.', 'warn');
       return;
     }
-
     if (closedProject()) {
       banner('CRS99: este projeto não está aceitando novas propostas.', 'warn');
       return;
@@ -248,20 +283,20 @@
 
     banner('CRS99: preparando campos…');
 
-    let result = { count: 0, fields: {} };
-    for (let i = 0; i < 15 && result.count < 3; i++) {
-      result = fill(payload);
+    let result = { count: 0, fields: {}, ok: {} };
+    for (let i = 0; i < 5 && result.count < 3; i++) {
+      result = await fill(payload);
       if (result.count === 3) break;
-      await sleep(180);
+      await sleep(250);
     }
 
     if (result.count < 3) {
       const trigger = safeProposalTrigger();
       if (trigger) {
         trigger.click();
-        for (let i = 0; i < 35 && result.count < 3; i++) {
-          await sleep(180);
-          result = fill(payload);
+        for (let i = 0; i < 10 && result.count < 3; i++) {
+          await sleep(250);
+          result = await fill(payload);
         }
       }
     }
@@ -271,10 +306,10 @@
       banner('CRS OK — Sua oferta, duração e detalhes preenchidos. Revise e toque em “Enviar proposta” manualmente.');
     } else {
       const missing = [];
-      if (!result.fields?.price) missing.push('Sua oferta');
-      if (!result.fields?.days) missing.push('Duração');
-      if (!result.fields?.proposal) missing.push('Detalhes');
-      banner(`CRS encontrou ${result.count}/3 campos${missing.length ? ` — faltou: ${missing.join(', ')}` : ''}. Não envie antes de revisar.`, 'bad');
+      if (!result.ok?.price) missing.push('Sua oferta');
+      if (!result.ok?.days) missing.push('Duração');
+      if (!result.ok?.proposal) missing.push('Detalhes');
+      banner(`CRS encontrou ${result.count}/3 campos — faltou: ${missing.join(', ') || 'campo não identificado'}. Não envie antes de revisar.`, 'bad');
     }
   }
 
