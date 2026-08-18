@@ -147,9 +147,9 @@
   const panel = document.createElement('aside');
   panel.id = 'crs99-live-scanner';
   panel.innerHTML = `
-    <div class="crs99s-head"><strong>CRS 99 — Radar Premium</strong><span>${items.length} projetos úteis</span></div>
+    <div class="crs99s-head"><strong>CRS 99 — Radar Autopilot</strong><span>${items.length} projetos úteis</span></div>
     <div class="crs99s-body">
-      <div class="crs99s-note">Premium ativo: exclusivos entram primeiro. ${skippedKnown ? `${skippedKnown} enviados/fechados/em andamento foram pulados.` : 'A confirmação final acontece ao abrir o projeto.'}</div>
+      <div class="crs99s-note">Premium ativo. Clique em Preparar: o projeto será analisado e, se aprovado, o formulário abrirá preenchido.</div>
       <div class="crs99s-list"></div>
       <button class="crs99s-refresh" type="button">Reanalisar página</button>
     </div>`;
@@ -168,9 +168,13 @@
         <div class="crs99s-rank">#${index + 1} · ${item.score.toFixed(1)}/10 · ${decision}${item.exclusive ? ' · PREMIUM EXCLUSIVO' : ''}${item.proposals != null ? ` · ${item.proposals} propostas` : ''}</div>
         <div class="crs99s-title"></div>
         <div class="crs99s-tags">${item.hits.length ? item.hits.join(' · ') : 'aderência geral'}</div>
-        <button type="button">Abrir projeto</button>`;
+        <button type="button">Preparar proposta</button>`;
       row.querySelector('.crs99s-title').textContent = item.title;
-      row.querySelector('button').addEventListener('click', () => location.href = item.href);
+      row.querySelector('button').addEventListener('click', () => {
+        const url = new URL(item.href, location.origin);
+        url.searchParams.set('crs99', 'prepare');
+        location.href = url.href;
+      });
       list.appendChild(row);
     });
   }
