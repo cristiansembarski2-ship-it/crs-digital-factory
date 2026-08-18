@@ -1,66 +1,90 @@
-# CRS 99 Copilot — MVP interno
+# CRS 99 Copilot — Autopilot interno
 
-Extensão local Chrome/Edge para reduzir o trabalho manual de prospecção no 99Freelas.
+Extensão local Chrome/Edge para reduzir o trabalho manual de prospecção e proposta no 99Freelas.
 
-## Objetivo da v0.1
+## Estado atual — v0.4.0
 
-Fluxo:
+A v0.4 adiciona um **Autopilot local sem API paga**.
 
-1. o radar CRS encontra e qualifica uma oportunidade;
-2. a oportunidade aprovada é registrada em `crs99/opportunities.json` com URL, aderência, preço, prazo, risco e proposta personalizada;
-3. ao abrir a página do projeto, a extensão reconhece a URL;
-4. bloqueia preenchimento se detectar projeto fechado;
-5. alerta se detectar projeto exclusivo;
-6. abre o formulário de proposta quando disponível;
-7. preenche proposta, preço e prazo quando encontra os campos;
-8. o envio final continua manual.
+Fluxo principal:
 
-A extensão **não envia propostas automaticamente** e não deve ser usada para disparo em massa.
+1. o Radar Autopilot lê a página autenticada de projetos do 99Freelas;
+2. ranqueia projetos e prioriza exclusivos quando a conta está Premium;
+3. ao clicar em **Preparar proposta**, abre o projeto com `crs99=prepare`;
+4. o Autopilot analisa o texto completo do projeto;
+5. classifica em `ATACAR`, `REVISAR` ou `PULAR`;
+6. identifica o tipo de trabalho (planilha/dados, landing page, pesquisa, apresentação, documento, script, tradução, copy etc.);
+7. estima aderência, risco, valor e prazo;
+8. gera uma proposta personalizada sem inventar experiência, clientes, portfólio ou resultados;
+9. se o projeto passar no corte, abre o formulário de proposta;
+10. salva o pacote localmente e preenche automaticamente descrição, valor e prazo quando os campos forem reconhecidos;
+11. rola até o botão oficial **Enviar proposta**;
+12. o clique final de envio continua manual.
 
-## Instalação local no Chrome
+Objetivo operacional: o proprietário deve chegar ao formulário já preenchido e precisar apenas revisar e fazer o clique final.
 
-1. baixe ou copie a pasta `crs99-extension` para o computador;
-2. abra `chrome://extensions`;
-3. ative **Modo do desenvolvedor**;
-4. clique em **Carregar sem compactação**;
-5. selecione a pasta `crs99-extension`;
-6. abra um projeto no 99Freelas e confirme que o painel `CRS 99 Copilot` aparece no canto inferior direito.
+## Premium
 
-No Edge, use `edge://extensions` e o equivalente a **Carregar sem compactação**.
+A v0.4 está configurada para a conta Premium usada na operação atual:
 
-## Segurança e regras
+- projetos exclusivos são elegíveis e recebem prioridade;
+- baixa concorrência e recência recebem bônus;
+- projetos enviados, fechados, indisponíveis ou em andamento conhecidos são pulados;
+- SDR, atendimento contínuo, follow-up comercial humano, presencial e escopos incompatíveis recebem forte penalização.
+
+## Geração automática de proposta
+
+O motor local possui regras por categoria.
+
+Exemplos:
+
+- Excel/Sheets/CSV/estoque/dashboard/automação;
+- pesquisa e coleta de dados públicos;
+- landing pages e sites estáticos simples;
+- Word/PDF/revisão/formatação;
+- PowerPoint/Canva;
+- scripts Python/JavaScript;
+- tradução PT-BR/espanhol;
+- copy prática.
+
+O texto gerado descreve o plano de execução e limites do escopo, sem afirmar experiência ou resultados inexistentes.
+
+Pesquisas com e-mail são tratadas como `e-mail público quando disponível`; não se promete dado que não seja publicamente acessível.
+
+## Segurança
 
 - Manifest V3.
-- Content script limitado a páginas `/project/*` do 99Freelas.
-- A fila remota é somente JSON; nenhum JavaScript remoto é executado.
-- Não acessa senha, cookies ou credenciais do 99Freelas.
-- Não tenta contornar CAPTCHA, bloqueios ou exclusividade.
-- Não clica no botão final de envio.
-- Antes de preencher, bloqueia propostas que contenham indícios de e-mail, telefone, WhatsApp, Telegram, Instagram ou links externos.
+- Content scripts limitados ao 99Freelas.
+- Não acessa senha ou cookies diretamente.
+- Não tenta contornar CAPTCHA ou bloqueios da plataforma.
+- Não envia proposta automaticamente.
+- O clique final continua humano.
+- Propostas da fila remota continuam bloqueadas se contiverem possível contato externo proibido.
+- Projetos detectados como fechados/em andamento são gravados localmente para não reaparecerem no radar.
 
-## Estrutura da fila
+## Arquivos principais
 
-Arquivo: `crs99/opportunities.json`.
+- `manifest.json`
+- `background.js`
+- `content.js`
+- `status-fix.js`
+- `autopilot.js`
+- `scanner.js`
+- `content.css`
+- `scanner.css`
 
-Campos principais por oportunidade:
+## Instalação/atualização local
 
-- `projectKey`: slug final da URL do projeto;
-- `url`: link público;
-- `status`: `ready`, `sent`, `closed`, `waiting`;
-- `fit`: aderência de 0 a 10;
-- `price`: valor proposto;
-- `days`: prazo em dias;
-- `risk`: principal risco de escopo;
-- `proposal`: texto personalizado;
-- `allowExclusive`: somente `true` quando a elegibilidade do perfil tiver sido confirmada.
+1. baixe a versão atual da pasta `crs99-extension`;
+2. substitua a pasta local antiga;
+3. abra `chrome://extensions`;
+4. confirme que **Modo do desenvolvedor** está ativo;
+5. clique em **Recarregar** no CRS 99 Copilot; se o caminho da pasta mudou, use **Carregar sem compactação** e selecione a nova pasta;
+6. em janela anônima, mantenha **Permitir em modo anônimo** habilitado;
+7. abra `https://www.99freelas.com.br/projects` e use o botão **Preparar proposta** no Radar Autopilot.
 
-## Próximas versões condicionadas a uso real
+## Limitação deliberada
 
-- detectar mudanças no HTML do formulário e melhorar seletores;
-- histórico local de projetos vistos/preenchidos;
-- receber automaticamente novos pacotes gerados pelo Radar Automação B2B;
-- acompanhamento de respostas;
-- métricas de proposta → resposta → contratação;
-- adaptador Workana separado.
+A v0.4 não chama uma conversa do ChatGPT diretamente. Ela usa o motor de decisão local criado a partir das regras operacionais da CRS. Uma integração futura com modelo via API pode gerar análise semântica ainda mais flexível, mas exigiria serviço/API separado e custo próprio.
 
 Não transformar em produto público antes de uso interno suficiente e evidência de valor.
