@@ -8,9 +8,6 @@
     "https://www.99freelas.com.br/*",
     "https://99freelas.com.br/*"
   ],
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": [
