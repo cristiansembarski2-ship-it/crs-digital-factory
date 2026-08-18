@@ -1,9 +1,9 @@
 (async () => {
   if (window.__CRS99_SCANNER__) return;
   window.__CRS99_SCANNER__ = true;
+
   const PREMIUM_MODE = true;
   const initialUrl = location.href;
-
   const normalize = (value = "") => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
 
   function getQueue() {
@@ -51,10 +51,6 @@
     return rect.width > 0 && rect.height > 0;
   }
 
-  const links = [...document.querySelectorAll('a[href*="/project/"]')]
-    .filter(a => isVisible(a))
-    .filter(a => !/\/project\/(new|bid)\//.test(a.getAttribute('href') || '') && !/\/project\/new/.test(a.getAttribute('href') || ''));
-
   const positives = {
     "excel": 2.0, "google sheets": 2.0, "planilha": 1.6, "csv": 1.5, "dashboard": 1.4,
     "automacao": 1.8, "automatizar": 1.8, "estoque": 1.6, "compras": 1.6, "fornecedor": 1.4,
@@ -64,6 +60,7 @@
     "copy": 0.9, "descricao de produto": 1.0, "python": 1.2, "script": 1.0, "web scraping": 1.0,
     "traducao": 0.8, "espanhol": 0.8
   };
+
   const negatives = {
     "trafego pago": 2.0, "gestor de trafego": 2.0, "atendimento integral": 2.5, "segunda a sabado": 1.5,
     "presencial": 3.0, "arquitetura": 2.5, "engenheiro": 1.5, "advogado": 1.0, "contador": 1.5,
@@ -74,20 +71,26 @@
     "recuperar pacientes": 3.0, "fazer atendimento comercial": 3.5, "conversao para agendamento": 3.5,
     "horario comercial": 2.5, "ligacoes para clientes": 3.0, "prospeccao ativa": 3.0, "closer": 3.5
   };
+
   const unavailableTerms = ["em andamento", "projeto em andamento", "projeto fechado", "encerrado", "finalizado", "concluido", "cancelado"];
   const exclusiveTerms = ["projeto exclusivo", "exclusivo para", "exclusivo temporariamente"];
 
   function cardFor(a) {
-    return a.closest('article, li, .project, .project-item, .media, .card, .list-group-item, .row, .box') || a.parentElement?.parentElement || a.parentElement;
+    return a.closest('article, li, .project, .project-item, .media, .card, .list-group-item, .box') || a.parentElement?.parentElement || a.parentElement;
   }
 
   function scoreText(text) {
     const n = normalize(text);
     let score = 3.0;
     const hits = [];
+
     for (const [term, weight] of Object.entries(positives)) {
-      if (n.includes(term)) { score += weight; hits.push(term); }
+      if (n.includes(term)) {
+        score += weight;
+        hits.push(term);
+      }
     }
+
     for (const [term, weight] of Object.entries(negatives)) {
       if (n.includes(term)) score -= weight;
     }
@@ -115,71 +118,154 @@
     };
   }
 
-  const seen = new Set();
-  const items = [];
-  let skippedKnown = 0;
-  for (const a of links) {
-    const href = new URL(a.href, location.origin).href;
-    if (seen.has(href)) continue;
-    const key = projectKeyFromUrl(href);
-    if (isBlockedByQueue(key)) { skippedKnown += 1; seen.add(href); continue; }
-    const card = cardFor(a);
-    if (!isVisible(card)) continue;
-    const text = (card?.innerText || a.textContent || '').trim();
-    if (text.length < 40) continue;
-    if (unavailableTerms.some(term => normalize(text).includes(term))) { skippedKnown += 1; seen.add(href); continue; }
-    seen.add(href);
-    const title = (a.textContent || '').trim().replace(/\s+/g, ' ');
-    const data = scoreText(text);
-    if (data.score <= 0) continue;
-    items.push({ href, key, title: title || 'Projeto 99Freelas', text, ...data });
+  function openPrepared(href) {
+    const url = new URL(href, location.origin);
+    url.searchParams.set("crs99", "prepare");
+    location.href = url.href;
   }
 
-  items.sort((a, b) => {
-    if (a.exclusive !== b.exclusive) return a.exclusive ? -1 : 1;
-    return b.score - a.score || (a.proposals ?? 999) - (b.proposals ?? 999);
-  });
+  function addInlinePrepareButton(card, item) {
+    if (!card || !item?.key || item.score < 3.5) return;
+    if (card.querySelector(`.crs99-inline-prepare[data-project-key="${CSS.escape(item.key)}"]`)) return;
 
-  const strong = items.filter(i => i.score >= 6.5);
-  const top = (strong.length >= 4 ? strong : items.filter(i => i.score >= 3.5)).slice(0, 10);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "crs99-inline-prepare";
+    button.dataset.projectKey = item.key;
+    button.textContent = item.score >= 7 ? "CRS: Preparar proposta" : "CRS: Analisar e preparar";
+    button.title = "Abre o projeto, executa a análise completa e, se aprovado, preenche a proposta.";
+    button.style.cssText = "margin:8px 0 4px;padding:7px 11px;border:0;border-radius:7px;font-weight:700;cursor:pointer;background:#2563eb;color:#fff;font-size:12px;line-height:1.2;position:relative;z-index:20;";
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      openPrepared(item.href);
+    });
 
-  document.querySelector('#crs99-live-scanner')?.remove();
-  const panel = document.createElement('aside');
-  panel.id = 'crs99-live-scanner';
-  panel.innerHTML = `
-    <div class="crs99s-head"><strong>CRS 99 — Radar Autopilot</strong><span>${items.length} projetos úteis</span></div>
-    <div class="crs99s-body">
-      <div class="crs99s-note">Premium ativo. Clique em Preparar: o projeto será analisado e, se aprovado, o formulário abrirá preenchido.</div>
-      <div class="crs99s-list"></div>
-      <button class="crs99s-refresh" type="button">Reanalisar página</button>
-    </div>`;
-  document.documentElement.appendChild(panel);
-  const list = panel.querySelector('.crs99s-list');
+    card.appendChild(button);
+  }
 
-  if (!top.length) {
-    list.innerHTML = '<div class="crs99s-empty">Nenhuma vaga útil nesta página. Vá para a próxima página.</div>';
-  } else {
+  function collectItems() {
+    const links = [...document.querySelectorAll('a[href*="/project/"]')]
+      .filter(a => isVisible(a))
+      .filter(a => !/\/project\/(new|bid)\//.test(a.getAttribute("href") || "") && !/\/project\/new/.test(a.getAttribute("href") || ""));
+
+    const byHref = new Map();
+    let skippedKnown = 0;
+
+    for (const a of links) {
+      const href = new URL(a.href, location.origin).href;
+      if (byHref.has(href)) continue;
+
+      const key = projectKeyFromUrl(href);
+      if (!key || isBlockedByQueue(key)) {
+        skippedKnown += 1;
+        continue;
+      }
+
+      const card = cardFor(a);
+      if (!card || !isVisible(card)) continue;
+
+      const text = (card.innerText || a.textContent || "").trim();
+      if (text.length < 40) continue;
+      if (unavailableTerms.some(term => normalize(text).includes(term))) {
+        skippedKnown += 1;
+        continue;
+      }
+
+      const title = (a.textContent || "").trim().replace(/\s+/g, " ");
+      const data = scoreText(text);
+      if (data.score <= 0) continue;
+
+      const item = { href, key, title: title || "Projeto 99Freelas", text, card, ...data };
+      byHref.set(href, item);
+      addInlinePrepareButton(card, item);
+    }
+
+    const items = [...byHref.values()];
+    items.sort((a, b) => {
+      if (a.exclusive !== b.exclusive) return a.exclusive ? -1 : 1;
+      return b.score - a.score || (a.proposals ?? 999) - (b.proposals ?? 999);
+    });
+
+    return { items, skippedKnown };
+  }
+
+  function ensurePanel() {
+    let panel = document.querySelector("#crs99-live-scanner");
+    if (panel) return panel;
+
+    panel = document.createElement("aside");
+    panel.id = "crs99-live-scanner";
+    panel.innerHTML = `
+      <div class="crs99s-head"><strong>CRS 99 — Radar Autopilot</strong><span>analisando…</span></div>
+      <div class="crs99s-body">
+        <div class="crs99s-note">Premium ativo. O Radar acompanha os projetos carregados enquanto você rola a página.</div>
+        <div class="crs99s-list"></div>
+        <button class="crs99s-refresh" type="button">Reanalisar carregados</button>
+      </div>`;
+    document.documentElement.appendChild(panel);
+    panel.querySelector(".crs99s-refresh")?.addEventListener("click", () => render());
+    return panel;
+  }
+
+  function render() {
+    const { items, skippedKnown } = collectItems();
+    const panel = ensurePanel();
+    const count = panel.querySelector(".crs99s-head span");
+    const note = panel.querySelector(".crs99s-note");
+    const list = panel.querySelector(".crs99s-list");
+
+    if (count) count.textContent = `${items.length} projetos carregados`;
+    if (note) {
+      note.textContent = `Premium ativo. Role a página: novos projetos recebem botão automaticamente.${skippedKnown ? ` ${skippedKnown} enviados/fechados foram ignorados.` : ""}`;
+    }
+
+    const strong = items.filter(i => i.score >= 6.5);
+    const top = (strong.length >= 4 ? strong : items.filter(i => i.score >= 3.5)).slice(0, 12);
+
+    if (!list) return;
+    list.innerHTML = "";
+
+    if (!top.length) {
+      list.innerHTML = '<div class="crs99s-empty">Nenhuma vaga útil entre os projetos carregados. Continue descendo ou vá para a próxima página.</div>';
+      return;
+    }
+
     top.forEach((item, index) => {
-      const row = document.createElement('div');
-      row.className = 'crs99s-item';
+      const row = document.createElement("div");
+      row.className = "crs99s-item";
       row.dataset.projectKey = item.key;
-      const decision = item.score >= 7 ? 'ATACAR' : item.score >= 5 ? 'REVISAR' : 'BAIXA';
+      const decision = item.score >= 7 ? "ATACAR" : item.score >= 5 ? "REVISAR" : "PRÉ-FILTRO";
       row.innerHTML = `
-        <div class="crs99s-rank">#${index + 1} · ${item.score.toFixed(1)}/10 · ${decision}${item.exclusive ? ' · PREMIUM EXCLUSIVO' : ''}${item.proposals != null ? ` · ${item.proposals} propostas` : ''}</div>
+        <div class="crs99s-rank">#${index + 1} · ${item.score.toFixed(1)}/10 · ${decision}${item.exclusive ? " · PREMIUM EXCLUSIVO" : ""}${item.proposals != null ? ` · ${item.proposals} propostas` : ""}</div>
         <div class="crs99s-title"></div>
-        <div class="crs99s-tags">${item.hits.length ? item.hits.join(' · ') : 'aderência geral'}</div>
+        <div class="crs99s-tags">${item.hits.length ? item.hits.join(" · ") : "aderência geral"}</div>
         <button type="button">Preparar proposta</button>`;
-      row.querySelector('.crs99s-title').textContent = item.title;
-      row.querySelector('button').addEventListener('click', () => {
-        const url = new URL(item.href, location.origin);
-        url.searchParams.set('crs99', 'prepare');
-        location.href = url.href;
-      });
+      row.querySelector(".crs99s-title").textContent = item.title;
+      row.querySelector("button").addEventListener("click", () => openPrepared(item.href));
       list.appendChild(row);
     });
   }
 
-  panel.querySelector('.crs99s-refresh').addEventListener('click', () => location.reload());
+  let renderTimer = null;
+  function scheduleRender() {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(render, 250);
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    const relevant = mutations.some((mutation) => {
+      const target = mutation.target instanceof Element ? mutation.target : null;
+      if (target?.closest("#crs99-live-scanner")) return false;
+      const nodes = [...mutation.addedNodes].filter(node => node instanceof Element);
+      if (!nodes.length) return false;
+      return nodes.some(node => !node.matches?.(".crs99-inline-prepare") && !node.closest?.("#crs99-live-scanner"));
+    });
+    if (relevant) scheduleRender();
+  });
+
+  observer.observe(document.body || document.documentElement, { childList: true, subtree: true });
+  render();
 
   setInterval(() => {
     if (location.href !== initialUrl) location.reload();
