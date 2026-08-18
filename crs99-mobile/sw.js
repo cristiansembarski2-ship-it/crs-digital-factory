@@ -1,4 +1,4 @@
-const CACHE = "crs99-mobile-v1";
+const CACHE = "crs99-mobile-v2";
 const SHELL = [
   "/crs99-mobile/",
   "/crs99-mobile/index.html",
@@ -26,19 +26,17 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(request.url);
   if (url.pathname === "/crs99/opportunities.json") {
-    event.respondWith(
-      fetch(request).catch(() => caches.match(request))
-    );
+    event.respondWith(fetch(request).catch(() => caches.match(request)));
     return;
   }
 
   if (url.origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(request).then((cached) => cached || fetch(request).then((response) => {
+    fetch(request).then((response) => {
       const copy = response.clone();
       caches.open(CACHE).then((cache) => cache.put(request, copy));
       return response;
-    }))
+    }).catch(() => caches.match(request))
   );
 });
