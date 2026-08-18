@@ -21,8 +21,12 @@
   function pageConfirmsSent() {
     const text = normalize(document.body?.innerText || "");
     return [
-      "proposta enviada com sucesso", "sua proposta foi enviada", "voce enviou uma proposta",
-      "voce ja enviou uma proposta", "proposta ja enviada", "sua proposta", "editar proposta"
+      "proposta enviada com sucesso",
+      "sua proposta foi enviada",
+      "voce enviou uma proposta",
+      "voce ja enviou uma proposta",
+      "proposta ja enviada",
+      "editar sua proposta"
     ].some((term) => text.includes(term));
   }
 
