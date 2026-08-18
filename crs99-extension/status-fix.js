@@ -56,7 +56,7 @@
     const main = panel.querySelector(".crs99-main");
     const version = panel.querySelector(".crs99-head span");
 
-    if (version) version.textContent = "v0.2.2";
+    if (version) version.textContent = "v0.4.0 · Premium Autopilot";
     if (status) {
       status.innerHTML = '<span class="crs99-badge danger">INDISPONÍVEL</span> Projeto já está em andamento/encerrado.';
     }
@@ -67,11 +67,7 @@
   }
 
   const label = detectUnavailable();
-  if (!label) {
-    const version = document.querySelector("#crs99-copilot .crs99-head span");
-    if (version) version.textContent = "v0.2.2";
-    return;
-  }
+  if (!label) return;
 
   const key = projectKeyFromLocation();
   updatePanel(label);
