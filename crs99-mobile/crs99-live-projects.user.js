@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CRS99 Projetos ao Vivo
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      1.1.0
+// @version      1.1.1
 // @description  Analisa manualmente os projetos visíveis na lista logada do 99Freelas. Não envia propostas.
 // @match        https://www.99freelas.com.br/projects*
 // @match        https://99freelas.com.br/projects*
@@ -49,7 +49,7 @@
 
     if (/\b(automacao|automatizar|dados|data entry|digitacao|pesquisa|revisao|formatacao|traducao|seo|google ads|administrativ|cadastro|python|javascript)\b/.test(t)) n += 45;
     if (/\b(canva|apresentacao|slides|cartilha|material institucional|design|copy|texto|conteudo)\b/.test(t)) n += 18;
-    if (/\b(prospeccao|sdr|bdr|closer|trafego|social media|redes sociais|meta ads)\b/.test(t)) n -= 45;
+    if (/\b(prospeccao|sdr|bdr|closer|trafego|social media|redes sociais|meta ads)\b/.test(t)) n -= 70;
     if (/\b(django|multi-tenant|saas|aplicativo|app mobile|seguranca da informacao)\b/.test(t)) n -= 35;
 
     const p = t.match(/propostas?\s*[:：]?\s*(\d+)/);
@@ -66,16 +66,44 @@
     return { n, tag: n >= 90 ? `TOP • ${tag}` : n >= 45 ? `BOA • ${tag}` : tag };
   }
 
-  function nearbyText(anchor) {
-    let node = anchor;
-    for (let i = 0; i < 5 && node; i++, node = node.parentElement) {
-      const text = String(node.innerText || '').trim();
-      const n = norm(text);
-      if (text.length >= 80 && text.length <= 2200 && (n.includes('propostas') || n.includes('publicado') || n.includes('interessados'))) {
-        return text;
-      }
+  function idsInside(node) {
+    const ids = new Set();
+    if (!node?.querySelectorAll) return ids;
+    for (const a of node.querySelectorAll('a[href*="/project/"]')) {
+      const id = projectId(a.href || a.getAttribute('href') || '');
+      if (id) ids.add(id);
+      if (ids.size > 1) break;
     }
-    return String(anchor.textContent || '');
+    return ids;
+  }
+
+  // Pega o maior bloco próximo do link que ainda pertence a UM único projeto.
+  // Se o próximo ancestral já contém dois projetos, paramos antes dele.
+  function projectText(anchor, id) {
+    let node = anchor;
+    let best = String(anchor.innerText || anchor.textContent || '').trim();
+
+    for (let i = 0; i < 7 && node; i++, node = node.parentElement) {
+      if (node.id === BOX_ID) break;
+      const ids = idsInside(node);
+      if (ids.size > 1) break;
+      if (ids.size === 1 && !ids.has(id)) break;
+
+      const text = String(node.innerText || '').trim();
+      if (text.length >= best.length && text.length <= 2600) best = text;
+    }
+
+    return best;
+  }
+
+  function displayTitle(anchor) {
+    const heading = anchor.querySelector?.('h1,h2,h3,h4,h5,h6,[class*="title"],[class*="Title"]');
+    let text = String(heading?.textContent || anchor.textContent || '').replace(/\s+/g, ' ').trim();
+
+    // Quando o link engloba o card inteiro, corta nos rótulos mais comuns da listagem.
+    text = text.split(/\s+(?:Desenvolvimento Web|Assistente Virtual|Comercial|Design|Marketing|Redação|Traducao|Tradução|Administra[cç][aã]o|Finan[cç]as|Engenharia|Programação|Programacao)\s*\|/i)[0].trim();
+    if (text.length > 120) text = text.slice(0, 117).trimEnd() + '…';
+    return text;
   }
 
   function collect() {
@@ -89,11 +117,12 @@
       const id = projectId(href);
       if (!id || seen.has(id)) continue;
 
-      const title = String(a.textContent || '').replace(/\s+/g, ' ').trim();
-      if (title.length < 8 || title.length > 180) continue;
+      const title = displayTitle(a);
+      if (title.length < 8) continue;
 
       seen.add(id);
-      const s = score(nearbyText(a));
+      const text = projectText(a, id);
+      const s = score(text);
       jobs.push({ id, href, title, n:s.n, tag:s.tag });
     }
 
