@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         CRS99 Projetos ao Vivo
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      1.0.0
+// @version      1.0.1
 // @description  Destaca os projetos mais alinhados na lista logada do 99Freelas. Não envia propostas.
 // @match        https://www.99freelas.com.br/projects*
 // @match        https://99freelas.com.br/projects*
 // @run-at       document-idle
 // @grant        none
+// @updateURL    https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/main/crs99-mobile/crs99-live-projects.user.js
+// @downloadURL  https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/main/crs99-mobile/crs99-live-projects.user.js
 // ==/UserScript==
 
 (() => {
@@ -33,6 +35,7 @@
   function cardOf(a) {
     let el=a;
     for(let i=0;i<7&&el;i++,el=el.parentElement){
+      if (el.id === 'crs99-live-box') return a.parentElement;
       const t=norm(el.innerText||'');
       if(t.length>120&&(t.includes('propostas')||t.includes('publicado')||t.includes('cliente'))) return el;
     }
@@ -42,6 +45,7 @@
   function collect(){
     const seen=new Set(), out=[];
     for(const a of document.querySelectorAll('a[href*="/project/"]')){
+      if (a.closest('#crs99-live-box')) continue;
       const id=idFrom(a.href); if(!id||seen.has(id)) continue;
       const title=String(a.textContent||'').replace(/\s+/g,' ').trim(); if(title.length<8) continue;
       const card=cardOf(a), s=score(card?.innerText||title);
@@ -50,9 +54,14 @@
     return out.sort((a,b)=>b.n-a.n);
   }
 
+  let lastFingerprint='';
   function render(){
     const jobs=collect(); if(!jobs.length) return;
     const good=jobs.filter(j=>j.n>35).slice(0,10);
+    const fingerprint=good.map(j=>`${j.id}:${j.n}`).join('|');
+    if (fingerprint === lastFingerprint && document.getElementById('crs99-live-box')) return;
+    lastFingerprint=fingerprint;
+
     let box=document.getElementById('crs99-live-box');
     if(!box){
       box=document.createElement('section'); box.id='crs99-live-box';
@@ -63,6 +72,16 @@
       good.map((j,i)=>`<a href="${j.href}" style="display:block;margin-top:8px;padding:10px;border-radius:10px;background:${i<3?'#16351f':'#172033'};color:#fff;text-decoration:none"><strong>${i+1}. ${j.title.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</strong><br><span style="opacity:.75">${j.tag}</span></a>`).join('');
   }
 
-  let timer=0; const refresh=()=>{clearTimeout(timer);timer=setTimeout(render,250);};
-  refresh(); new MutationObserver(refresh).observe(document.body,{childList:true,subtree:true});
+  let timer=0;
+  const refresh=()=>{ clearTimeout(timer); timer=setTimeout(render,250); };
+  const observer=new MutationObserver((mutations)=>{
+    const relevant=mutations.some((m)=>{
+      if (m.target?.nodeType===1 && m.target.closest?.('#crs99-live-box')) return false;
+      return [...m.addedNodes].some((n)=>!(n.nodeType===1 && (n.id==='crs99-live-box' || n.closest?.('#crs99-live-box'))));
+    });
+    if (relevant) refresh();
+  });
+
+  refresh();
+  observer.observe(document.body,{childList:true,subtree:true});
 })();
