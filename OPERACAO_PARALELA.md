@@ -1,6 +1,6 @@
 # OPERACAO_PARALELA — Operação B / Novas Fontes de Receita
 
-Atualizado em: 2026-08-16 04:02 BRT
+Atualizado em: **2026-08-18 02:00 BRT**
 
 ## 1. Objetivo e fronteira
 
@@ -166,7 +166,8 @@ Não criar assinatura nem FiscalSafe Pro antes de sinal real de uso/intenção d
    - link direto para uso;
    - limites e privacidade reforçados;
    - canal de feedback adicionado;
-   - commit: `72d5367b4c1c469312c800f01b7f8808a4bc4515`.
+   - commit inicial: `72d5367b4c1c469312c800f01b7f8808a4bc4515`;
+   - em 18/08, o link direto recebeu UTM própria de `fiscalsafe_readme` para separar essa origem; commit `fbb7f3e36200b1a5d100a2a34da3784c038d3287`.
 
 5. `OPERACAO_PARALELA.md`
    - criado no commit `17517353ebe9cfb775f14f243b1cf90f45d482e7`;
@@ -176,6 +177,11 @@ Não criar assinatura nem FiscalSafe Pro antes de sinal real de uso/intenção d
    - FiscalSafe passou a ter seção visível no topo com termos aderentes à busca real: XML NF-e/NFC-e em lote, CSV e Excel;
    - link de uso recebeu `utm_source=github&utm_medium=readme&utm_campaign=fiscalsafe`;
    - commit: `41dddac582d8cc1e88408151190d6a1692f858d1`.
+
+7. Guia orgânico `/guias/como-conferir-xml-nfe-em-lote/`
+   - conteúdo e layout preservados;
+   - em 18/08, somente o link do CTA para o FiscalSafe recebeu `utm_source=organic&utm_medium=guide&utm_campaign=fiscalsafe`;
+   - commit: `24fda33b4cd4ec706586fe94eea33537e9e37658`.
 
 Nenhum redesign amplo foi feito. A página do produto já tinha ferramenta, CTA, pagamento e disclaimer suficientes para o teste de receita.
 
@@ -187,7 +193,9 @@ Issue pública:
 
 `https://github.com/cristiansembarski2-ship-it/crs-digital-factory/issues/14`
 
-A issue foi atualizada para deixar explícito que o FiscalSafe confere XML NF-e/NFC-e em lote e gera CSV para Excel. O link para a ferramenta usa:
+A issue foi atualizada novamente em 18/08 para focar na intenção aderente à ferramenta: **quem já possui XML NF-e/NFC-e em lote e quer extrair campos para CSV/Excel, conferir duplicidades e separar itens que exigem revisão**.
+
+O link para a ferramenta usa:
 
 `utm_source=github&utm_medium=issue&utm_campaign=fiscalsafe`
 
@@ -196,6 +204,10 @@ Finalidade: descoberta via GitHub, feedback, bugs e casos de uso. A issue proíb
 O README principal também passou a funcionar como canal separado e mensurável:
 
 `utm_source=github&utm_medium=readme&utm_campaign=fiscalsafe`
+
+O README específico do FiscalSafe agora usa:
+
+`utm_source=github&utm_medium=fiscalsafe_readme&utm_campaign=fiscalsafe`
 
 ### Busca orgânica
 
@@ -206,9 +218,20 @@ Já existiam e foram preservados:
 - CTA do guia para o FiscalSafe;
 - workflow IndexNow na `main`.
 
-Após o commit da documentação, o workflow **Notify IndexNow #134** terminou com `success` em 2026-08-16, confirmando execução do fluxo de notificação aos buscadores participantes.
+O CTA do guia agora é mensurável separadamente por:
+
+`utm_source=organic&utm_medium=guide&utm_campaign=fiscalsafe`
+
+Após o commit da documentação anterior, o workflow **Notify IndexNow #134** terminou com `success` em 2026-08-16, confirmando execução do fluxo de notificação aos buscadores participantes.
 
 Não foi feito spam em fóruns/comunidades. Publicação externa só ocorrerá quando houver um canal acessível em que a regra permita e a resposta seja realmente útil.
+
+### Decisão de distribuição em 18/08
+
+- pesquisa atual encontrou discussões quentes de rotina fiscal, porém grande parte estava centrada em **download de NFS-e/Portal Nacional**;
+- o FiscalSafe não baixa NFS-e nem NF-e de portais;
+- por isso nenhum link foi inserido nesses tópicos apenas para gerar exposição;
+- manter a regra: responder/publicar externamente somente quando a pessoa já tiver XML NF-e/NFC-e e a dor for conferência, extração para CSV/Excel, organização ou duplicidades.
 
 ## 9. Medição
 
@@ -219,7 +242,7 @@ Hierarquia de sinais:
 3. **Tool Value Completed**, especialmente exportação CSV após processamento;
 4. **Page View** qualificada/origem.
 
-Não contar página, commit ou impressão isolada como sucesso comercial.
+Não contar página, commit ou impressão isolados como sucesso comercial.
 
 ### Privacidade da telemetria
 
@@ -243,17 +266,19 @@ Não enviar:
 
 ## 10. Estado de pagamento
 
-**Nenhum pagamento novo confirmado pela Operação B até esta atualização.**
+**Nenhum pagamento novo confirmado pela Operação B até 18/08/2026 ~02:00 BRT.**
+
+Verificação no Gmail encontrou apenas comunicação promocional do Mercado Pago e mensagens já enviadas; nenhuma confirmação de pagamento ou feedback inbound atribuível ao FiscalSafe foi encontrada.
 
 Nunca inferir pagamento por clique.
 
 ## 11. Limitações operacionais atuais
 
-- O repositório confirma os commits na `main` e o workflow IndexNow concluiu com sucesso.
-- A API de deployments do GitHub não retornou deployment associado ao commit mais recente.
-- A leitura direta do domínio pela ferramenta web desta sessão não conseguiu buscar o site (cache miss), e o conector Vercel já estava documentado na Operação A como indisponível para leitura do projeto.
-- Portanto, não registrar “deploy Vercel confirmado por esta operação” sem evidência adicional. A fonte técnica continua sendo a `main` do GitHub.
-- Logs de `/api/track` também não estão automaticamente disponíveis nesta sessão; métricas só serão registradas neste arquivo quando houver leitura verificável.
+- O repositório confirma os commits na `main` e o workflow IndexNow anterior concluiu com sucesso.
+- A API de deployments do GitHub não retornou deployment associado ao commit mais recente na auditoria anterior.
+- Em 18/08, o conector Vercel confirmou acesso ao time `cristian's projects`, mas a listagem desse time retornou **zero projetos**; portanto, os logs/métricas do deployment continuam indisponíveis por esse caminho.
+- Não registrar “deploy Vercel confirmado” nem métricas de uso sem evidência adicional.
+- Logs de `/api/track` não estão automaticamente disponíveis nesta sessão; métricas só serão registradas neste arquivo quando houver leitura verificável.
 
 ### Atribuição de pagamento — bloqueio real
 
@@ -288,10 +313,40 @@ A Operação B deve atualizar `OPERACAO_PARALELA.md` quando ocorrer:
 - pagamento;
 - decisão de continuar, revisar ou abandonar.
 
-## 14. Ciclo de distribuição — 04:00 BRT
+## 14. Ciclo de distribuição — 16/08 04:00 BRT
 
 - pesquisa atual mostrou forte demanda em comunidades contábeis por rotinas de XML em lote e relatórios, mas grande parte das discussões atuais é de NFS-e/download; essa dor foi explicitamente excluída para evitar propaganda enganosa;
 - GitHub README e issue #14 foram transformados em dois canais distintos e mensuráveis por UTM;
 - nenhum novo produto foi criado;
 - nenhum post promocional foi feito em fórum onde a ferramenta não resolva exatamente o pedido;
 - próximo gargalo de maior impacto: **atribuição exata do pagamento**.
+
+## 15. Ciclo da madrugada — 18/08 ~02:00 BRT
+
+### Auditoria executada
+
+- `fiscalsafe/index.html` revisado: leitura e parsing continuam locais no navegador; exportação CSV e CTA de apoio estão presentes; não foi detectada necessidade de alterar a ferramenta;
+- `shared/support.js` revisado: `Tool Value Completed` e `Support Click` são emitidos sem conteúdo fiscal;
+- `api/track.js` revisado: eventos relevantes estão permitidos e a sanitização existente foi preservada;
+- caminho funcional permanece: **usar → gerar valor/CSV → apoio opcional → Mercado Pago**.
+
+### Mudanças mínimas realizadas
+
+- README específico: UTM própria adicionada ao link para a ferramenta;
+- guia orgânico: somente o href do CTA recebeu UTM própria; nenhum texto/layout alterado;
+- issue #14: título e descrição refinados para a dor aderente de XML NF-e/NFC-e já disponível → CSV/Excel + duplicidades + triagem.
+
+### O que deliberadamente NÃO foi feito
+
+- não foi criado FiscalSafe Pro;
+- não foi criada assinatura;
+- não foi feita publicidade em tópicos de NFS-e/download;
+- não foram inventados dados de uso, clientes ou pagamentos;
+- não houve redesign da ferramenta;
+- não houve expansão tributária/RTC/IBS/CBS.
+
+### Estado ao encerrar o ciclo
+
+**Infraestrutura suficiente; gargalo agora é sinal real de uso/intenção/pagamento.**
+
+Até surgir um dos gatilhos da seção 12, não fazer novas melhorias cosméticas ou criar novas funcionalidades para o FiscalSafe.
