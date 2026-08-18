@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-18T00:08:31-03:00",
+  "updatedAt": "2026-08-18T02:17:00-03:00",
   "rules": {
     "minimumFit": 8,
     "autoSubmit": false,
@@ -264,6 +264,76 @@
       "days": 2,
       "risk": "Projeto exclusivo Premium com 2 propostas e 3 interessados, porém o anúncio não explica a causa da reputação baixa. Aceitar apenas trabalho legítimo de diagnóstico e correção operacional; rejeitar qualquer pedido de avaliações falsas, compras simuladas ou manipulação da plataforma.",
       "proposal": "Olá! Posso começar por um diagnóstico objetivo da conta para identificar o que está impactando a reputação — atrasos, cancelamentos, reclamações, qualidade dos anúncios, estoque, despacho ou outras métricas disponíveis. A partir disso, entrego um plano de correção e implemento os ajustes operacionais que estiverem dentro das regras do Mercado Livre. Não trabalho com avaliações falsas, compras simuladas ou manipulação. Proposta inicial para diagnóstico + primeira rodada de ajustes: R$ 250. Prazo: 2 dias úteis após receber acesso/prints das métricas."
+    },
+    {
+      "projectKey": "insercao-de-dados-em-portal-e-apoio-administrativo-777001",
+      "title": "Inserção de dados em portal e apoio administrativo",
+      "url": "https://www.99freelas.com.br/project/insercao-de-dados-em-portal-e-apoio-administrativo-777001",
+      "status": "sent",
+      "fit": 7.8,
+      "price": 60,
+      "days": 1,
+      "risk": "página pública rastreada em 18/08 mostra Cristian entre as propostas; manter fora da fila ativa",
+      "proposal": ""
+    },
+    {
+      "projectKey": "insercao-de-dados-em-portal-e-apoio-administrativo-776999",
+      "title": "Inserção de dados em portal e apoio administrativo",
+      "url": "https://www.99freelas.com.br/project/insercao-de-dados-em-portal-e-apoio-administrativo-776999",
+      "status": "sent",
+      "fit": 7.8,
+      "price": 60,
+      "days": 1,
+      "risk": "página pública rastreada em 18/08 mostra Cristian R. entre as propostas; manter fora da fila ativa",
+      "proposal": ""
+    },
+    {
+      "projectKey": "edicao-de-videos-para-reels-776985",
+      "title": "Edição de vídeos para Reels",
+      "url": "https://www.99freelas.com.br/project/edicao-de-videos-para-reels-776985",
+      "status": "candidate",
+      "fit": 8.4,
+      "technical": 8.8,
+      "commercialChance": 8.3,
+      "financial": 7.8,
+      "automation": 8.7,
+      "effort": 5.8,
+      "price": 300,
+      "days": 3,
+      "risk": "Projeto exclusivo Premium e recorrente. Cliente pede exemplos de trabalhos anteriores; não inventar portfólio. A página individual não abriu no rastreador, então o Copilot autenticado deve validar disponibilidade e se já existe proposta antes de qualquer envio.",
+      "proposal": "Olá! Vi que a edição que você precisa é objetiva: cortes de pausas e erros, legendas, pequenos zooms, ajustes de áudio e transições simples para vídeos de 30 a 90 segundos. Posso começar por um pacote piloto de 5 vídeos para validar ritmo e padrão antes de uma recorrência maior. Proposta inicial: R$ 300 pelo pacote de 5, com prazo de 3 dias úteis após receber os arquivos. Não vou atribuir a mim portfólio que eu não possa comprovar; posso demonstrar o padrão no primeiro vídeo do pacote."
+    },
+    {
+      "projectKey": "criacao-de-logotipo-e-identidade-visual-para-marca-de-sapatos-femininos-777006",
+      "title": "Criação de logotipo e identidade visual para marca de sapatos femininos",
+      "url": "https://www.99freelas.com.br/project/criacao-de-logotipo-e-identidade-visual-para-marca-de-sapatos-femininos-777006",
+      "status": "candidate",
+      "fit": 7.9,
+      "technical": 7.8,
+      "commercialChance": 8.0,
+      "financial": 7.6,
+      "automation": 8.5,
+      "effort": 6.2,
+      "price": 390,
+      "days": 3,
+      "risk": "Projeto exclusivo Premium. Escopo de identidade visual ainda é curto e subjetivo; validar referências, aplicações e quantidade de entregáveis. Página individual não abriu no rastreador, então o Copilot autenticado deve confirmar disponibilidade e ausência de proposta enviada.",
+      "proposal": "Olá! Posso desenvolver uma primeira direção visual fechada para a marca, começando pelo logotipo e por uma identidade básica coerente com o posicionamento que você quer transmitir. Para evitar um escopo aberto, proponho inicialmente logo principal, variação reduzida, paleta e tipografia, com duas rodadas de ajuste. Proposta inicial: R$ 390. Prazo: 3 dias úteis após receber referências e preferências da marca."
+    },
+    {
+      "projectKey": "producao-de-reels-e-videos-para-youtube-sobre-viagens-de-motorhome-777002",
+      "title": "Produção de Reels e vídeos para YouTube sobre viagens de motorhome",
+      "url": "https://www.99freelas.com.br/project/producao-de-reels-e-videos-para-youtube-sobre-viagens-de-motorhome-777002",
+      "status": "candidate",
+      "fit": 7.7,
+      "technical": 8.0,
+      "commercialChance": 8.7,
+      "financial": 8.4,
+      "automation": 8.2,
+      "effort": 8.8,
+      "price": 390,
+      "days": 4,
+      "risk": "Projeto exclusivo Premium com concorrência baixa na listagem, mas o escopo mensal é grande e o anúncio diz '22 Reels de até 30 minutos', o que pode ser erro de redação. Não assumir o mês inteiro sem esclarecer duração real e volume. Propor piloto pago de 2 Reels + 1 vídeo de YouTube. Página individual não abriu no rastreador; validar tudo no Copilot autenticado.",
+      "proposal": "Olá! O volume mensal é interessante, mas antes de assumir o pacote completo eu sugiro um piloto pago para alinharmos ritmo e padrão de edição no DaVinci Resolve. Posso começar com 2 Reels + 1 vídeo de YouTube, mantendo cortes, legendas, áudio e ritmo consistentes com o conteúdo de viagem. Proposta inicial do piloto: R$ 390. Prazo: 4 dias úteis após receber os arquivos. Antes do pacote mensal, eu só confirmaria se os '22 Reels de até 30 minutos' significam realmente 30 minutos ou se o anúncio quis dizer 30 segundos."
     }
   ]
 }
