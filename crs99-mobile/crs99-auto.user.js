@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CRS99 Auto Preencher
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      2.2.0
+// @version      2.2.1
 // @description  Preenche automaticamente Sua oferta, Duracao estimada e Detalhes no 99Freelas. Nunca envia a proposta.
 // @match        https://www.99freelas.com.br/project/*
 // @match        https://99freelas.com.br/project/*
@@ -14,7 +14,7 @@
 (() => {
   'use strict';
 
-  const VERSION = '2.2.0';
+  const VERSION = '2.2.1';
   const STORAGE_KEY = 'crs99PayloadV2';
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const norm = (v = '') => String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -29,6 +29,13 @@
     }
     box.style.background = tone === 'bad' ? '#b91c1c' : tone === 'warn' ? '#92400e' : '#15803d';
     box.textContent = `CRS99 v${VERSION} — ${message}`;
+  }
+
+  function clearPreparedPayload() {
+    try { sessionStorage.removeItem(STORAGE_KEY); } catch {}
+    try {
+      if (location.hash.includes('crs99=')) history.replaceState(null, '', location.pathname + location.search);
+    } catch {}
   }
 
   function payloadFromHash() {
@@ -67,15 +74,11 @@
       if (id) ids.add(String(id));
     };
 
+    // Só a URL atual e o canonical representam o projeto aberto.
+    // Links de "projetos semelhantes" não entram mais na validação.
     add(location.href);
     const canonical = document.querySelector('link[rel="canonical"]')?.href;
     if (canonical) add(canonical);
-
-    [...document.querySelectorAll('a[href]')].forEach((a) => {
-      const t = norm(a.textContent || '');
-      const href = String(a.getAttribute('href') || '');
-      if (t.includes('voltar a pagina do projeto') || /\/project\//i.test(href)) add(a.href || href);
-    });
     return [...ids];
   }
 
@@ -250,12 +253,14 @@
 
     const match = sameProject(payload);
     if (!match.ok) {
-      banner(`bloqueado: projeto diferente do preparado${match.ids.length ? ` (página: ${match.ids.join(', ')} / preparado: ${payload.id})` : ''}.`, 'bad');
+      clearPreparedPayload();
+      banner(`preparação anterior descartada: projeto atual ${match.ids[0] || 'não identificado'} é diferente do preparado ${payload.id}.`, 'warn');
       return;
     }
 
     const age = Date.now() - Number(payload.ts || 0);
     if (!payload.proposal || payload.price === '' || payload.days === '' || !Number.isFinite(age) || age < 0 || age > 30 * 60 * 1000) {
+      clearPreparedPayload();
       banner('bloqueado: dados incompletos ou preparação vencida.', 'bad');
       return;
     }
@@ -286,8 +291,7 @@
     const count = [stablePrice, stableDays, stableProposal].filter(Boolean).length;
 
     if (count === 3) {
-      try { history.replaceState(null, '', location.pathname + location.search); } catch {}
-      try { sessionStorage.removeItem(STORAGE_KEY); } catch {}
+      clearPreparedPayload();
       banner('OK: oferta, duração e detalhes preenchidos. Revise e envie manualmente.');
       return;
     }
