@@ -2,7 +2,7 @@
   if (window.__CRS99_PROJECTS_FLOW__) return;
   window.__CRS99_PROJECTS_FLOW__ = true;
 
-  const { idFrom, normalize, migrateOnce, getJobs, setJob } = window.CRS99;
+  const { idFrom, normalize, migrateOnce, getJobs } = window.CRS99;
 
   const style = document.createElement("style");
   style.textContent = `
@@ -48,7 +48,6 @@
           id,
           anchor,
           href: new URL(href, location.origin).href.split("#")[0],
-          title: (anchor.textContent || "").replace(/\s+/g, " ").trim(),
           score
         });
       }
@@ -89,17 +88,9 @@
       const url = new URL(item.href, location.origin);
       url.searchParams.set("crs99", "prepare");
       url.searchParams.set("crs99id", item.id);
-
-      // Window.open runs synchronously inside the user click so the /projects tab stays untouched.
       const opened = window.open(url.href, "_blank");
       if (opened) opened.opener = null;
       else location.href = url.href;
-
-      setJob(item.id, {
-        projectUrl: item.href,
-        title: item.title,
-        status: "new"
-      }).catch(() => {});
     });
     wrap.appendChild(button);
   }
@@ -108,13 +99,10 @@
     const jobs = await getJobs();
     const items = findProjects();
     const visibleIds = new Set(items.map((item) => item.id));
-
     document.querySelectorAll(".crs99-action-wrap[data-crs99-id]").forEach((wrap) => {
       if (!visibleIds.has(wrap.dataset.crs99Id)) wrap.remove();
     });
-
     for (const item of items) renderAction(item, jobs[item.id]);
-
     const ready = items.filter((item) => !["sent", "closed"].includes(jobs[item.id]?.status)).length;
     const button = document.getElementById("crs99-rescan");
     if (button) button.textContent = `CRS: reescanear (${ready})`;
