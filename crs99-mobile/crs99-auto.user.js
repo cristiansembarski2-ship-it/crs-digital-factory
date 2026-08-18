@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         CRS99 Auto Preencher
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      1.0.0
+// @version      1.1.0
 // @description  Preenche automaticamente proposta, valor e prazo no 99Freelas quando a página é aberta pelo CRS99 Mobile. Nunca envia a proposta.
 // @match        https://www.99freelas.com.br/project/*
 // @run-at       document-idle
@@ -62,27 +62,74 @@
     return slug ? slug[1] : '';
   }
 
-  function fieldContext(element) {
-    const parts = [element.name, element.id, element.placeholder, element.getAttribute('aria-label')].filter(Boolean);
+  function metadataText(element) {
+    const parts = [
+      element.name,
+      element.id,
+      element.placeholder,
+      element.getAttribute('aria-label'),
+      element.getAttribute('data-name'),
+      element.getAttribute('data-field')
+    ].filter(Boolean);
+
     if (element.id) {
       try {
         const label = document.querySelector(`label[for="${CSS.escape(element.id)}"]`);
         if (label) parts.push(label.textContent || '');
       } catch {}
     }
-    const parent = element.closest('.form-group,.field,.control-group,.row,.input-group,.modal,form,div');
-    if (parent) parts.push((parent.innerText || '').slice(0, 500));
+
     return normalize(parts.join(' '));
   }
 
-  function bestField(candidates, terms, preferTag = '') {
-    const ranked = candidates.filter(usable).map((element) => {
-      const context = fieldContext(element);
-      let score = 0;
-      terms.forEach((term, index) => { if (context.includes(normalize(term))) score += 50 - index; });
-      if (preferTag && element.tagName === preferTag) score += 5;
-      return { element, score };
-    }).sort((a, b) => b.score - a.score);
+  function ancestorTexts(element, depth = 6) {
+    const result = [];
+    let node = element;
+    for (let i = 0; i < depth; i++) {
+      node = node?.parentElement;
+      if (!node) break;
+      const text = normalize((node.innerText || '').slice(0, 1200));
+      if (text) result.push({ text, distance: i + 1 });
+    }
+    return result;
+  }
+
+  function scoreField(element, positives, negatives = [], preferTag = '') {
+    if (!usable(element)) return -Infinity;
+
+    let score = 0;
+    const meta = metadataText(element);
+
+    positives.forEach((term, index) => {
+      const t = normalize(term);
+      if (meta.includes(t)) score += 500 - index * 12;
+    });
+    negatives.forEach((term, index) => {
+      const t = normalize(term);
+      if (meta.includes(t)) score -= 800 - index * 10;
+    });
+
+    ancestorTexts(element).forEach(({ text, distance }) => {
+      const proximity = Math.max(1, 7 - distance);
+      positives.forEach((term, index) => {
+        const t = normalize(term);
+        if (text.includes(t)) score += proximity * (60 - Math.min(index, 8) * 4);
+      });
+      negatives.forEach((term, index) => {
+        const t = normalize(term);
+        if (text.includes(t)) score -= proximity * (110 - Math.min(index, 8) * 5);
+      });
+    });
+
+    if (preferTag && element.tagName === preferTag) score += 80;
+    return score;
+  }
+
+  function bestField(candidates, positives, negatives = [], preferTag = '') {
+    const ranked = candidates
+      .map((element) => ({ element, score: scoreField(element, positives, negatives, preferTag) }))
+      .filter((item) => Number.isFinite(item.score))
+      .sort((a, b) => b.score - a.score);
     return ranked[0]?.score > 0 ? ranked[0].element : null;
   }
 
@@ -91,6 +138,7 @@
     try {
       const next = String(value);
       element.focus();
+
       if (element.isContentEditable) {
         element.textContent = next;
         element.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: next }));
@@ -100,9 +148,11 @@
         if (setter) setter.call(element, next); else element.value = next;
         element.dispatchEvent(new Event('input', { bubbles: true }));
       }
+
       element.dispatchEvent(new Event('change', { bubbles: true }));
+      element.dispatchEvent(new Event('keyup', { bubbles: true }));
       element.dispatchEvent(new Event('blur', { bubbles: true }));
-      return true;
+      return normalize(element.value ?? element.textContent).length > 0;
     } catch {
       return false;
     }
@@ -110,22 +160,39 @@
 
   function fields() {
     const textCandidates = [...all('textarea'), ...all('[contenteditable="true"]')];
-    const inputs = all('input');
-    const proposal = bestField(textCandidates, ['detalhes da proposta', 'detalhes', 'proposta', 'mensagem', 'descricao', 'apresentacao'], 'TEXTAREA')
-      || textCandidates.filter(usable)[0]
-      || null;
-    const price = bestField(inputs, ['sua oferta', 'valor da proposta', 'oferta', 'preco', 'valor', 'r$']);
-    const days = bestField(inputs, ['duracao estimada', 'duracao', 'prazo', 'dias', 'entrega', 'tempo']);
+    const inputs = all('input').filter(usable);
+
+    const proposal = bestField(
+      textCandidates,
+      ['escreva aqui os detalhes da proposta', 'detalhes da proposta', 'detalhes', 'proposta', 'mensagem', 'descricao', 'apresentacao'],
+      [],
+      'TEXTAREA'
+    ) || textCandidates.filter(usable)[0] || null;
+
+    const price = bestField(
+      inputs,
+      ['sua oferta', 'valor da proposta', 'oferta', 'preco', 'valor', 'r$'],
+      ['oferta final', 'como e calculada', 'taxa']
+    );
+
+    const days = bestField(
+      inputs,
+      ['duracao estimada', 'duracao', 'dias', 'prazo', 'entrega', 'tempo'],
+      ['sua oferta', 'oferta final', 'valor', 'r$']
+    );
+
     return { proposal, price, days };
   }
 
   function fill(payload) {
     const f = fields();
     let count = 0;
+
     if (f.proposal && setValue(f.proposal, payload.proposal)) count++;
     if (f.price && setValue(f.price, payload.price)) count++;
     if (f.days && setValue(f.days, payload.days)) count++;
-    return count;
+
+    return { count, fields: f };
   }
 
   function alreadySent() {
@@ -181,29 +248,33 @@
 
     banner('CRS99: preparando campos…');
 
-    let count = 0;
-    for (let i = 0; i < 15 && count < 3; i++) {
-      count = fill(payload);
-      if (count === 3) break;
+    let result = { count: 0, fields: {} };
+    for (let i = 0; i < 15 && result.count < 3; i++) {
+      result = fill(payload);
+      if (result.count === 3) break;
       await sleep(180);
     }
 
-    if (count < 3) {
+    if (result.count < 3) {
       const trigger = safeProposalTrigger();
       if (trigger) {
         trigger.click();
-        for (let i = 0; i < 30 && count < 3; i++) {
+        for (let i = 0; i < 35 && result.count < 3; i++) {
           await sleep(180);
-          count = fill(payload);
+          result = fill(payload);
         }
       }
     }
 
-    if (count === 3) {
+    if (result.count === 3) {
       history.replaceState(null, '', location.pathname + location.search);
-      banner('CRS OK — proposta, valor e prazo preenchidos. Revise e toque em “Enviar proposta” manualmente.');
+      banner('CRS OK — Sua oferta, duração e detalhes preenchidos. Revise e toque em “Enviar proposta” manualmente.');
     } else {
-      banner(`CRS encontrou ${count}/3 campos. Não envie antes de revisar manualmente.`, 'bad');
+      const missing = [];
+      if (!result.fields?.price) missing.push('Sua oferta');
+      if (!result.fields?.days) missing.push('Duração');
+      if (!result.fields?.proposal) missing.push('Detalhes');
+      banner(`CRS encontrou ${result.count}/3 campos${missing.length ? ` — faltou: ${missing.join(', ')}` : ''}. Não envie antes de revisar.`, 'bad');
     }
   }
 
