@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta name="theme-color" content="#0b1220">
+  <title>CRS99 — disponíveis</title>
+  <style>
+    html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0b1220}
+    #panel{border:0;width:100%;height:100%;display:block;background:#0b1220}
+  </style>
+</head>
+<body>
+<iframe id="panel" src="/crs99-mobile/painel.html?v=202608181724" title="CRS99 Mobile"></iframe>
+<script>
+(() => {
+  const frame = document.getElementById('panel');
+  const QUEUE_URL = '/crs99/opportunities.json';
+  const STATUS_URL = '/api/crs99-status';
+  const cache = new Map();
+  let queueById = new Map();
+  let applying = false;
+  let timer = 0;
+
+  const norm = (v='') => String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+  const projectId = (v='') => {
+    const s = String(v||'').replace(/[?#].*$/,'').replace(/\/+$/,'');
+    const m = s.match(/(?:^|[-/])(\d{4,})$/) || s.match(/\/project\/[^/]*?(\d{4,})(?:\/|$)/i);
+    return m ? m[1] : '';
+  };
+
+  function fitScore(text='') {
+    const t = norm(text);
+    if (/\b(video|videos|reels|ugc|capcut|gravar|gravacao|camera|filmagem|motion|after effects|premiere)\b/.test(t)) return -1000;
+    if (/\b(site|sites|wordpress|elementor|landing page|landing pages|blog|web design|pagina web|loja virtual|woocommerce)\b/.test(t)) return 100;
+    if (/\b(excel|planilha|planilhas|google sheets|sheets|dashboard|formulario|pontuacao|estoque|orcamento|custos|preco de venda|financeir|csv)\b/.test(t)) return 98;
+    if (/\b(automacao|automatizar|dados|data entry|digitacao|pesquisa|revisao|formatacao|traducao|seo|google ads|administrativ|cadastro de produtos|python|javascript|js)\b/.test(t)) return 78;
+    if (/\b(canva|apresentacao|slides|cartilha|material institucional|design|artes|copy|roteiro|texto|conteudo)\b/.test(t)) return 60;
+    if (/\b(prospeccao|sdr|bdr|trafego|redes sociais)\b/.test(t)) return 35;
+    return 20;
+  }
+
+  async function loadQueue() {
+    try {
+      const r = await fetch(`${QUEUE_URL}?fit=${Date.now()}`, {cache:'no-store'});
+      const data = await r.json();
+      queueById = new Map((data.opportunities || []).map(x => [projectId(x.url || x.projectKey), x]));
+    } catch { queueById = new Map(); }
+  }
+
+  async function liveAvailable(url) {
+    if (!url) return false;
+    const hit = cache.get(url);
+    if (hit && Date.now() - hit.ts < 5 * 60 * 1000) return hit.ok;
+    try {
+      const r = await fetch(`${STATUS_URL}?url=${encodeURIComponent(url)}&t=${Date.now()}`, {cache:'no-store'});
+      const data = await r.json();
+      const ok = Boolean(data && data.ok && data.available);
+      cache.set(url, {ok, ts:Date.now()});
+      return ok;
+    } catch {
+      cache.set(url, {ok:false, ts:Date.now()});
+      return false;
+    }
+  }
+
+  async function mapLimit(items, limit, worker) {
+    let index = 0;
+    const runners = Array.from({length: Math.min(limit, items.length)}, async () => {
+      while (index < items.length) {
+        const i = index++;
+        await worker(items[i], i);
+      }
+    });
+    await Promise.all(runners);
+  }
+
+  async function apply() {
+    if (applying) return;
+    const doc = frame.contentDocument;
+    if (!doc) return;
+    const list = doc.getElementById('list');
+    const filter = doc.getElementById('statusFilter');
+    const count = doc.getElementById('countText');
+    const pill = doc.getElementById('syncPill');
+    if (!list || !filter || !count) return;
+
+    applying = true;
+    try {
+      if (!queueById.size) await loadQueue();
+      const cards = [...list.querySelectorAll('article.job')];
+      const activeLike = ['active','candidate','prepared'].includes(filter.value);
+
+      if (!activeLike) {
+        cards.forEach(card => { card.hidden = false; });
+        return;
+      }
+
+      pill.textContent = 'Validando disponíveis…';
+      pill.className = 'pill neutral';
+      cards.forEach(card => { card.hidden = true; });
+
+      const candidates = cards.map(card => {
+        const id = String(card.dataset.projectId || '');
+        const item = queueById.get(id);
+        const title = card.querySelector('.job-title')?.textContent || item?.title || '';
+        const risk = card.querySelector('.job-risk')?.textContent || item?.risk || '';
+        return {card, item, score: fitScore(`${title} ${risk}`)};
+      }).filter(x => x.score > 0 && x.item && !['sent','closed','unavailable'].includes(x.item.status));
+
+      const confirmed = [];
+      await mapLimit(candidates, 4, async x => {
+        if (await liveAvailable(x.item.url)) confirmed.push(x);
+      });
+
+      confirmed.sort((a,b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return Number(b.item.fit || 0) - Number(a.item.fit || 0);
+      });
+
+      for (const x of confirmed) {
+        x.card.hidden = false;
+        if (list.lastElementChild !== x.card) list.appendChild(x.card);
+      }
+
+      count.textContent = `${confirmed.length} ${confirmed.length === 1 ? 'projeto disponível' : 'projetos disponíveis'}`;
+      pill.textContent = 'Só disponíveis';
+      pill.className = 'pill good';
+      const empty = doc.getElementById('emptyState');
+      if (empty) empty.classList.toggle('hidden', confirmed.length !== 0);
+    } finally {
+      applying = false;
+    }
+  }
+
+  function schedule() {
+    clearTimeout(timer);
+    timer = setTimeout(apply, 120);
+  }
+
+  frame.addEventListener('load', async () => {
+    await loadQueue();
+    const doc = frame.contentDocument;
+    if (!doc) return;
+    doc.getElementById('refreshBtn')?.addEventListener('click', () => { cache.clear(); queueById.clear(); setTimeout(schedule, 250); }, true);
+    doc.getElementById('statusFilter')?.addEventListener('change', schedule);
+    doc.getElementById('searchInput')?.addEventListener('input', schedule);
+    const list = doc.getElementById('list');
+    if (list) new MutationObserver(schedule).observe(list, {childList:true});
+    schedule();
+  });
+})();
+</script>
+</body>
+</html>
