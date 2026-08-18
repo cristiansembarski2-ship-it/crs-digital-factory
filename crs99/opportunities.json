@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-17T23:28:15-03:00",
+  "updatedAt": "2026-08-18T00:08:31-03:00",
   "rules": {
     "minimumFit": 8,
     "autoSubmit": false,
@@ -31,39 +31,6 @@
       "proposal": ""
     },
     {
-      "projectKey": "criacao-de-logotipo-portfolio-e-site-para-consultoria-de-logistica-777012",
-      "title": "Criação de logotipo, portfólio e site para consultoria de logística",
-      "url": "https://www.99freelas.com.br/project/criacao-de-logotipo-portfolio-e-site-para-consultoria-de-logistica-777012",
-      "status": "candidate",
-      "fit": 8.0,
-      "price": 690,
-      "days": 5,
-      "risk": "escopo junta identidade visual, portfólio e site; congelar primeira entrega e não prometer branding avançado sem referência. Projeto exclusivo Premium e ainda aberto; validar botão real no Copilot.",
-      "proposal": "Olá! Li o escopo e consigo organizar a primeira entrega em um pacote fechado para evitar que identidade visual, portfólio e site cresçam sem controle. Posso estruturar uma identidade visual objetiva para a Vértice e aplicar essa direção em um site responsivo de apresentação dos serviços e portfólio. Para começar, proponho fechar primeiro a estrutura visual, páginas e conteúdo essencial, deixando ajustes adicionais para uma segunda rodada. Proposta inicial: R$ 690. Prazo estimado: 5 dias úteis após receber textos, referências e materiais da empresa."
-    },
-    {
-      "projectKey": "configuracao-de-loja-virtual-em-nuvemshop-para-loja-de-cafe-776998",
-      "title": "Configuração de loja virtual em Nuvemshop para loja de café",
-      "url": "https://www.99freelas.com.br/project/configuracao-de-loja-virtual-em-nuvemshop-para-loja-de-cafe-776998",
-      "status": "candidate",
-      "fit": 7.7,
-      "price": 590,
-      "days": 4,
-      "risk": "cliente pede experiência comprovada e links de lojas; não inventar. Propor execução transparente/piloto e confirmar acesso, tema, domínio, frete e pagamentos antes de fechar. Projeto exclusivo Premium e aberto.",
-      "proposal": "Olá! Li o escopo completo. A estrutura é bem objetiva: configurar a loja, aplicar o tema, organizar a home, cadastrar os 10 produtos e deixar pagamento/frete funcionando. Posso trabalhar por uma primeira etapa fechada, começando pela configuração e catálogo, e validar as integrações antes da entrega final. Não vou atribuir a mim lojas ou cases que eu não possa comprovar; posso demonstrar a organização e a abordagem já na configuração inicial. Proposta inicial: R$ 590. Prazo estimado: 4 dias úteis após receber os acessos e materiais."
-    },
-    {
-      "projectKey": "edicao-de-fotos-de-aniversario-776982",
-      "title": "Edição de fotos de aniversário",
-      "url": "https://www.99freelas.com.br/project/edicao-de-fotos-de-aniversario-776982",
-      "status": "candidate",
-      "fit": 7.8,
-      "price": 290,
-      "days": 3,
-      "risk": "lote aproximado de 60 fotos; confirmar resolução, formato de entrega e nível de retoque. Baixa concorrência no momento e projeto exclusivo Premium.",
-      "proposal": "Olá! Posso tratar o lote de aproximadamente 60 fotos com foco em correção de iluminação, equilíbrio de cores e pequenos retoques naturais, evitando aparência artificial. Antes de fechar, só preciso confirmar o formato/resolução dos arquivos e se existe alguma referência de acabamento desejado. Proposta inicial: R$ 290. Prazo estimado: 3 dias úteis após receber as imagens."
-    },
-    {
       "projectKey": "planilha-de-controle-de-estoque-automatizada-integrada-a-entrada-e-saida-776483",
       "title": "Planilha de controle de estoque automatizada integrada à entrada e saída",
       "url": "https://www.99freelas.com.br/project/planilha-de-controle-de-estoque-automatizada-integrada-a-entrada-e-saida-776483",
@@ -72,7 +39,7 @@
       "price": 790,
       "days": 4,
       "risk": "estrutura da planilha existente ainda não conhecida; congelar escopo antes da implementação",
-      "proposal": "Olá!\n\nEntendi que o ponto principal não é criar outra planilha de estoque, e sim fazer a sua planilha atual de entradas e saídas alimentar o estoque automaticamente, sem lançar a mesma informação duas vezes.\n\nEu faria a integração preservando sua estrutura atual e usando as movimentações como origem dos cálculos.\n\nValor: R$ 790\nPrazo: 4 dias úteis após receber o arquivo atual."
+      "proposal": "Olá! Entendi que o ponto principal não é criar outra planilha de estoque, e sim fazer a sua planilha atual de entradas e saídas alimentar o estoque automaticamente, sem lançar a mesma informação duas vezes. Eu faria a integração preservando sua estrutura atual e usando as movimentações como origem dos cálculos. Valor: R$ 790. Prazo: 4 dias úteis após receber o arquivo atual."
     },
     {
       "projectKey": "especialista-em-excel-para-gestao-e-automacao-de-estoque-776943",
@@ -83,8 +50,8 @@
       "fit": 9.9,
       "price": 790,
       "days": 5,
-      "risk": "Projeto Exclusivo publicado em 17/08/2026 às 17:55. A página pública rastreada em 17/08 mostra 30 propostas e lista Cristian R. entre os proponentes; portanto já há forte evidência pública de proposta enviada. O Copilot autenticado continua sendo a autoridade final para confirmar o estado real.",
-      "proposal": "Olá!\n\nEntendi que você já possui uma planilha de gestão de estoque estruturada e quer preservar a lógica atual, corrigindo fórmulas e automatizando os pontos que ainda exigem trabalho manual.\n\nEu começaria validando a estrutura existente e, dentro de um escopo fechado, faria a revisão das fórmulas, padronização dos SKUs, buscas automáticas de produto e custo, atualização do estoque a partir das movimentações, controles de validade/produtos parados e validações necessárias sem reconstruir a planilha do zero.\n\nValor: R$ 790\nPrazo: 5 dias úteis após receber o arquivo atual e confirmar as regras principais."
+      "risk": "Projeto Exclusivo publicado em 17/08/2026 às 17:55. A página pública rastreada em 17/08 mostra proposta enviada; o Copilot autenticado continua sendo a autoridade final.",
+      "proposal": "Olá! Entendi que você já possui uma planilha de gestão de estoque estruturada e quer preservar a lógica atual, corrigindo fórmulas e automatizando os pontos que ainda exigem trabalho manual. Valor: R$ 790. Prazo: 5 dias úteis após receber o arquivo atual e confirmar as regras principais."
     },
     {
       "projectKey": "desenvolver-dashboard-automatizado-de-indicadores-em-google-sheets-764554",
@@ -94,8 +61,41 @@
       "fit": 8.8,
       "price": 790,
       "days": 5,
-      "risk": "projeto confirmado como fechado na interface autenticada do proprietário; resultados públicos estavam desatualizados/contraditórios",
-      "proposal": "Olá!\n\nEntendi que você precisa transformar uma base operacional em um dashboard no Google Sheets que atualize os indicadores sem depender de cálculos e ajustes manuais a cada período.\n\nPrazo: 5 dias úteis após receber a base e as regras dos indicadores.\nValor: R$ 790."
+      "risk": "projeto confirmado como fechado na interface autenticada do proprietário; manter fora da fila ativa",
+      "proposal": ""
+    },
+    {
+      "projectKey": "criacao-de-logotipo-portfolio-e-site-para-consultoria-de-logistica-777012",
+      "title": "Criação de logotipo, portfólio e site para consultoria de logística",
+      "url": "https://www.99freelas.com.br/project/criacao-de-logotipo-portfolio-e-site-para-consultoria-de-logistica-777012",
+      "status": "candidate",
+      "fit": 8.0,
+      "price": 690,
+      "days": 5,
+      "risk": "escopo junta identidade visual, portfólio e site; congelar primeira entrega e validar estado real no Copilot",
+      "proposal": "Olá! Li o escopo e consigo organizar a primeira entrega em um pacote fechado para evitar que identidade visual, portfólio e site cresçam sem controle. Proposta inicial: R$ 690. Prazo estimado: 5 dias úteis após receber textos, referências e materiais."
+    },
+    {
+      "projectKey": "configuracao-de-loja-virtual-em-nuvemshop-para-loja-de-cafe-776998",
+      "title": "Configuração de loja virtual em Nuvemshop para loja de café",
+      "url": "https://www.99freelas.com.br/project/configuracao-de-loja-virtual-em-nuvemshop-para-loja-de-cafe-776998",
+      "status": "candidate",
+      "fit": 7.7,
+      "price": 590,
+      "days": 4,
+      "risk": "cliente pede experiência comprovada; não inventar. Propor piloto e validar acessos e integrações no Copilot",
+      "proposal": "Olá! Li o escopo completo. Posso trabalhar por uma primeira etapa fechada, começando pela configuração e catálogo, e validar as integrações antes da entrega final. Proposta inicial: R$ 590. Prazo: 4 dias úteis após receber os acessos e materiais."
+    },
+    {
+      "projectKey": "edicao-de-fotos-de-aniversario-776982",
+      "title": "Edição de fotos de aniversário",
+      "url": "https://www.99freelas.com.br/project/edicao-de-fotos-de-aniversario-776982",
+      "status": "candidate",
+      "fit": 7.8,
+      "price": 290,
+      "days": 3,
+      "risk": "lote aproximado de 60 fotos; confirmar resolução, formato e nível de retoque",
+      "proposal": "Olá! Posso tratar o lote com foco em iluminação, cores e pequenos retoques naturais. Proposta inicial: R$ 290. Prazo: 3 dias úteis após receber as imagens."
     },
     {
       "projectKey": "desenvolvimento-de-planilhas-inteligentes-com-automacoes-google-sheets-excel-766598",
@@ -105,8 +105,8 @@
       "fit": 9.6,
       "price": 790,
       "days": 5,
-      "risk": "status público conflitante; validar no Copilot. A página pública exibe 'hoje', 15 propostas e fluxo de proposta, mas o índice foi rastreado anteriormente. Escopo pode crescer; congelar a primeira etapa antes da implementação.",
-      "proposal": "Olá!\n\nComo vocês já possuem planilhas e uma lógica de operação, eu evitaria reconstruir tudo do zero. Para um primeiro ciclo fechado, proponho organizar e padronizar as bases existentes, integrar abas que hoje dependem de lançamentos repetidos, aplicar validações e fórmulas automáticas, criar um dashboard com os indicadores prioritários e usar Apps Script apenas onde realmente reduzir trabalho manual.\n\nValor para esta primeira etapa: R$ 790\nPrazo estimado: 5 dias úteis após receber as planilhas atuais e alinhar o escopo."
+      "risk": "status público conflitante; validar no Copilot. Escopo pode crescer; congelar a primeira etapa",
+      "proposal": "Olá! Para um primeiro ciclo fechado, proponho organizar e padronizar as bases existentes, integrar abas, aplicar validações e fórmulas automáticas e criar um dashboard com os indicadores prioritários. Valor: R$ 790. Prazo: 5 dias úteis."
     },
     {
       "projectKey": "desenvolver-sistema-de-gestao-em-google-sheets-765083",
@@ -116,8 +116,8 @@
       "fit": 9.3,
       "price": 790,
       "days": 5,
-      "risk": "status público conflitante; validar no Copilot. A página pública exibe 'hoje', 29 propostas e orçamento aberto, mas o resultado foi rastreado anteriormente. Escopo total é amplo; R$ 790 cobre somente a primeira fase funcional.",
-      "proposal": "Olá!\n\nComo o projeto envolve financeiro, anúncios, CRM, vendas, estoque e metas, eu começaria pela base central e pelos controles que alimentam o dashboard. Na primeira etapa, entregaria estrutura central no Google Sheets, fluxo principal de vendas, controle de estoque, base de metas, dashboard inicial e automações para reduzir lançamento manual.\n\nValor da primeira etapa: R$ 790\nPrazo estimado: 5 dias úteis após o alinhamento dos campos e regras principais."
+      "risk": "status público conflitante; validar no Copilot. R$ 790 cobre somente primeira fase funcional",
+      "proposal": "Olá! Como o projeto envolve várias áreas, eu começaria pela base central e pelos controles que alimentam o dashboard. Valor da primeira etapa: R$ 790. Prazo: 5 dias úteis."
     },
     {
       "projectKey": "dashboard-em-google-sheets-com-integracao-via-api-764647",
@@ -127,8 +127,8 @@
       "fit": 8.5,
       "price": 690,
       "days": 4,
-      "risk": "status público conflitante; validar no Copilot. A página pública exibe 'ontem', 34 propostas e fluxo de proposta, mas o índice foi rastreado anteriormente. A API não está especificada; preço cobre dashboard e alertas, deixando a integração condicionada à documentação e autenticação disponíveis.",
-      "proposal": "Olá!\n\nEu faria primeiro a camada que independe da API: dashboard no Google Sheets usando a base atual, tabelas, gráficos, histórico mensal, filtros, indicadores e alertas visuais. Depois de validar a ferramenta externa e a documentação da API, verifico a melhor forma de automatizar a entrada dos dados.\n\nValor da etapa inicial: R$ 690\nPrazo estimado: 4 dias úteis após receber a planilha e as regras dos alertas."
+      "risk": "status público conflitante; validar no Copilot. API não especificada; preço cobre etapa inicial",
+      "proposal": "Olá! Eu faria primeiro a camada que independe da API: dashboard no Google Sheets, histórico, filtros, indicadores e alertas. Depois validamos a documentação da API. Valor inicial: R$ 690. Prazo: 4 dias úteis."
     },
     {
       "projectKey": "planilha-excel-para-gestao-financeira-e-operacional-de-salao-de-beleza-774526",
@@ -138,8 +138,8 @@
       "fit": 8.6,
       "price": 790,
       "days": 5,
-      "risk": "o índice público sinaliza Projeto Exclusivo e mostra cerca de 40 propostas, mas pode estar desatualizado. Validar no Copilot autenticado antes de preencher. Há contradição técnica entre pedir 'sem Macro/VBA' e exigir botão de backup/restauração; proposta cobre gestão, estoque, comissões e dashboard, condicionando o mecanismo de backup ao recurso permitido pelo cliente.",
-      "proposal": "Olá!\n\nO escopo combina bem com uma planilha operacional única para o salão: lançamentos diários, comissões por profissional, estoque com alerta mínimo e um dashboard que consolide faturamento, margem, serviços e desempenho da equipe.\n\nEu estruturaria primeiro uma base única de lançamentos e cadastros, para que financeiro, comissões, estoque e indicadores sejam alimentados sem duplicar informações. Também deixaria percentuais, categorias e limites de estoque configuráveis.\n\nSobre backup/restauração, antes de implementar eu só confirmaria qual recurso é permitido, porque o anúncio pede botão de backup mas também informa que não deseja Macro/VBA; consigo manter o restante do sistema sem macros e escolher a alternativa compatível após esse alinhamento.\n\nValor: R$ 790\nPrazo: 5 dias úteis após receber as regras de comissão e confirmar o formato do backup."
+      "risk": "validar no Copilot; há contradição entre pedir sem Macro/VBA e exigir botão de backup/restauração",
+      "proposal": "Olá! Eu estruturaria uma base única de lançamentos para alimentar financeiro, comissões, estoque e indicadores sem duplicar informações. Valor: R$ 790. Prazo: 5 dias úteis."
     },
     {
       "projectKey": "prospeccao-ativa-b2b-para-desenvolvimento-de-liderancas-774756",
@@ -149,8 +149,8 @@
       "fit": 8.1,
       "price": 390,
       "days": 5,
-      "risk": "alto esforço humano e comercial; anúncio pede prospecção de 100 empresas, primeiro contato e follow-up, mas não exige fechamento. Ideal propor piloto de 25-30 empresas antes de assumir o lote completo. Não inventar experiência anterior em SDR/B2B.",
-      "proposal": "Olá! Li o escopo e entendi que a necessidade está concentrada na prospecção e geração de oportunidades, sem conduzir a reunião de apresentação nem o fechamento. Para começar com controle de qualidade, proponho um piloto com 25 a 30 empresas, incluindo pesquisa, identificação do contato responsável, abordagem inicial, registro e follow-up. Ao final do piloto alinhamos taxa de resposta e ajustamos o restante do lote. Proposta inicial: R$ 390. Prazo: 5 dias úteis para o piloto."
+      "risk": "alto esforço humano; propor piloto de 25-30 empresas e não inventar experiência anterior em SDR/B2B",
+      "proposal": "Olá! Para começar com controle de qualidade, proponho um piloto com 25 a 30 empresas, incluindo pesquisa, identificação do contato, abordagem inicial, registro e follow-up. Proposta inicial: R$ 390. Prazo: 5 dias úteis."
     },
     {
       "projectKey": "video-de-apresentacao-do-funcionamento-do-aplicativo-774796",
@@ -160,8 +160,8 @@
       "fit": 8.8,
       "price": 290,
       "days": 3,
-      "risk": "escopo curto, mas faltam duração final, material disponível e padrão de locução. Confirmar se o cliente fornece roteiro/acesso aos apps e se espera gravação de tela ou material pronto.",
-      "proposal": "Olá! Posso montar o vídeo mostrando de forma clara o funcionamento dos dois aplicativos, com gravação das telas, navegação passo a passo, preenchimento dos campos e locução sincronizada. Antes de fechar o escopo final, preciso apenas confirmar a duração aproximada desejada e se os acessos/roteiro-base serão fornecidos. Proposta inicial: R$ 290. Prazo: 3 dias úteis após receber os acessos e alinhar o roteiro."
+      "risk": "confirmar duração final, acessos e padrão de locução",
+      "proposal": "Olá! Posso montar o vídeo mostrando de forma clara o funcionamento dos aplicativos, com gravação de tela, navegação passo a passo e locução sincronizada. Proposta inicial: R$ 290. Prazo: 3 dias úteis."
     },
     {
       "projectKey": "editor-de-videos-para-canal-de-league-of-legends-gaming-no-youtube-774787",
@@ -171,8 +171,8 @@
       "fit": 7.4,
       "price": 250,
       "days": 3,
-      "risk": "exige entendimento real de LoL, timing de humor e exemplos/portfólio; não inventar domínio de jogo nem experiência. Pode ser validado por um vídeo-teste se o cliente aceitar avaliação por amostra.",
-      "proposal": "Olá! Vi que o ponto central não é apenas cortar gameplay, mas entender o contexto da partida, ritmo e timing de humor. Para validar compatibilidade de estilo sem prometer experiência que eu não tenha como comprovar, posso começar por um vídeo-teste com escopo fechado, trabalhando a narrativa, cortes, zooms, legendas e memes somente quando agregarem. Proposta inicial para o teste: R$ 250. Prazo: 3 dias úteis após receber o VOD e referências do canal."
+      "risk": "exige entendimento de LoL e portfólio; propor vídeo-teste sem inventar experiência",
+      "proposal": "Olá! Para validar compatibilidade de estilo sem prometer experiência que eu não tenha como comprovar, posso começar por um vídeo-teste com escopo fechado. Proposta inicial: R$ 250. Prazo: 3 dias úteis."
     },
     {
       "projectKey": "atendimento-ao-consumidor-via-whatsapp-774783",
@@ -182,8 +182,88 @@
       "fit": 6.8,
       "price": 350,
       "days": 7,
-      "risk": "trabalho contínuo e mensal com necessidade de disponibilidade humana; só faz sentido como validação se horário, volume de mensagens e autonomia estiverem limitados. Não comprometer jornada integral sem esses dados.",
-      "proposal": "Olá! Entendi que a demanda é atendimento contínuo via WhatsApp, com respostas rápidas e suporte aos consumidores. Para dimensionar corretamente sem assumir uma carga indefinida, proponho iniciar com um piloto de 7 dias, dentro de uma faixa de horário e volume de mensagens previamente combinados, registrando dúvidas recorrentes e respostas-padrão para ganhar eficiência. Proposta inicial do piloto: R$ 350. Após o teste podemos definir o formato mensal com base no volume real."
+      "risk": "trabalho contínuo e humano; só assumir com horário e volume limitados. Recomendar piloto",
+      "proposal": "Olá! Para dimensionar corretamente sem assumir uma carga indefinida, proponho iniciar com um piloto de 7 dias dentro de uma faixa de horário e volume previamente combinados. Proposta inicial: R$ 350."
+    },
+    {
+      "projectKey": "designer-para-criacao-de-carrosseis-para-instagram-ndash-area-medica-774817",
+      "title": "Designer para criação de carrosséis para Instagram – Área Médica",
+      "url": "https://www.99freelas.com.br/project/designer-para-criacao-de-carrosseis-para-instagram-ndash-area-medica-774817",
+      "status": "candidate",
+      "fit": 8.5,
+      "technical": 8.6,
+      "commercialChance": 9.2,
+      "financial": 7.7,
+      "automation": 8.8,
+      "effort": 5.8,
+      "price": 320,
+      "days": 3,
+      "risk": "Projeto exclusivo Premium com apenas 2 propostas e 2 interessados na listagem pública. Cliente pede portfólio e exemplos; não inventar. Oferecer amostra/spec transparente e confirmar se aceita Canva como ferramenta.",
+      "proposal": "Olá! Li o escopo dos 4 carrosséis e consigo trabalhar a partir dos textos, referências, paleta e direção visual que você fornecer. Posso montar uma primeira capa + 1 slide de conteúdo como amostra de direção antes de fechar o lote completo, sem atribuir a mim portfólio ou experiência médica que eu não tenha como comprovar. Para os 4 carrosséis de até 10 slides: proposta inicial de R$ 320 e prazo de 3 dias úteis após receber o material."
+    },
+    {
+      "projectKey": "integrar-o-bling-com-o-gs1-774816",
+      "title": "Integrar o Bling com o GS1",
+      "url": "https://www.99freelas.com.br/project/integrar-o-bling-com-o-gs1-774816",
+      "status": "candidate",
+      "fit": 8.4,
+      "technical": 7.8,
+      "commercialChance": 9.0,
+      "financial": 8.6,
+      "automation": 9.4,
+      "effort": 6.8,
+      "price": 790,
+      "days": 5,
+      "risk": "Projeto exclusivo Premium com 2 propostas e 3 interessados. A viabilidade depende das APIs, autenticação e permissões disponíveis no Bling e GS1; confirmar isso antes de prometer geração automática de EAN/GTIN13.",
+      "proposal": "Olá! Entendi o objetivo: ao cadastrar o produto no Bling, disparar o fluxo necessário para geração do EAN/GTIN13 no GS1 e devolver o código ao cadastro. Posso começar validando as APIs e permissões disponíveis nas duas contas; com isso confirmado, implemento uma primeira integração ponta a ponta para um produto e depois generalizo o fluxo. Proposta inicial: R$ 790. Prazo estimado: 5 dias úteis após receber os acessos/documentação e validar a autenticação."
+    },
+    {
+      "projectKey": "diagramacao-de-revista-institucional-capa-sumario-e-conteudo-774810",
+      "title": "Diagramação de revista institucional (capa, sumário e conteúdo)",
+      "url": "https://www.99freelas.com.br/project/diagramacao-de-revista-institucional-capa-sumario-e-conteudo-774810",
+      "status": "candidate",
+      "fit": 8.2,
+      "technical": 8.0,
+      "commercialChance": 8.9,
+      "financial": 8.0,
+      "automation": 8.2,
+      "effort": 6.4,
+      "price": 490,
+      "days": 4,
+      "risk": "Projeto exclusivo Premium com 4 propostas e 4 interessados. Cliente pede portfólio de diagramação; não inventar. Usar edição anterior como referência e oferecer uma página-modelo/capa de amostra antes do lote completo.",
+      "proposal": "Olá! Como vocês já fornecem o conteúdo e têm uma edição anterior como referência, consigo começar criando a estrutura-base da nova revista: capa, sumário, página-modelo de matéria, hierarquia de títulos e padrão de imagens. Assim validamos a direção antes de diagramar o restante. Não vou atribuir a mim portfólio que não possa comprovar; posso demonstrar a execução numa amostra inicial. Proposta inicial: R$ 490. Prazo: 4 dias úteis após receber textos, imagens e a referência."
+    },
+    {
+      "projectKey": "integrar-produtos-do-erp-com-marketplace-da-amazon-774812",
+      "title": "Integrar produtos do ERP com marketplace da Amazon",
+      "url": "https://www.99freelas.com.br/project/integrar-produtos-do-erp-com-marketplace-da-amazon-774812",
+      "status": "candidate",
+      "fit": 8.3,
+      "technical": 7.7,
+      "commercialChance": 8.6,
+      "financial": 8.5,
+      "automation": 9.0,
+      "effort": 7.0,
+      "price": 690,
+      "days": 5,
+      "risk": "Projeto exclusivo Premium com 7 propostas e 8 interessados. São cerca de 20 produtos com variações e campos ausentes; integração depende das categorias, atributos obrigatórios da Amazon e recursos do ERP Tiny. Congelar escopo nos 20 produtos atuais.",
+      "proposal": "Olá! Entendi que você não quer apenas cadastrar os produtos manualmente na Amazon, mas deixar o fluxo integrado pelo Tiny. Eu começaria pelos cerca de 20 produtos atuais: mapear os campos que faltam para a Amazon, padronizar os atributos e validar a integração com um produto/variação antes de aplicar ao lote. Proposta inicial: R$ 690. Prazo: 5 dias úteis após receber os acessos e confirmar as categorias/atributos exigidos."
+    },
+    {
+      "projectKey": "aumentar-reputacao-mercado-livre-774815",
+      "title": "Aumentar reputação Mercado Livre",
+      "url": "https://www.99freelas.com.br/project/aumentar-reputacao-mercado-livre-774815",
+      "status": "candidate",
+      "fit": 7.6,
+      "technical": 7.5,
+      "commercialChance": 8.8,
+      "financial": 7.2,
+      "automation": 6.5,
+      "effort": 5.0,
+      "price": 250,
+      "days": 2,
+      "risk": "Projeto exclusivo Premium com 2 propostas e 3 interessados, porém o anúncio não explica a causa da reputação baixa. Aceitar apenas trabalho legítimo de diagnóstico e correção operacional; rejeitar qualquer pedido de avaliações falsas, compras simuladas ou manipulação da plataforma.",
+      "proposal": "Olá! Posso começar por um diagnóstico objetivo da conta para identificar o que está impactando a reputação — atrasos, cancelamentos, reclamações, qualidade dos anúncios, estoque, despacho ou outras métricas disponíveis. A partir disso, entrego um plano de correção e implemento os ajustes operacionais que estiverem dentro das regras do Mercado Livre. Não trabalho com avaliações falsas, compras simuladas ou manipulação. Proposta inicial para diagnóstico + primeira rodada de ajustes: R$ 250. Prazo: 2 dias úteis após receber acesso/prints das métricas."
     }
   ]
 }
