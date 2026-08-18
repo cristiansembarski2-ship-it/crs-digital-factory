@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.3.0",
-  "description": "Copiloto interno da CRS Digital para ranquear projetos ao vivo, priorizar exclusivos Premium, validar e preencher propostas no 99Freelas sem envio automático.",
+  "version": "0.4.0",
+  "description": "Copiloto interno da CRS Digital para analisar projetos, priorizar exclusivos Premium e preparar propostas completas no 99Freelas sem enviar sozinho.",
   "permissions": ["storage"],
   "host_permissions": [
     "https://crs-digital-factory.vercel.app/*",
@@ -18,7 +18,7 @@
         "https://99freelas.com.br/project/*"
       ],
       "css": ["content.css"],
-      "js": ["content.js", "title-fix.js", "status-fix.js"],
+      "js": ["content.js", "title-fix.js", "status-fix.js", "autopilot.js"],
       "run_at": "document_idle"
     },
     {
