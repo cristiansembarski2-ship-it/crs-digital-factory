@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         CRS99 Auto Preencher
 // @namespace    https://crs-digital-factory.vercel.app/
-// @version      1.2.0
-// @description  Preenche automaticamente proposta, valor e prazo no 99Freelas quando a página é aberta pelo CRS99 Mobile. Nunca envia a proposta.
+// @version      2.0.0
+// @description  Preenche automaticamente Sua oferta, Duracao estimada e Detalhes no 99Freelas. Nunca envia a proposta.
 // @match        https://www.99freelas.com.br/project/*
-// @run-at       document-idle
+// @match        https://99freelas.com.br/project/*
+// @run-at       document-start
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/main/crs99-mobile/crs99-auto.user.js
 // @downloadURL  https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/main/crs99-mobile/crs99-auto.user.js
@@ -13,305 +14,268 @@
 (() => {
   'use strict';
 
-  const normalize = (value = '') => String(value || '')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-    .trim();
-
-  const all = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-  function visible(element) {
-    if (!element) return false;
-    const rect = element.getBoundingClientRect();
-    const style = getComputedStyle(element);
-    return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden';
-  }
-
-  function usable(element) {
-    if (!element || element.disabled || element.readOnly) return false;
-    const type = String(element.type || '').toLowerCase();
-    if (['hidden', 'submit', 'button', 'checkbox', 'radio', 'file'].includes(type)) return false;
-    return visible(element);
-  }
+  const VERSION = '2.0.0';
+  const STORAGE_KEY = 'crs99PayloadV2';
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const norm = (v = '') => String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
 
   function banner(message, tone = 'good') {
     let box = document.getElementById('crs99-auto-banner');
     if (!box) {
       box = document.createElement('div');
       box.id = 'crs99-auto-banner';
-      box.style.cssText = 'position:fixed;left:12px;right:12px;bottom:18px;z-index:2147483647;padding:14px 16px;border-radius:12px;color:#fff;font:700 14px/1.35 Arial,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.45)';
-      document.documentElement.appendChild(box);
+      box.style.cssText = 'position:fixed;left:10px;right:10px;bottom:16px;z-index:2147483647;padding:13px 14px;border-radius:12px;color:white;font:700 14px/1.35 Arial,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.4)';
+      (document.body || document.documentElement).appendChild(box);
     }
     box.style.background = tone === 'bad' ? '#b91c1c' : tone === 'warn' ? '#92400e' : '#15803d';
-    box.textContent = message;
+    box.textContent = `CRS99 v${VERSION} — ${message}`;
   }
 
   function payloadFromHash() {
-    const match = location.hash.match(/(?:^#|&)crs99=([^&]+)/);
-    if (!match) return null;
-    try { return JSON.parse(decodeURIComponent(match[1])); }
-    catch { return null; }
+    const m = location.hash.match(/(?:^#|&)crs99=([^&]+)/);
+    if (!m) return null;
+    try { return JSON.parse(decodeURIComponent(m[1])); } catch { return null; }
   }
 
-  function currentProjectId() {
-    const path = location.pathname.replace(/\/+$/, '');
-    const direct = path.match(/\/project\/bid\/(\d{4,})$/i);
+  function loadPayload() {
+    const fromHash = payloadFromHash();
+    if (fromHash) {
+      try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(fromHash)); } catch {}
+      return fromHash;
+    }
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || 'null');
+      return saved;
+    } catch { return null; }
+  }
+
+  function projectId() {
+    const p = location.pathname.replace(/\/+$/, '');
+    const direct = p.match(/\/project\/bid\/(\d{4,})$/i);
     if (direct) return direct[1];
-    const slug = path.match(/\/project\/[^/]*?(\d{4,})$/i);
+    const slug = p.match(/\/project\/[^/]*?(\d{4,})$/i);
     return slug ? slug[1] : '';
   }
 
-  function metadataText(element) {
-    const parts = [
-      element.name,
-      element.id,
-      element.placeholder,
-      element.getAttribute('aria-label'),
-      element.getAttribute('data-name'),
-      element.getAttribute('data-field')
-    ].filter(Boolean);
-
-    if (element.id) {
-      try {
-        const label = document.querySelector(`label[for="${CSS.escape(element.id)}"]`);
-        if (label) parts.push(label.textContent || '');
-      } catch {}
-    }
-
-    return normalize(parts.join(' '));
+  function visible(el) {
+    if (!el || el.disabled || el.readOnly) return false;
+    const r = el.getBoundingClientRect();
+    const s = getComputedStyle(el);
+    return r.width > 2 && r.height > 2 && s.display !== 'none' && s.visibility !== 'hidden';
   }
 
-  function ancestorTexts(element, depth = 6) {
-    const result = [];
-    let node = element;
-    for (let i = 0; i < depth; i++) {
-      node = node?.parentElement;
-      if (!node) break;
-      const text = normalize((node.innerText || '').slice(0, 1200));
-      if (text) result.push({ text, distance: i + 1 });
-    }
-    return result;
-  }
-
-  function scoreField(element, positives, negatives = [], preferTag = '') {
-    if (!usable(element)) return -Infinity;
-    let score = 0;
-    const meta = metadataText(element);
-
-    positives.forEach((term, index) => {
-      if (meta.includes(normalize(term))) score += 500 - index * 12;
-    });
-    negatives.forEach((term, index) => {
-      if (meta.includes(normalize(term))) score -= 800 - index * 10;
-    });
-
-    ancestorTexts(element).forEach(({ text, distance }) => {
-      const proximity = Math.max(1, 7 - distance);
-      positives.forEach((term, index) => {
-        if (text.includes(normalize(term))) score += proximity * (60 - Math.min(index, 8) * 4);
+  function tinyTextElements(text) {
+    const target = norm(text);
+    return [...document.querySelectorAll('label,h1,h2,h3,h4,h5,strong,b,p,span,div')]
+      .filter((el) => visible(el))
+      .filter((el) => {
+        const t = norm(el.innerText || el.textContent || '');
+        return t === target || (t.includes(target) && t.length <= target.length + 35);
       });
-      negatives.forEach((term, index) => {
-        if (text.includes(normalize(term))) score -= proximity * (110 - Math.min(index, 8) * 5);
-      });
-    });
-
-    if (preferTag && element.tagName === preferTag) score += 80;
-    return score;
   }
 
-  function bestField(candidates, positives, negatives = [], preferTag = '') {
-    const ranked = candidates
-      .map((element) => ({ element, score: scoreField(element, positives, negatives, preferTag) }))
-      .filter((item) => Number.isFinite(item.score))
-      .sort((a, b) => b.score - a.score);
-    return ranked[0]?.score > 0 ? ranked[0].element : null;
-  }
+  function nearestBelow(labelText, selector, maxGap = 330) {
+    const labels = tinyTextElements(labelText);
+    const fields = [...document.querySelectorAll(selector)].filter(visible);
+    let best = null;
+    let bestScore = Infinity;
 
-  function detailsField() {
-    const textareas = all('textarea').filter(usable);
-    const exactPlaceholder = textareas.find((element) => {
-      const p = normalize(element.placeholder || '');
-      return p.includes('escreva aqui os detalhes da proposta') || p.includes('detalhes da proposta');
-    });
-    if (exactPlaceholder) return exactPlaceholder;
-
-    const labelled = textareas.find((element) => {
-      const meta = metadataText(element);
-      if (meta.includes('detalhes')) return true;
-      return ancestorTexts(element, 4).some(({ text }) => text.includes('detalhes'));
-    });
-    return labelled || textareas[0] || null;
+    for (const label of labels) {
+      const lr = label.getBoundingClientRect();
+      for (const field of fields) {
+        const fr = field.getBoundingClientRect();
+        const vertical = fr.top - lr.bottom;
+        if (vertical < -20 || vertical > maxGap) continue;
+        const horizontal = Math.abs(fr.left - lr.left);
+        const score = Math.max(0, vertical) * 4 + horizontal;
+        if (score < bestScore) {
+          bestScore = score;
+          best = field;
+        }
+      }
+    }
+    return best;
   }
 
   function fields() {
-    const inputs = all('input').filter(usable);
-    const proposal = detailsField();
-    const price = bestField(
-      inputs,
-      ['sua oferta', 'valor da proposta', 'oferta', 'preco', 'valor', 'r$'],
-      ['oferta final', 'como e calculada', 'taxa']
-    );
-    const days = bestField(
-      inputs,
-      ['duracao estimada', 'duracao', 'dias', 'prazo', 'entrega', 'tempo'],
-      ['sua oferta', 'oferta final', 'valor', 'r$']
-    );
-    return { proposal, price, days };
-  }
+    const allInputs = [...document.querySelectorAll('input')].filter((el) => {
+      const type = String(el.type || '').toLowerCase();
+      return visible(el) && !['hidden','submit','button','checkbox','radio','file'].includes(type);
+    });
 
-  function nativeSet(element, next) {
-    const proto = element.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
-    const setter = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
-    const tracker = element._valueTracker;
-    if (tracker && typeof tracker.setValue === 'function') {
-      try { tracker.setValue(''); } catch {}
+    let price = nearestBelow('Sua oferta', 'input', 220);
+    let days = nearestBelow('Duração estimada', 'input', 240) || nearestBelow('Duracao estimada', 'input', 240);
+    let proposal = nearestBelow('Detalhes', 'textarea', 300);
+
+    if (!proposal) {
+      proposal = [...document.querySelectorAll('textarea')].find((el) => visible(el) && norm(el.placeholder).includes('detalhes da proposta')) || null;
     }
-    if (setter) setter.call(element, next);
-    else element.value = next;
-  }
 
-  function emit(element, next) {
-    try {
-      element.dispatchEvent(new InputEvent('beforeinput', { bubbles: true, cancelable: true, inputType: 'insertText', data: next }));
-    } catch {}
-    try {
-      element.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: next }));
-    } catch {
-      element.dispatchEvent(new Event('input', { bubbles: true }));
+    if (!price) {
+      price = allInputs.find((el) => {
+        const m = norm([el.name, el.id, el.placeholder, el.getAttribute('aria-label')].filter(Boolean).join(' '));
+        return m.includes('oferta') && !m.includes('final');
+      }) || null;
     }
-    element.dispatchEvent(new Event('change', { bubbles: true }));
-    element.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: 'Unidentified' }));
+
+    if (!days) {
+      days = allInputs.find((el) => {
+        const m = norm([el.name, el.id, el.placeholder, el.getAttribute('aria-label')].filter(Boolean).join(' '));
+        return m.includes('duracao') || m.includes('prazo') || m.includes('dias');
+      }) || null;
+    }
+
+    // Nunca usar o campo calculado "Oferta final".
+    if (price) {
+      const nearFinal = tinyTextElements('Oferta final').some((label) => {
+        const lr = label.getBoundingClientRect();
+        const pr = price.getBoundingClientRect();
+        return pr.top >= lr.bottom - 20 && pr.top - lr.bottom < 220;
+      });
+      if (nearFinal) price = nearestBelow('Sua oferta', 'input', 220);
+    }
+
+    return { price, days, proposal };
   }
 
-  async function forceValue(element, value) {
-    if (!element || value == null) return false;
+  function nativeSetter(el, value) {
+    const proto = el.tagName === 'TEXTAREA' ? HTMLTextAreaElement.prototype : HTMLInputElement.prototype;
+    const set = Object.getOwnPropertyDescriptor(proto, 'value')?.set;
+    if (set) set.call(el, value); else el.value = value;
+  }
+
+  function emit(el, value) {
+    try { el.dispatchEvent(new InputEvent('beforeinput', { bubbles: true, cancelable: true, inputType: 'insertText', data: value })); } catch {}
+    try { el.dispatchEvent(new InputEvent('input', { bubbles: true, inputType: 'insertText', data: value })); } catch { el.dispatchEvent(new Event('input', { bubbles: true })); }
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+    el.dispatchEvent(new KeyboardEvent('keyup', { bubbles: true, key: 'Unidentified' }));
+    el.dispatchEvent(new Event('blur', { bubbles: true }));
+  }
+
+  function numericEqual(a, b) {
+    const parse = (v) => {
+      const s = String(v ?? '').replace(/[^0-9,.-]/g, '').replace(/\./g, '').replace(',', '.');
+      const n = Number(s);
+      return Number.isFinite(n) ? n : NaN;
+    };
+    const x = parse(a), y = parse(b);
+    return Number.isFinite(x) && Number.isFinite(y) && Math.abs(x - y) < 0.01;
+  }
+
+  function textEqual(current, expected) {
+    const a = norm(current);
+    const b = norm(expected);
+    return a === b || (b.length > 20 && a.includes(b.slice(0, 20)));
+  }
+
+  async function writeStable(el, value, mode) {
+    if (!el) return false;
     const next = String(value);
-
-    for (let attempt = 0; attempt < 5; attempt++) {
+    for (let i = 0; i < 8; i++) {
+      try { el.focus({ preventScroll: true }); } catch { try { el.focus(); } catch {} }
       try {
-        element.focus({ preventScroll: true });
-      } catch {
-        try { element.focus(); } catch {}
-      }
-
-      try {
-        nativeSet(element, next);
-        emit(element, next);
+        if (el._valueTracker?.setValue) el._valueTracker.setValue('');
       } catch {}
-
-      await sleep(90);
-      const current = String(element.value ?? element.textContent ?? '');
-      if (current === next || normalize(current) === normalize(next)) return true;
-
       try {
-        element.value = next;
-        emit(element, next);
+        nativeSetter(el, next);
+        emit(el, next);
       } catch {}
-      await sleep(90);
-
-      const fallbackCurrent = String(element.value ?? element.textContent ?? '');
-      if (fallbackCurrent === next || normalize(fallbackCurrent) === normalize(next)) return true;
+      await sleep(180);
+      const current = el.value ?? el.textContent ?? '';
+      const ok = mode === 'number' ? numericEqual(current, next) : textEqual(current, next);
+      if (ok) return true;
     }
-
     return false;
   }
 
-  async function fill(payload) {
-    const f = fields();
-    const result = { count: 0, fields: f, ok: { proposal: false, price: false, days: false } };
-
-    if (f.price) result.ok.price = await forceValue(f.price, payload.price);
-    if (f.days) result.ok.days = await forceValue(f.days, payload.days);
-    if (f.proposal) result.ok.proposal = await forceValue(f.proposal, payload.proposal);
-
-    result.count = Object.values(result.ok).filter(Boolean).length;
-    return result;
-  }
-
-  function alreadySent() {
-    const body = normalize(document.body?.innerText || '');
-    return /melhorar proposta|editar proposta|cancelar proposta|voce ja enviou uma proposta/.test(body);
-  }
-
-  function closedProject() {
-    const body = normalize(document.body?.innerText || '');
-    return /nao aceita novas propostas|projeto encerrado|projeto fechado|cancelado/.test(body);
-  }
-
-  function safeProposalTrigger() {
-    const candidates = all('a,button,input[type="button"]').filter(visible);
-    return candidates.find((element) => {
-      if (element.closest('form')) return false;
-      if (String(element.type || '').toLowerCase() === 'submit') return false;
-      const text = normalize(element.textContent || element.value || '');
-      return text === 'enviar proposta' || text === 'fazer proposta' || text === 'enviar uma proposta';
+  function opener() {
+    return [...document.querySelectorAll('a,button,input[type="button"]')].find((el) => {
+      if (!visible(el) || el.closest('form')) return false;
+      if (String(el.type || '').toLowerCase() === 'submit') return false;
+      const t = norm(el.textContent || el.value || '');
+      return t === 'enviar proposta' || t === 'fazer proposta' || t === 'enviar uma proposta';
     }) || null;
   }
 
+  function status() {
+    const f = fields();
+    return {
+      f,
+      label: `campos: oferta ${f.price ? '✓' : '✗'} | duração ${f.days ? '✓' : '✗'} | detalhes ${f.proposal ? '✓' : '✗'}`
+    };
+  }
+
+  async function fillOnce(payload) {
+    const { f } = status();
+    const ok = { price: false, days: false, proposal: false };
+    if (f.price) ok.price = await writeStable(f.price, payload.price, 'number');
+    if (f.days) ok.days = await writeStable(f.days, payload.days, 'number');
+    if (f.proposal) ok.proposal = await writeStable(f.proposal, payload.proposal, 'text');
+    return { f, ok, count: Object.values(ok).filter(Boolean).length };
+  }
+
   async function run() {
-    const payload = payloadFromHash();
+    const payload = loadPayload();
     if (!payload) return;
 
-    const id = currentProjectId();
+    const id = projectId();
     if (!id || String(id) !== String(payload.id)) {
-      banner('CRS99 BLOQUEOU: esta página não corresponde ao projeto preparado.', 'bad');
-      return;
-    }
-
-    if (!payload.proposal || payload.price === '' || payload.days === '') {
-      banner('CRS99 BLOQUEOU: proposta, valor ou prazo estão incompletos.', 'bad');
+      banner('bloqueado: projeto diferente do preparado.', 'bad');
       return;
     }
 
     const age = Date.now() - Number(payload.ts || 0);
-    if (!Number.isFinite(age) || age < 0 || age > 30 * 60 * 1000) {
-      banner('CRS99 BLOQUEOU: preparação antiga. Abra novamente pelo Mobile.', 'bad');
+    if (!payload.proposal || payload.price === '' || payload.days === '' || !Number.isFinite(age) || age < 0 || age > 30 * 60 * 1000) {
+      banner('bloqueado: dados incompletos ou preparação vencida.', 'bad');
       return;
     }
 
-    if (alreadySent()) {
-      banner('CRS99: esta proposta já aparece como enviada.', 'warn');
-      return;
-    }
-    if (closedProject()) {
-      banner('CRS99: este projeto não está aceitando novas propostas.', 'warn');
-      return;
-    }
+    banner('iniciando…');
 
-    banner('CRS99: preparando campos…');
+    for (let round = 0; round < 18; round++) {
+      const s = status();
+      if (!s.f.price || !s.f.days || !s.f.proposal) {
+        if (round === 2) {
+          const open = opener();
+          if (open) open.click();
+        }
+        if (round % 4 === 0) banner(s.label, 'warn');
+        await sleep(300);
+        continue;
+      }
 
-    let result = { count: 0, fields: {}, ok: {} };
-    for (let i = 0; i < 5 && result.count < 3; i++) {
-      result = await fill(payload);
-      if (result.count === 3) break;
+      const result = await fillOnce(payload);
+      banner(`teste ${result.count}/3 — oferta ${result.ok.price ? '✓' : '✗'} | duração ${result.ok.days ? '✓' : '✗'} | detalhes ${result.ok.proposal ? '✓' : '✗'}`, result.count === 3 ? 'good' : 'warn');
+
+      if (result.count === 3) {
+        // Confere se o site não apagou os valores logo depois.
+        await sleep(900);
+        const check = fields();
+        const stable = check.price && check.days && check.proposal
+          && numericEqual(check.price.value, payload.price)
+          && numericEqual(check.days.value, payload.days)
+          && textEqual(check.proposal.value, payload.proposal);
+
+        if (stable) {
+          try { history.replaceState(null, '', location.pathname + location.search); } catch {}
+          banner('OK: oferta, duração e detalhes preenchidos. Revise e envie manualmente.');
+          return;
+        }
+      }
       await sleep(250);
     }
 
-    if (result.count < 3) {
-      const trigger = safeProposalTrigger();
-      if (trigger) {
-        trigger.click();
-        for (let i = 0; i < 10 && result.count < 3; i++) {
-          await sleep(250);
-          result = await fill(payload);
-        }
-      }
-    }
-
-    if (result.count === 3) {
-      history.replaceState(null, '', location.pathname + location.search);
-      banner('CRS OK — Sua oferta, duração e detalhes preenchidos. Revise e toque em “Enviar proposta” manualmente.');
-    } else {
-      const missing = [];
-      if (!result.ok?.price) missing.push('Sua oferta');
-      if (!result.ok?.days) missing.push('Duração');
-      if (!result.ok?.proposal) missing.push('Detalhes');
-      banner(`CRS encontrou ${result.count}/3 campos — faltou: ${missing.join(', ') || 'campo não identificado'}. Não envie antes de revisar.`, 'bad');
-    }
+    const s = status();
+    banner(`não concluiu — ${s.label}. Não envie antes de revisar.`, 'bad');
   }
 
-  run().catch((error) => banner(`CRS99 encontrou um erro: ${String(error?.message || error)}`, 'bad'));
+  function start() {
+    run().catch((e) => banner(`erro: ${String(e?.message || e)}`, 'bad'));
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else {
+    start();
+  }
 })();
