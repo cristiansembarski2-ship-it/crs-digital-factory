@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "1.0.0",
-  "description": "Fluxo simples para 99Freelas: botões na lista, nova aba por projeto, autofill protegido e clique final sempre humano.",
+  "version": "1.1.0",
+  "description": "Fluxo seguro para 99Freelas: Radar preservado, nova aba por projeto, validação de ID/título e autofill somente quando tudo coincide.",
   "permissions": ["storage"],
   "content_scripts": [
     {
