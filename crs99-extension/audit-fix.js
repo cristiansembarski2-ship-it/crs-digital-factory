@@ -10,6 +10,12 @@
   const requestedId = params.get("crs99id") || "";
   if (!projectId || requestedId !== projectId) return;
 
+  // O fluxo normal também usa crs99id. Removemos esse parâmetro antes de
+  // project-flow.js executar, deixando esta tela exclusivamente para auditoria.
+  const cleanUrl = new URL(location.href);
+  cleanUrl.searchParams.delete("crs99id");
+  history.replaceState(null, "", cleanUrl.href);
+
   const all = (selector, root = document) => [...root.querySelectorAll(selector)];
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
