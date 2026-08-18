@@ -25,6 +25,9 @@
     if (!plan) return;
     const id = canonical(plan.projectKey || plan.projectId || plan.sourceUrl || sourceKey);
     if (!id) return;
+    const rawSource = String(sourceKey || "");
+    const alreadyCanonical = rawSource === id && String(plan.projectKey || plan.projectId || "") === id;
+    if (alreadyCanonical) return;
     const safe = { ...plan, projectKey: id, projectId: id };
     await chrome.storage.local.set({ [`crs99Plan:${id}`]: safe, crs99LastPreparedPlan: safe });
   }
@@ -33,7 +36,10 @@
     if (area !== "local") return;
     for (const [key, change] of Object.entries(changes)) {
       if (!key.startsWith("crs99Plan:") || !change.newValue) continue;
-      mirrorPlan(change.newValue, key.slice("crs99Plan:".length)).catch(() => {});
+      const sourceKey = key.slice("crs99Plan:".length);
+      const id = canonical(change.newValue.projectKey || change.newValue.projectId || change.newValue.sourceUrl || sourceKey);
+      if (!id || sourceKey === id && String(change.newValue.projectKey || change.newValue.projectId || "") === id) continue;
+      mirrorPlan(change.newValue, sourceKey).catch(() => {});
     }
   });
 
@@ -78,7 +84,7 @@
   }
 
   function bestField(candidates, terms, preferTag = "") {
-    return candidates
+    const ranked = candidates
       .filter(visible)
       .map(el => {
         const ctx = context(el);
@@ -87,7 +93,8 @@
         if (preferTag && el.tagName === preferTag) score += 4;
         return { el, score };
       })
-      .sort((a, b) => b.score - a.score)[0]?.el || null;
+      .sort((a, b) => b.score - a.score);
+    return ranked[0]?.score > 0 ? ranked[0].el : null;
   }
 
   function findProposal() {
@@ -114,7 +121,8 @@
       el.focus();
       if (el.isContentEditable) {
         el.textContent = next;
-        el.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: next }));
+        if (typeof InputEvent === "function") el.dispatchEvent(new InputEvent("input", { bubbles: true, inputType: "insertText", data: next }));
+        else el.dispatchEvent(new Event("input", { bubbles: true }));
       } else {
         const proto = el.tagName === "TEXTAREA" ? HTMLTextAreaElement.prototype : el.tagName === "SELECT" ? HTMLSelectElement.prototype : HTMLInputElement.prototype;
         const setter = Object.getOwnPropertyDescriptor(proto, "value")?.set;
@@ -136,53 +144,61 @@
     if (msg) msg.textContent = text;
   }
 
+  let filling = false;
+  let filledForId = "";
   async function robustFill() {
-    if (!/\/project\/bid\//i.test(location.pathname)) return false;
+    if (filling || !/\/project\/bid\//i.test(location.pathname)) return false;
     const idNow = canonical(location.pathname);
-    if (!idNow) return false;
-    const plan = await getPlanForCurrent();
-    if (!plan) {
-      panelMessage("Não encontrei o plano deste projeto. Não vou reutilizar proposta de outro projeto.");
-      return false;
-    }
-    const planId = canonical(plan.projectKey || plan.projectId || plan.sourceUrl);
-    if (planId !== idNow) {
-      panelMessage("Proteção CRS: o plano salvo pertence a outro projeto. Preenchimento bloqueado.");
-      return false;
-    }
-    if (plan.decision === "skip") return false;
-
-    let bestResult = 0;
-    for (let attempt = 0; attempt < 28; attempt++) {
-      const proposal = findProposal();
-      const price = findPrice();
-      const days = findDays();
-      let result = 0;
-      if (proposal && plan.proposal && setValue(proposal, plan.proposal)) result++;
-      if (price && plan.price != null && setValue(price, plan.price)) result++;
-      if (days && plan.days != null && setValue(days, plan.days)) result++;
-      bestResult = Math.max(bestResult, result);
-      if (result >= 3) {
-        const submit = $all('button,input[type="submit"]').find(el => normalize(el.textContent || el.value).includes("enviar proposta"));
-        if (submit) {
-          submit.dataset.crs99Ready = "true";
-          submit.title = "CRS: campos preenchidos. Revise e faça apenas o clique final.";
-          submit.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-        panelMessage("Pronto: proposta, valor e prazo preenchidos automaticamente.");
-        await mirrorPlan(plan);
-        return true;
+    if (!idNow || filledForId === idNow) return true;
+    filling = true;
+    try {
+      const plan = await getPlanForCurrent();
+      if (!plan) {
+        panelMessage("Não encontrei o plano deste projeto. Não vou reutilizar proposta de outro projeto.");
+        return false;
       }
-      await new Promise(r => setTimeout(r, 300));
+      const planId = canonical(plan.projectKey || plan.projectId || plan.sourceUrl);
+      if (planId !== idNow) {
+        panelMessage("Proteção CRS: o plano salvo pertence a outro projeto. Preenchimento bloqueado.");
+        return false;
+      }
+      if (plan.decision === "skip") return false;
+
+      let bestResult = 0;
+      for (let attempt = 0; attempt < 28; attempt++) {
+        const proposal = findProposal();
+        const price = findPrice();
+        const days = findDays();
+        let result = 0;
+        if (proposal && plan.proposal && setValue(proposal, plan.proposal)) result++;
+        if (price && plan.price != null && setValue(price, plan.price)) result++;
+        if (days && plan.days != null && setValue(days, plan.days)) result++;
+        bestResult = Math.max(bestResult, result);
+        if (result >= 3) {
+          filledForId = idNow;
+          const submit = $all('button,input[type="submit"]').find(el => normalize(el.textContent || el.value).includes("enviar proposta"));
+          if (submit) {
+            submit.dataset.crs99Ready = "true";
+            submit.title = "CRS: campos preenchidos. Revise e faça apenas o clique final.";
+            submit.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+          panelMessage("Pronto: proposta, valor e prazo preenchidos automaticamente.");
+          return true;
+        }
+        await new Promise(r => setTimeout(r, 300));
+      }
+      panelMessage(bestResult ? "Preenchi parte do formulário; algum campo mudou no 99Freelas." : "O formulário abriu, mas os campos não foram reconhecidos. Não preenchi dados errados.");
+      return bestResult > 0;
+    } finally {
+      filling = false;
     }
-    panelMessage(bestResult ? "Preenchi parte do formulário; algum campo mudou no 99Freelas." : "O formulário abriu, mas os campos não foram reconhecidos. Não preenchi dados errados.");
-    return bestResult > 0;
   }
 
   let lastPath = location.pathname;
   setInterval(() => {
     if (location.pathname !== lastPath) {
       lastPath = location.pathname;
+      filledForId = "";
       if (/\/project\/bid\//i.test(lastPath)) setTimeout(() => robustFill().catch(() => {}), 100);
     }
   }, 250);
