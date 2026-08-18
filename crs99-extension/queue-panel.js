@@ -2,11 +2,22 @@
   if (window.__CRS99_QUEUE_PANEL__) return;
   window.__CRS99_QUEUE_PANEL__ = true;
 
-  const normalize = (value = "") => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
-  const keyFrom = (href) => {
-    try { return new URL(href, location.origin).pathname.replace(/^\/project\//, "").replace(/\/+$/, "").split("/")[0]; }
-    catch { return ""; }
-  };
+  const normalize = (value = "") => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+  const HIDDEN = new Set(["sent", "sent_pending", "closed", "unavailable"]);
+
+  function canonical(value = "") {
+    let text = String(value || "");
+    try { if (/^https?:/i.test(text)) text = new URL(text).pathname; } catch {}
+    text = text.replace(/[?#].*$/, "").replace(/\/+$/, "");
+    const bid = text.match(/\/project\/bid\/(\d{4,})(?:\/|$)/i);
+    if (bid) return bid[1];
+    const conv = text.match(/\/p\/(\d{4,})(?:\/|$)/i);
+    if (conv) return conv[1];
+    const project = text.match(/\/project\/[^/]*?(\d{4,})(?:\/|$)/i);
+    if (project) return project[1];
+    const suffix = text.match(/(?:^|[-/])(\d{4,})$/);
+    return suffix ? suffix[1] : "";
+  }
 
   const style = document.createElement("style");
   style.textContent = `
@@ -34,10 +45,17 @@
   const refresh = panel.querySelector(".qrefresh");
 
   async function state() {
-    const data = await chrome.storage.local.get(["crs99ActiveQueue","crs99BlockedProjects","crs99SourceUrl"]);
+    const data = await chrome.storage.local.get(["crs99ActiveQueue", "crs99BlockedProjects", "crs99SourceUrl"]);
     const blocked = data.crs99BlockedProjects || {};
-    const queue = (Array.isArray(data.crs99ActiveQueue) ? data.crs99ActiveQueue : []).filter(x => x?.key && !blocked[x.key] && !["sent","sent_pending","closed","unavailable"].includes(blocked[x.key]?.status));
-    return { queue, blocked, sourceUrl: data.crs99SourceUrl || "https://www.99freelas.com.br/projects" };
+    const map = new Map();
+    for (const item of (Array.isArray(data.crs99ActiveQueue) ? data.crs99ActiveQueue : [])) {
+      const id = canonical(item?.key || item?.href || item?.url || "");
+      if (!id || HIDDEN.has(blocked[id]?.status)) continue;
+      const next = { ...item, key: id, projectId: id };
+      const prev = map.get(id);
+      if (!prev || Number(next.score || 0) >= Number(prev.score || 0)) map.set(id, next);
+    }
+    return { queue: [...map.values()], blocked, sourceUrl: data.crs99SourceUrl || "https://www.99freelas.com.br/projects" };
   }
 
   async function render() {
@@ -48,37 +66,43 @@
       list.innerHTML = '<div class="qempty">Sem novas na fila.</div>';
       return;
     }
-    queue.slice(0, 12).forEach((item, index) => {
+    queue.slice(0, 15).forEach((item, index) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "qgo";
       const title = String(item.title || "Projeto").replace(/\s+/g, " ").trim();
-      button.textContent = `${index + 1}. Enviar — ${title.length > 58 ? title.slice(0,55) + "…" : title}`;
+      button.textContent = `${index + 1}. Enviar — ${title.length > 62 ? title.slice(0, 59) + "…" : title}`;
       button.title = title;
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
+        const id = canonical(item.key || item.href);
+        await chrome.storage.local.set({ crs99TargetProjectId: id, crs99TargetHref: item.href, crs99TargetAt: new Date().toISOString() });
         const url = new URL(item.href, location.origin);
         url.searchParams.set("crs99", "prepare");
+        url.searchParams.set("crs99id", id);
         location.href = url.href;
       });
       list.appendChild(button);
     });
   }
 
-  async function block(key, status, extra = {}) {
-    if (!key) return;
-    const data = await chrome.storage.local.get(["crs99BlockedProjects","crs99ActiveQueue"]);
+  async function block(rawKey, status, extra = {}) {
+    const id = canonical(rawKey || extra.url || "");
+    if (!id) return;
+    const data = await chrome.storage.local.get(["crs99BlockedProjects", "crs99ActiveQueue", "crs99History"]);
     const blocked = data.crs99BlockedProjects || {};
-    blocked[key] = { ...(blocked[key] || {}), status, seenAt:new Date().toISOString(), ...extra };
-    const queue = (Array.isArray(data.crs99ActiveQueue) ? data.crs99ActiveQueue : []).filter(x => x.key !== key);
-    await chrome.storage.local.set({ crs99BlockedProjects: blocked, crs99ActiveQueue: queue });
+    const now = new Date().toISOString();
+    blocked[id] = { ...(blocked[id] || {}), projectId: id, status, seenAt: now, ...extra };
+    const queue = (Array.isArray(data.crs99ActiveQueue) ? data.crs99ActiveQueue : []).filter(x => canonical(x?.key || x?.href) !== id);
+    const history = Array.isArray(data.crs99History) ? data.crs99History : [];
+    const existing = history.find(x => canonical(x?.projectKey || x?.url) === id) || {};
+    const entry = { ...existing, projectKey: id, projectId: id, status, ...(status === "sent" ? { sentAt: existing.sentAt || now } : {}) };
+    await chrome.storage.local.set({ crs99BlockedProjects: blocked, crs99ActiveQueue: queue, crs99History: [entry, ...history.filter(x => canonical(x?.projectKey || x?.url) !== id)].slice(0, 400) });
   }
 
   function detectStatus(text) {
     const n = normalize(text);
-    const sent = ["voce ja enviou uma proposta","voce enviou uma proposta","editar proposta","editar sua proposta","retirar proposta","sua proposta foi enviada"].some(t => n.includes(t));
-    if (sent) return "sent";
-    const closed = ["projeto fechado","projeto encerrado","projeto em andamento","projeto concluido","projeto finalizado","projeto cancelado","nao esta recebendo propostas"].some(t => n.includes(t));
-    if (closed) return "closed";
+    if (["voce ja enviou uma proposta", "voce enviou uma proposta", "sua proposta foi enviada", "editar sua proposta", "editar proposta", "retirar proposta"].some(t => n.includes(t))) return "sent";
+    if (["projeto fechado", "projeto encerrado", "projeto em andamento", "projeto concluido", "projeto finalizado", "projeto cancelado", "nao esta recebendo propostas", "nao aceita mais propostas"].some(t => n.includes(t))) return "closed";
     return "";
   }
 
@@ -89,62 +113,91 @@
     for (const t of terms) if (n.includes(t)) s += .65;
     const m = n.match(/propostas?:\s*(\d+)/); const proposals = m ? Number(m[1]) : null;
     if (proposals != null) { if (proposals <= 3) s += 2; else if (proposals <= 10) s += 1.2; else if (proposals > 60) s -= 1; }
-    return { score:Math.max(2,Math.min(10,Math.round(s*10)/10)), proposals };
+    return { score: Math.max(2, Math.min(10, Math.round(s * 10) / 10)), proposals };
+  }
+
+  function validProjectAnchor(a) {
+    try {
+      const url = new URL(a.getAttribute("href") || a.href, location.origin);
+      return /^\/project\/(?!new(?:\/|$)|bid(?:\/|$))[^/?#]*\d{4,}\/?$/i.test(url.pathname);
+    } catch { return false; }
   }
 
   async function fetchFreshFromSource(sourceUrl) {
-    const response = await fetch(sourceUrl, { credentials:"include", cache:"no-store" });
+    const response = await fetch(sourceUrl, { credentials: "include", cache: "no-store" });
     if (!response.ok) throw new Error("Falha ao atualizar projetos");
     const html = await response.text();
-    const doc = new DOMParser().parseFromString(html,"text/html");
+    const doc = new DOMParser().parseFromString(html, "text/html");
     const { blocked } = await state();
     const found = [];
     const seen = new Set();
-    for (const a of [...doc.querySelectorAll('a[href*="/project/"]')]) {
+
+    for (const a of [...doc.querySelectorAll('a[href*="/project/"]')].filter(validProjectAnchor)) {
       const href = new URL(a.getAttribute("href"), location.origin).href.split("#")[0];
-      if (/\/project\/(?:new|bid)\//.test(href)) continue;
-      const key = keyFrom(href);
-      if (!key || seen.has(key) || blocked[key]) continue;
+      const id = canonical(href);
+      if (!id || seen.has(id) || HIDDEN.has(blocked[id]?.status)) continue;
       const card = a.closest("article, li, .project, .project-item, .media, .card, .list-group-item, .box") || a.parentElement?.parentElement || a.parentElement;
-      const title = (a.textContent || "").trim().replace(/\s+/g," ");
-      const text = (card?.textContent || title).replace(/\s+/g," ").trim();
+      const title = (a.textContent || "").trim().replace(/\s+/g, " ");
+      const text = (card?.textContent || title).replace(/\s+/g, " ").trim();
       if (title.length < 4 || text.length < 20) continue;
+      const status = detectStatus(text);
+      if (status) { await block(id, status, { url: href, reason: "source-card" }); continue; }
       const s = basicScore(text);
-      found.push({ key, href, title, score:s.score, proposals:s.proposals, discoveredAt:new Date().toISOString(), seenAt:new Date().toISOString(), sourceUrl });
-      seen.add(key);
+      found.push({ key: id, projectId: id, href, title, score: s.score, proposals: s.proposals, discoveredAt: new Date().toISOString(), seenAt: new Date().toISOString(), sourceUrl });
+      seen.add(id);
     }
+
     const current = await chrome.storage.local.get("crs99ActiveQueue");
-    const map = new Map((Array.isArray(current.crs99ActiveQueue) ? current.crs99ActiveQueue : []).map(x => [x.key,x]));
-    found.forEach(x => map.set(x.key, { ...(map.get(x.key)||{}), ...x }));
-    const merged = [...map.values()].filter(x => !blocked[x.key]).sort((a,b)=>b.score-a.score || (a.proposals??999)-(b.proposals??999)).slice(0,60);
-    await chrome.storage.local.set({ crs99ActiveQueue:merged, crs99LastScanAt:new Date().toISOString() });
+    const map = new Map();
+    for (const item of (Array.isArray(current.crs99ActiveQueue) ? current.crs99ActiveQueue : [])) {
+      const id = canonical(item?.key || item?.href);
+      if (id && !HIDDEN.has(blocked[id]?.status)) map.set(id, { ...item, key: id, projectId: id });
+    }
+    found.forEach(x => map.set(x.key, { ...(map.get(x.key) || {}), ...x }));
+    const merged = [...map.values()].sort((a,b) => b.score - a.score || (a.proposals ?? 999) - (b.proposals ?? 999)).slice(0, 80);
+    await chrome.storage.local.set({ crs99ActiveQueue: merged, crs99LastScanAt: new Date().toISOString() });
   }
 
   async function validateKnown() {
     const { queue } = await state();
-    for (const item of queue.slice(0, 20)) {
+    for (const item of queue.slice(0, 30)) {
       try {
-        const res = await fetch(item.href, { credentials:"include", cache:"no-store" });
+        const res = await fetch(item.href, { credentials: "include", cache: "no-store" });
         if (!res.ok) continue;
-        const text = await res.text();
-        const status = detectStatus(text);
-        if (status) await block(item.key, status, { url:item.href, reason:"refresh-check" });
+        const html = await res.text();
+        const status = detectStatus(html);
+        if (status) await block(item.key, status, { url: item.href, reason: "refresh-check" });
       } catch {}
     }
+  }
+
+  async function reconcileCurrentPage() {
+    const id = canonical(location.pathname);
+    if (!id) return;
+    const text = document.body?.innerText || "";
+    let status = detectStatus(text);
+    if (/^\/p\/\d+/i.test(location.pathname)) {
+      const n = normalize(text);
+      if (["enviada pelo sistema", "enviei uma proposta", "detalhes da proposta"].some(t => n.includes(t))) status = "sent";
+    }
+    if (status) await block(id, status, { url: location.href, reason: "current-page" });
   }
 
   async function refreshQueue() {
     refresh.disabled = true;
     refresh.textContent = "Atualizando…";
     try {
-      if (/\/projects\/?$/.test(location.pathname) || location.pathname.startsWith("/projects")) {
+      await reconcileCurrentPage();
+      const { sourceUrl } = await state();
+      if (/^\/projects(?:\/|$)/i.test(location.pathname)) {
         window.dispatchEvent(new CustomEvent("crs99:rescan"));
-        await new Promise(r => setTimeout(r, 700));
-      } else {
-        const { sourceUrl } = await state();
-        await fetchFreshFromSource(sourceUrl);
+        await new Promise(r => setTimeout(r, 600));
       }
+      await fetchFreshFromSource(sourceUrl);
       await validateKnown();
+      await reconcileCurrentPage();
+      await render();
+    } catch {
       await render();
     } finally {
       refresh.disabled = false;
@@ -152,27 +205,11 @@
     }
   }
 
-  async function reconcileConversationPage() {
-    if (!/^\/p\//.test(location.pathname)) return;
-    const body = normalize(document.body?.innerText || "");
-    if (!body.includes("enviada pelo sistema") && !body.includes("enviei uma proposta") && !body.includes("proposta de r$")) return;
-    const { queue } = await state();
-    let best = null;
-    for (const item of queue) {
-      const words = normalize(item.title).split(" ").filter(w => w.length >= 5);
-      if (!words.length) continue;
-      const hits = words.filter(w => body.includes(w)).length;
-      const ratio = hits / words.length;
-      if (!best || ratio > best.ratio) best = { item, ratio };
-    }
-    if (best?.ratio >= .55) await block(best.item.key, "sent", { reason:"proposal-conversation-detected", url:location.href });
-  }
-
-  refresh.addEventListener("click", () => refreshQueue().catch(() => render()));
+  refresh.addEventListener("click", () => refreshQueue());
   chrome.storage.onChanged.addListener((changes, area) => {
     if (area === "local" && (changes.crs99ActiveQueue || changes.crs99BlockedProjects)) render().catch(() => {});
   });
   window.addEventListener("crs99:queue-updated", () => render().catch(() => {}));
-  window.addEventListener("pageshow", () => { reconcileConversationPage().then(render).catch(() => {}); });
-  reconcileConversationPage().then(render).catch(() => render());
+  window.addEventListener("pageshow", () => reconcileCurrentPage().then(render).catch(() => render()));
+  reconcileCurrentPage().then(render).catch(() => render());
 })();
