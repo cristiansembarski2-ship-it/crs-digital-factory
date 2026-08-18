@@ -1,14 +1,12 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.6.2",
-  "description": "Copiloto CRS com fila persistente, deduplicação por ID real do projeto e autofill protegido de proposta, valor e prazo.",
+  "version": "0.6.3",
+  "description": "Copiloto CRS em modo rápido: fila persistente leve, limpeza de propostas enviadas sob demanda e autofill protegido.",
   "permissions": ["storage"],
   "host_permissions": [
     "https://www.99freelas.com.br/*",
-    "https://99freelas.com.br/*",
-    "https://crs-digital-factory.vercel.app/*",
-    "https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/*"
+    "https://99freelas.com.br/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -19,8 +17,7 @@
         "https://www.99freelas.com.br/project/*",
         "https://99freelas.com.br/project/*"
       ],
-      "css": ["content.css"],
-      "js": ["content.js", "title-fix.js", "status-fix.js", "autopilot.js", "state-fix.js", "flow-fix.js", "sent-tracker.js", "queue-panel.js"],
+      "js": ["autopilot-fast.js", "queue-fast.js"],
       "run_at": "document_idle"
     },
     {
@@ -28,7 +25,7 @@
         "https://www.99freelas.com.br/projects*",
         "https://99freelas.com.br/projects*"
       ],
-      "js": ["scanner.js", "state-fix.js", "queue-panel.js"],
+      "js": ["scanner-fast.js", "queue-fast.js"],
       "run_at": "document_idle"
     },
     {
@@ -36,7 +33,7 @@
         "https://www.99freelas.com.br/p/*",
         "https://99freelas.com.br/p/*"
       ],
-      "js": ["state-fix.js", "queue-panel.js"],
+      "js": ["queue-fast.js"],
       "run_at": "document_idle"
     }
   ]
