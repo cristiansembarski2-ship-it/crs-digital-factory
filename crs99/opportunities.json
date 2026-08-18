@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-18T03:22:00-03:00",
+  "updatedAt": "2026-08-18T03:39:00-03:00",
   "rules": {
     "minimumFit": 8,
     "autoSubmit": false,
@@ -164,6 +164,38 @@
       "days": 3,
       "risk": "Projeto exclusivo Premium, 8 propostas e 12 interessados. Cliente pede portfólio; não inventar. Confirmar duração do bruto e do vídeo final, referências e quantidade de revisões.",
       "proposal": "Olá! Posso editar o vídeo da página de vendas com foco em ritmo, clareza da mensagem, sonorização, cortes e efeitos visuais sem exagerar a ponto de competir com a oferta. Não vou atribuir a mim portfólio que eu não possa comprovar; posso começar com um trecho curto como amostra de direção. Proposta inicial: R$ 350. Prazo: 3 dias úteis após receber o material e confirmar a duração final."
+    },
+    {
+      "projectKey": "desenvolver-sistema-de-gestao-em-google-sheets-765083",
+      "title": "Desenvolver sistema de gestão em Google Sheets",
+      "url": "https://www.99freelas.com.br/project/desenvolver-sistema-de-gestao-em-google-sheets-765083",
+      "status": "candidate",
+      "fit": 9.4,
+      "technical": 9.2,
+      "commercialChance": 8.7,
+      "financial": 8.9,
+      "automation": 9.5,
+      "effort": 7.0,
+      "price": 790,
+      "days": 5,
+      "risk": "Índice público exibe data relativa 'hoje' e 29 propostas, mas a indexação pública do 99Freelas é inconsistente. Validar disponibilidade e data real no CRS 99 Copilot. Escopo total é amplo; proposta deve limitar a primeira fase à estrutura central, vendas, estoque e dashboard essencial.",
+      "proposal": "Olá! Seu projeto combina bem com uma implantação por etapas. Para reduzir risco e já colocar algo útil em operação, proponho uma primeira fase fechada de R$ 790 focada na base central, controle de vendas e estoque e dashboard com os indicadores essenciais. Prazo: 5 dias úteis após receber as planilhas atuais e confirmar os campos prioritários. A estrutura fica preparada para evoluir depois com CRM, financeiro e demais módulos sem refazer a base."
+    },
+    {
+      "projectKey": "dashboard-em-google-sheets-com-integracao-via-api-764647",
+      "title": "Dashboard em Google Sheets com integração via API",
+      "url": "https://www.99freelas.com.br/project/dashboard-em-google-sheets-com-integracao-via-api-764647?fs=t",
+      "status": "candidate",
+      "fit": 8.5,
+      "technical": 8.7,
+      "commercialChance": 8.0,
+      "financial": 8.3,
+      "automation": 9.0,
+      "effort": 6.5,
+      "price": 690,
+      "days": 4,
+      "risk": "Índice público exibe data relativa 'ontem' e 34 propostas, mas pode estar desatualizado. Validar no CRS 99 Copilot. A integração por API não entra no preço-base sem documentação; primeira entrega cobre dashboard, filtros, histórico e alertas sobre a base existente.",
+      "proposal": "Olá! Posso estruturar uma primeira versão funcional do dashboard no Google Sheets usando suas abas atuais, com filtros, histórico mensal, gráficos e alertas definidos sobre os dados já disponíveis. Proposta inicial: R$ 690 e 4 dias úteis. A integração direta com a API pode ser incluída depois de validar a documentação e autenticação da ferramenta externa, evitando prometer uma integração antes de conhecer as limitações técnicas."
     }
   ]
 }
