@@ -3,6 +3,7 @@
   window.__CRS99_PROJECTS_FLOW__ = true;
 
   const { idFrom, normalize, migrateOnce, getJobs } = window.CRS99;
+  const SENT_SYNC_TTL = 5 * 60 * 1000;
 
   const style = document.createElement("style");
   style.textContent = `
@@ -55,6 +56,53 @@
     return [...bestById.values()].filter((item) => item.score > -20);
   }
 
+  async function syncSentFromMyProposals(force = false) {
+    const stored = await chrome.storage.local.get(["crs99Jobs", "crs99SentSyncAt"]);
+    const last = Number(stored.crs99SentSyncAt || 0);
+    if (!force && Number.isFinite(last) && Date.now() - last < SENT_SYNC_TTL) return false;
+
+    const response = await fetch(`${location.origin}/my-proposals?limit=500`, {
+      credentials: "include",
+      cache: "no-store",
+      redirect: "follow"
+    });
+    if (!response.ok) throw new Error(`Minhas Propostas HTTP ${response.status}`);
+
+    const html = await response.text();
+    const doc = new DOMParser().parseFromString(html, "text/html");
+    const jobs = stored.crs99Jobs || {};
+    let changed = false;
+
+    for (const anchor of doc.querySelectorAll('a[href*="/project/"]')) {
+      const href = anchor.getAttribute("href") || anchor.href || "";
+      if (!validProjectHref(href)) continue;
+      const id = idFrom(href);
+      if (!id) continue;
+
+      const title = (anchor.textContent || "").replace(/\s+/g, " ").trim();
+      const current = jobs[id] || { projectId: id };
+      if (current.status === "closed") continue;
+
+      if (current.status !== "sent" || (!current.title && title)) {
+        jobs[id] = {
+          ...current,
+          projectId: id,
+          projectUrl: new URL(href, location.origin).href.split("#")[0],
+          title: current.title || title,
+          status: "sent",
+          updatedAt: new Date().toISOString()
+        };
+        changed = true;
+      }
+    }
+
+    await chrome.storage.local.set({
+      crs99Jobs: jobs,
+      crs99SentSyncAt: Date.now()
+    });
+    return changed;
+  }
+
   function renderAction(item, job) {
     let wrap = document.querySelector(`.crs99-action-wrap[data-crs99-id="${CSS.escape(item.id)}"]`);
     if (!wrap) {
@@ -78,7 +126,6 @@
       return;
     }
 
-    // Link nativo: mais confiável que window.open() e mantém o Radar aberto.
     const action = document.createElement("a");
     action.className = "crs99-action";
     action.textContent = "Preparar proposta";
@@ -114,10 +161,13 @@
   rescan.id = "crs99-rescan";
   rescan.type = "button";
   rescan.textContent = "Atualizar Radar";
-  rescan.title = "Recarrega a lista do 99Freelas e mostra os projetos atuais";
-  rescan.addEventListener("click", () => {
+  rescan.title = "Sincroniza propostas já enviadas e recarrega a lista do 99Freelas";
+  rescan.addEventListener("click", async () => {
     rescan.disabled = true;
-    rescan.textContent = "Atualizando…";
+    rescan.textContent = "Sincronizando…";
+    try {
+      await syncSentFromMyProposals(true);
+    } catch {}
     location.reload();
   });
   document.documentElement.appendChild(rescan);
@@ -133,5 +183,10 @@
     if (area === "local" && changes.crs99Jobs) scan().catch(() => {});
   });
 
-  migrateOnce().then(scan).catch(() => {});
+  migrateOnce().then(async () => {
+    const button = document.getElementById("crs99-rescan");
+    if (button) button.textContent = "Sincronizando enviadas…";
+    try { await syncSentFromMyProposals(false); } catch {}
+    await scan();
+  }).catch(() => scan().catch(() => {}));
 })();
