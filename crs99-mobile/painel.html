@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="description" content="CRS 99 Mobile — fila e preparação rápida de propostas do 99Freelas.">
+  <title>CRS 99 Mobile</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">CRS 99 COPILOT</p>
+      <h1>Mobile</h1>
+    </div>
+    <button id="refreshBtn" class="icon-btn" type="button" aria-label="Atualizar fila" title="Atualizar fila">↻</button>
+  </header>
+
+  <main>
+    <section class="hero card">
+      <div>
+        <span class="pill good">Premium</span>
+        <span id="syncPill" class="pill neutral">Sincronizando…</span>
+      </div>
+      <h2>Proposta pronta no celular</h2>
+      <p>Escolha o projeto, abra a página real do anúncio e preencha proposta, valor e prazo com o ativador CRS. O clique oficial de envio continua sempre manual.</p>
+      <div class="hero-actions">
+        <button id="quickBtn" class="primary" type="button">+ Proposta rápida</button>
+        <button id="setupBtn" class="secondary" type="button">Ativar preenchimento (1x)</button>
+        <button id="installBtn" class="secondary hidden" type="button">Instalar no celular</button>
+      </div>
+    </section>
+
+    <section id="setupPanel" class="card setup-panel hidden" aria-labelledby="setupTitle">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">CONFIGURAÇÃO ÚNICA</p>
+          <h2 id="setupTitle">Ativador de preenchimento</h2>
+        </div>
+        <button id="closeSetupBtn" class="icon-btn" type="button" aria-label="Fechar">×</button>
+      </div>
+      <p class="setup-copy">O navegador não permite que um site altere os campos de outro site sozinho. Este ativador roda dentro da página do 99Freelas, abre a área de proposta quando necessário e preenche os três campos sem clicar em “Enviar proposta”.</p>
+      <ol class="steps">
+        <li>Toque em <strong>Copiar ativador</strong>.</li>
+        <li>Crie/edite um favorito do navegador com o nome <strong>CRS99 preencher</strong> e cole o código copiado no campo de URL.</li>
+        <li>Depois use <strong>Preparar e abrir</strong> em qualquer projeto. Na página do anúncio no 99Freelas, execute o favorito “CRS99 preencher”.</li>
+      </ol>
+      <textarea id="bookmarkletCode" class="code-box" readonly rows="4" aria-label="Código do ativador"></textarea>
+      <button id="copyBookmarkletBtn" class="primary full" type="button">Copiar ativador</button>
+      <p class="micro">O ativador valida o ID do projeto, bloqueia páginas já enviadas e apenas preenche os campos. Ele nunca aciona o envio oficial.</p>
+    </section>
+
+    <section id="quickPanel" class="card hidden" aria-labelledby="quickTitle">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">FORA DA FILA</p>
+          <h2 id="quickTitle">Proposta rápida</h2>
+        </div>
+        <button id="closeQuickBtn" class="icon-btn" type="button" aria-label="Fechar">×</button>
+      </div>
+
+      <label>Link do projeto
+        <input id="quickUrl" inputmode="url" autocomplete="off" placeholder="https://www.99freelas.com.br/project/…">
+      </label>
+      <label>Título
+        <input id="quickTitleInput" autocomplete="off" placeholder="Nome do projeto">
+      </label>
+      <div class="two-cols">
+        <label>Valor (R$)
+          <input id="quickPrice" inputmode="decimal" placeholder="350">
+        </label>
+        <label>Prazo (dias)
+          <input id="quickDays" inputmode="numeric" placeholder="3">
+        </label>
+      </div>
+      <label>Proposta
+        <textarea id="quickProposal" rows="7" placeholder="Cole ou escreva a proposta aqui"></textarea>
+      </label>
+      <div class="stack-actions">
+        <button id="saveQuickBtn" class="secondary" type="button">Salvar no celular</button>
+        <button id="openQuickBtn" class="primary" type="button">Preparar + abrir no 99Freelas</button>
+      </div>
+      <p class="micro">Os itens criados aqui ficam somente neste aparelho.</p>
+    </section>
+
+    <section class="toolbar">
+      <div class="search-wrap">
+        <span aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" autocomplete="off" placeholder="Buscar projeto…">
+      </div>
+      <select id="statusFilter" aria-label="Filtrar status">
+        <option value="active">Ativos</option>
+        <option value="candidate">Candidatos</option>
+        <option value="prepared">Preparados</option>
+        <option value="sent">Enviados</option>
+        <option value="closed">Fechados</option>
+        <option value="all">Todos</option>
+      </select>
+    </section>
+
+    <section class="summary" aria-live="polite">
+      <strong id="countText">0 projetos</strong>
+      <span id="updatedText">—</span>
+    </section>
+
+    <section id="list" class="list" aria-live="polite"></section>
+
+    <section id="emptyState" class="empty card hidden">
+      <strong>Nenhum projeto neste filtro.</strong>
+      <p>Atualize a fila ou use “Proposta rápida”.</p>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <template id="cardTemplate">
+    <article class="job card">
+      <div class="job-top">
+        <div class="job-badges"></div>
+        <button class="more-btn" type="button" aria-label="Mais ações">•••</button>
+      </div>
+      <h3 class="job-title"></h3>
+      <div class="metrics">
+        <div><span>Aderência</span><strong class="job-fit">—</strong></div>
+        <div><span>Valor</span><strong class="job-price">—</strong></div>
+        <div><span>Prazo</span><strong class="job-days">—</strong></div>
+      </div>
+      <p class="job-risk"></p>
+      <div class="proposal-preview"></div>
+      <div class="copy-grid">
+        <button class="copy-proposal secondary" type="button">Copiar proposta</button>
+        <button class="copy-price secondary" type="button">Copiar valor</button>
+        <button class="copy-days secondary" type="button">Copiar prazo</button>
+        <button class="copy-all secondary" type="button">Copiar tudo</button>
+      </div>
+      <button class="prepare-bid primary" type="button">Preparar e abrir</button>
+      <button class="open-bid secondary full secondary-open" type="button">Só abrir anúncio</button>
+      <div class="job-menu hidden">
+        <button class="mark-sent" type="button">Marcar como enviada neste celular</button>
+        <button class="mark-unprepared" type="button">Remover marca de preparada</button>
+        <button class="remove-local hidden" type="button">Remover item local</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js" defer></script>
+  <script src="./route-fix.js?v=202608181558" defer></script>
+  <script src="./fallback.js?v=202608181545" defer></script>
+</body>
+</html>
