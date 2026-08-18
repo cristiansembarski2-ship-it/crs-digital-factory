@@ -1,10 +1,12 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.6.0",
-  "description": "Copiloto interno da CRS Digital em modo validação: amplia oportunidades, prioriza recência e concorrência e prepara propostas sem enviar sozinho.",
+  "version": "0.6.1",
+  "description": "Copiloto CRS para manter uma fila persistente de novas oportunidades, preparar propostas e retirar automaticamente as já enviadas.",
   "permissions": ["storage"],
   "host_permissions": [
+    "https://www.99freelas.com.br/*",
+    "https://99freelas.com.br/*",
     "https://crs-digital-factory.vercel.app/*",
     "https://raw.githubusercontent.com/cristiansembarski2-ship-it/crs-digital-factory/*"
   ],
@@ -18,7 +20,7 @@
         "https://99freelas.com.br/project/*"
       ],
       "css": ["content.css"],
-      "js": ["content.js", "title-fix.js", "status-fix.js", "autopilot.js", "sent-tracker.js"],
+      "js": ["content.js", "title-fix.js", "status-fix.js", "autopilot.js", "sent-tracker.js", "queue-panel.js"],
       "run_at": "document_idle"
     },
     {
@@ -26,8 +28,15 @@
         "https://www.99freelas.com.br/projects*",
         "https://99freelas.com.br/projects*"
       ],
-      "css": ["scanner.css"],
-      "js": ["scanner.js", "scanner-sync.js", "duplicate-watch.js"],
+      "js": ["scanner.js", "queue-panel.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.99freelas.com.br/p/*",
+        "https://99freelas.com.br/p/*"
+      ],
+      "js": ["queue-panel.js"],
       "run_at": "document_idle"
     }
   ]
