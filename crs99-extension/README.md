@@ -1,90 +1,91 @@
-# CRS 99 Copilot — Autopilot interno
+# CRS 99 Copilot — v1.0.0
 
-Extensão local Chrome/Edge para reduzir o trabalho manual de prospecção e proposta no 99Freelas.
+Extensão local Chrome/Edge para reduzir atrito ao enviar propostas no 99Freelas.
 
-## Estado atual — v0.4.0
+## Objetivo
 
-A v0.4 adiciona um **Autopilot local sem API paga**.
+Fluxo operacional:
 
-Fluxo principal:
+1. abrir `https://www.99freelas.com.br/projects`;
+2. a extensão lê apenas os projetos que já estão no DOM da página;
+3. injeta **Preparar proposta** junto ao projeto real;
+4. o clique abre aquele projeto em nova aba;
+5. o ID numérico do projeto é validado;
+6. a proposta é gerada e salva em `crs99Plan:<ID>`;
+7. o formulário oficial é aberto;
+8. detalhes, valor e duração são preenchidos automaticamente;
+9. o usuário revisa e faz o clique final em **Enviar proposta**;
+10. o ID é salvo como `sent` e a aba original de projetos muda o botão para **Enviada**.
 
-1. o Radar Autopilot lê a página autenticada de projetos do 99Freelas;
-2. ranqueia projetos e prioriza exclusivos quando a conta está Premium;
-3. ao clicar em **Preparar proposta**, abre o projeto com `crs99=prepare`;
-4. o Autopilot analisa o texto completo do projeto;
-5. classifica em `ATACAR`, `REVISAR` ou `PULAR`;
-6. identifica o tipo de trabalho (planilha/dados, landing page, pesquisa, apresentação, documento, script, tradução, copy etc.);
-7. estima aderência, risco, valor e prazo;
-8. gera uma proposta personalizada sem inventar experiência, clientes, portfólio ou resultados;
-9. se o projeto passar no corte, abre o formulário de proposta;
-10. salva o pacote localmente e preenche automaticamente descrição, valor e prazo quando os campos forem reconhecidos;
-11. rola até o botão oficial **Enviar proposta**;
-12. o clique final de envio continua manual.
+O clique final nunca é automatizado.
 
-Objetivo operacional: o proprietário deve chegar ao formulário já preenchido e precisar apenas revisar e fazer o clique final.
+## Arquitetura ativa
 
-## Premium
+O `manifest.json` carrega somente três arquivos funcionais:
 
-A v0.4 está configurada para a conta Premium usada na operação atual:
+- `core.js` — ID real, estado local e migração única do estado antigo;
+- `projects-flow.js` — botões na página `/projects` e reescaneamento leve do DOM;
+- `project-flow.js` — preparação, classificação, preço/prazo, autofill e registro de envio.
 
-- projetos exclusivos são elegíveis e recebem prioridade;
-- baixa concorrência e recência recebem bônus;
-- projetos enviados, fechados, indisponíveis ou em andamento conhecidos são pulados;
-- SDR, atendimento contínuo, follow-up comercial humano, presencial e escopos incompatíveis recebem forte penalização.
+Arquivos das versões anteriores permanecem no repositório apenas como histórico e **não são carregados pelo manifest**.
 
-## Geração automática de proposta
+## Estado local
 
-O motor local possui regras por categoria.
+Estados usados:
 
-Exemplos:
+- `new`
+- `prepared`
+- `sent`
+- `closed`
 
-- Excel/Sheets/CSV/estoque/dashboard/automação;
-- pesquisa e coleta de dados públicos;
-- landing pages e sites estáticos simples;
-- Word/PDF/revisão/formatação;
-- PowerPoint/Canva;
-- scripts Python/JavaScript;
-- tradução PT-BR/espanhol;
-- copy prática.
+O ID numérico é a chave principal. Exemplos abaixo representam o mesmo projeto:
 
-O texto gerado descreve o plano de execução e limites do escopo, sem afirmar experiência ou resultados inexistentes.
+- `/project/nome-do-projeto-777011`
+- `/project/bid/777011`
+- `/p/777011`
 
-Pesquisas com e-mail são tratadas como `e-mail público quando disponível`; não se promete dado que não seja publicamente acessível.
+Se o ID do plano não for igual ao ID do formulário, o preenchimento é bloqueado.
 
-## Segurança
+Também são tratados como proposta já enviada textos como:
 
-- Manifest V3.
-- Content scripts limitados ao 99Freelas.
-- Não acessa senha ou cookies diretamente.
-- Não tenta contornar CAPTCHA ou bloqueios da plataforma.
-- Não envia proposta automaticamente.
-- O clique final continua humano.
-- Propostas da fila remota continuam bloqueadas se contiverem possível contato externo proibido.
-- Projetos detectados como fechados/em andamento são gravados localmente para não reaparecerem no radar.
+- `Melhorar proposta`
+- `Editar proposta`
+- `Cancelar proposta`
+- `Você já enviou uma proposta`
+- `Sua proposta foi enviada`
 
-## Arquivos principais
+## Velocidade
 
-- `manifest.json`
-- `background.js`
-- `content.js`
-- `status-fix.js`
-- `autopilot.js`
-- `scanner.js`
-- `content.css`
-- `scanner.css`
+A v1 não mantém fila flutuante, não consulta dezenas de projetos em segundo plano e não usa polling contínuo.
 
-## Instalação/atualização local
+Na página de projetos existe apenas:
 
-1. baixe a versão atual da pasta `crs99-extension`;
-2. substitua a pasta local antiga;
+- leitura inicial do DOM;
+- reescaneamento manual pelo botão `CRS: reescanear`;
+- debounce leve ao rolar a página para capturar projetos carregados depois.
+
+## Propostas
+
+O gerador local cobre planilhas, dados, pesquisa, documentos, apresentações, design simples, sites/landing pages, scripts, tradução, copy, vídeo, social, candidatura a vagas e prospecção/SDR.
+
+Termos de intenção principal têm prioridade. Exemplo: `SDR para captar clientes que querem landing pages` é classificado como prospecção/SDR, não como desenvolvimento de landing page.
+
+Nunca são inventados experiência, portfólio, clientes, resultados, formação, credenciais ou cases.
+
+## Instalação/atualização
+
+1. baixe o ZIP da branch `main`;
+2. extraia/substitua a pasta local;
 3. abra `chrome://extensions`;
-4. confirme que **Modo do desenvolvedor** está ativo;
-5. clique em **Recarregar** no CRS 99 Copilot; se o caminho da pasta mudou, use **Carregar sem compactação** e selecione a nova pasta;
-6. em janela anônima, mantenha **Permitir em modo anônimo** habilitado;
-7. abra `https://www.99freelas.com.br/projects` e use o botão **Preparar proposta** no Radar Autopilot.
+4. ative **Modo do desenvolvedor**;
+5. recarregue **CRS 99 Copilot** ou use **Carregar sem compactação** apontando para `crs99-extension`;
+6. se usar janela anônima, mantenha **Permitir em modo anônimo** habilitado;
+7. abra `https://www.99freelas.com.br/projects`.
 
-## Limitação deliberada
+## Teste principal
 
-A v0.4 não chama uma conversa do ChatGPT diretamente. Ela usa o motor de decisão local criado a partir das regras operacionais da CRS. Uma integração futura com modelo via API pode gerar análise semântica ainda mais flexível, mas exigiria serviço/API separado e custo próprio.
+O primeiro teste deve ser feito em um projeto ainda não enviado:
 
-Não transformar em produto público antes de uso interno suficiente e evidência de valor.
+`Preparar proposta → nova aba → projeto correto → formulário correto → detalhes + valor + duração preenchidos`.
+
+Não altere mais a arquitetura antes de observar esse teste real.
