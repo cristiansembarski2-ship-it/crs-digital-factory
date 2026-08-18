@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Copiloto interno da CRS Digital para ranquear projetos ao vivo, validar e preencher propostas no 99Freelas sem envio automático.",
   "permissions": ["storage"],
   "host_permissions": [
