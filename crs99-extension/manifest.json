@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "CRS 99 Copilot",
-  "version": "0.6.1",
-  "description": "Copiloto CRS para manter uma fila persistente de novas oportunidades, preparar propostas e retirar automaticamente as já enviadas.",
+  "version": "0.6.2",
+  "description": "Copiloto CRS com fila persistente, deduplicação por ID real do projeto e autofill protegido de proposta, valor e prazo.",
   "permissions": ["storage"],
   "host_permissions": [
     "https://www.99freelas.com.br/*",
@@ -20,7 +20,7 @@
         "https://99freelas.com.br/project/*"
       ],
       "css": ["content.css"],
-      "js": ["content.js", "title-fix.js", "status-fix.js", "autopilot.js", "sent-tracker.js", "queue-panel.js"],
+      "js": ["content.js", "title-fix.js", "status-fix.js", "autopilot.js", "state-fix.js", "flow-fix.js", "sent-tracker.js", "queue-panel.js"],
       "run_at": "document_idle"
     },
     {
@@ -28,7 +28,7 @@
         "https://www.99freelas.com.br/projects*",
         "https://99freelas.com.br/projects*"
       ],
-      "js": ["scanner.js", "queue-panel.js"],
+      "js": ["scanner.js", "state-fix.js", "queue-panel.js"],
       "run_at": "document_idle"
     },
     {
@@ -36,7 +36,7 @@
         "https://www.99freelas.com.br/p/*",
         "https://99freelas.com.br/p/*"
       ],
-      "js": ["queue-panel.js"],
+      "js": ["state-fix.js", "queue-panel.js"],
       "run_at": "document_idle"
     }
   ]
