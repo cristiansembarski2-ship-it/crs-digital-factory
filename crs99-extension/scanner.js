@@ -70,7 +70,10 @@
     "trafego pago": 2.0, "gestor de trafego": 2.0, "atendimento integral": 2.5, "segunda a sabado": 1.5,
     "presencial": 3.0, "arquitetura": 2.5, "engenheiro": 1.5, "advogado": 1.0, "contador": 1.5,
     "woocommerce": 1.8, "wordpress": 1.0, "erp completo": 3.0, "aplicativo mobile": 2.0, "full stack": 1.8,
-    "experiencia comprovada": 1.2, "portfolio obrigatorio": 1.8
+    "experiencia comprovada": 1.2, "portfolio obrigatorio": 1.8,
+    "sdr": 4.0, "atender os leads": 3.5, "atender leads": 3.5, "follow-up": 3.0, "follow up": 3.0,
+    "contornar objecoes": 3.5, "vender a proxima etapa": 4.0, "acompanhar os leads": 3.0,
+    "recuperar pacientes": 3.0, "fazer atendimento comercial": 3.5, "conversao para agendamento": 3.5
   };
   const unavailableTerms = ["em andamento", "projeto em andamento", "projeto fechado", "encerrado", "finalizado", "concluido", "cancelado"];
 
