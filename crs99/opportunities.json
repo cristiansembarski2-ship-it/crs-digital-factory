@@ -1,8 +1,8 @@
 {
   "version": 1,
-  "updatedAt": "2026-08-18T19:25:00-03:00",
+  "updatedAt": "2026-08-19T14:24:00-03:00",
   "rules": {
-    "minimumFit": 8,
+    "minimumFit": 9.5,
     "autoSubmit": false,
     "forbidExternalContacts": true,
     "requireOpenProject": true,
@@ -11,27 +11,16 @@
   },
   "opportunities": [
     {
-      "projectKey": "catalogo-online-de-temas-de-acervo-para-empresa-de-decoracao-777273",
-      "title": "Catálogo online de temas de acervo para empresa de decoração",
-      "url": "https://www.99freelas.com.br/project/catalogo-online-de-temas-de-acervo-para-empresa-de-decoracao-777273",
+      "projectKey": "formatar-tabelas-de-precos-do-excel-para-pdf-777384",
+      "title": "Formatar tabelas de preços do Excel para PDF",
+      "url": "https://www.99freelas.com.br/project/formatar-tabelas-de-precos-do-excel-para-pdf-777384",
       "status": "candidate",
-      "fit": 9.8,
+      "fit": 9.7,
       "exclusive": true,
-      "price": 590,
-      "days": 5,
-      "risk": "Projeto muito aderente: site simples em formato de catálogo, com cerca de 80 temas, fotos e busca. Confirmado na sessão autenticada do 99Freelas em 18/08. Validar apenas se o botão Enviar proposta continua disponível antes do envio manual.",
-      "proposal": "Olá! Posso criar um site simples, responsivo e fácil de consultar para funcionar como catálogo do acervo da empresa, organizando os aproximadamente 80 temas com fotos e um campo de busca para facilitar a navegação.\n\nA proposta é deixar a estrutura clara tanto para quem consulta quanto para futuras atualizações de conteúdo. Posso montar a primeira versão, organizar os temas e fazer uma rodada de ajustes após sua revisão.\n\nPrazo estimado: até 5 dias úteis após receber as fotos, nomes dos temas e referências visuais. Proposta: R$ 590."
-    },
-    {
-      "projectKey": "reorganizacao-financeira-e-conciliacao-contabil-777266",
-      "title": "Reorganização financeira e conciliação contábil",
-      "url": "https://www.99freelas.com.br/project/reorganizacao-financeira-e-conciliacao-contabil-777266",
-      "status": "candidate",
-      "fit": 8.7,
-      "price": 590,
-      "days": 4,
-      "risk": "Boa aderência para organização e conciliação operacional em Excel. Não assumir responsabilidade técnica contábil, assinatura ou atividade que exija CRC. Se o anúncio exigir responsabilidade contábil formal, não enviar.",
-      "proposal": "Olá! Posso organizar o histórico das movimentações e estruturar uma conciliação mensal em Excel, com categorias padronizadas de receitas e despesas e uma visão clara das divergências encontradas.\n\nMinha proposta é focar na organização operacional dos dados e na entrega de uma base fácil de consultar e manter. Para uma primeira etapa, proponho R$ 590 com prazo de até 4 dias, considerando o recebimento dos extratos e arquivos em formato utilizável.\n\nMeu escopo é a organização e conciliação operacional dos dados; qualquer atividade que exija responsabilidade técnica contábil formal fica fora da entrega."
+      "price": 120,
+      "days": 1,
+      "risk": "Escopo curto e muito claro: formatar duas tabelas de preços do Excel para PDF sem quebrar produtos e com boa organização visual. Página pública confirmada aberta em 19/08/2026, com botão Enviar proposta e 23 propostas; Cristian não aparece entre as propostas públicas exibidas. Validar apenas se o botão Enviar proposta continua disponível antes do envio manual.",
+      "proposal": "Olá! Posso ajustar as duas tabelas no Excel para que a exportação em PDF fique organizada, sem produtos quebrados entre páginas e com boa leitura. Também reviso margens, área de impressão, dimensionamento e quebras de página antes da entrega. Consigo concluir em até 1 dia após receber os arquivos. Proposta: R$ 120."
     }
   ]
 }
