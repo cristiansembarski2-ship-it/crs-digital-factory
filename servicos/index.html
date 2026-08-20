@@ -18,9 +18,11 @@
   <script src="/shared/config.js" defer></script>
   <script src="/shared/metrics.js" defer></script>
   <style>
+    main{width:100%;max-width:none;margin:0}
     .services-hero{padding:88px 24px 54px;max-width:1160px;margin:auto;display:grid;grid-template-columns:1.15fr .85fr;gap:46px;align-items:center}
     .services-hero h1{font-size:clamp(2.7rem,6vw,5.3rem);line-height:.95;margin:12px 0 22px;letter-spacing:-.05em}.services-hero h1 span{color:#45e0b7}
     .services-hero p{font-size:1.12rem;line-height:1.7;max-width:720px;color:#aebbd0}.services-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+    .services-trust{display:flex;flex-wrap:wrap;gap:10px 18px;margin:22px 0 0;padding:0;list-style:none;color:#93a6bc;font-size:.82rem}.services-trust li::before{content:'✓';color:#45e0b7;font-weight:900;margin-right:7px}
     .service-panel{background:linear-gradient(145deg,#0d1b2c,#0a1421);border:1px solid #1d3850;border-radius:24px;padding:26px;box-shadow:0 25px 70px rgba(0,0,0,.28)}
     .service-panel strong{display:block;font-size:1.35rem;margin-bottom:14px}.service-panel ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}.service-panel li{padding:13px 14px;border:1px solid #173047;border-radius:12px;color:#dce8f5;background:#0a1725}
     .service-panel li::before{content:'✓';color:#45e0b7;font-weight:800;margin-right:10px}
@@ -29,14 +31,20 @@
     .proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.proof-card{display:block;border:1px solid #19344b;border-radius:18px;padding:22px;background:#0a1624;text-decoration:none;color:inherit;transition:.2s ease}.proof-card:hover{transform:translateY(-3px);border-color:#2a6885}.proof-card span{font-size:.8rem;color:#45e0b7;text-transform:uppercase;letter-spacing:.08em}.proof-card strong{display:block;font-size:1.2rem;margin:10px 0}.proof-card small{color:#9fafc3;line-height:1.5}
     .process{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.process article{border-top:2px solid #23516d;padding:18px 8px}.process b{color:#45e0b7}.process h3{font-size:1.08rem;margin:9px 0}.process p{font-size:.93rem;color:#9fafc3;line-height:1.55}
     .services-cta{max-width:1112px;margin:36px auto 76px;padding:38px;border:1px solid #225171;border-radius:24px;background:linear-gradient(135deg,#0b1b2b,#0b1724);display:flex;justify-content:space-between;gap:28px;align-items:center}.services-cta h2{margin:7px 0 10px;font-size:clamp(1.8rem,4vw,3rem)}.services-cta p{margin:0;color:#9fafc3;max-width:650px}.services-cta .services-actions{margin-top:0;justify-content:flex-end}
+    .mobile-contact-bar{display:none}
     @media(max-width:900px){.services-hero{grid-template-columns:1fr;padding-top:54px}.service-grid,.proof-grid{grid-template-columns:1fr 1fr}.process{grid-template-columns:1fr 1fr}.services-cta{margin-left:20px;margin-right:20px;flex-direction:column;align-items:flex-start}.services-cta .services-actions{justify-content:flex-start}}
-    @media(max-width:620px){.service-grid,.proof-grid,.process{grid-template-columns:1fr}.services-hero{padding-left:20px;padding-right:20px}.services-section{padding-left:20px;padding-right:20px}.services-actions .button{width:100%;text-align:center}.services-cta{padding:28px 22px}}
+    @media(max-width:620px){
+      .site-header{width:calc(100% - 28px);min-height:64px;gap:12px}.site-header nav{gap:0}.site-header nav a{display:none!important}.site-header nav .contact-nav{display:inline-flex!important;padding:8px 12px;border:1px solid #284964;border-radius:10px;color:#f4f7fb;background:#0d1b2c}
+      .service-grid,.proof-grid,.process{grid-template-columns:1fr}.services-hero{padding:40px 20px 38px;gap:28px}.services-hero h1{font-size:clamp(2.35rem,12vw,3.4rem);line-height:1}.services-hero p{font-size:1.02rem;line-height:1.62}.services-section{padding:42px 20px}.services-heading{margin-bottom:22px}.services-heading h2{font-size:clamp(1.85rem,9vw,2.55rem)}
+      .services-actions{gap:10px;margin-top:22px}.services-actions .button{width:100%;text-align:center;min-height:50px}.services-trust{display:grid;gap:8px;margin-top:18px}.service-panel{padding:20px;border-radius:18px}.service-panel strong{font-size:1.18rem}.service-panel li{padding:11px 12px}.service-card{min-height:auto;padding:20px}.proof-card{padding:20px}.process article{padding:16px 4px}.services-cta{padding:28px 22px;margin-bottom:96px}.services-cta .services-actions{width:100%}
+      .mobile-contact-bar{position:fixed;left:12px;right:12px;bottom:12px;z-index:50;display:flex;padding:8px;border:1px solid #28536a;border-radius:16px;background:rgba(7,16,29,.94);box-shadow:0 14px 50px rgba(0,0,0,.45);backdrop-filter:blur(12px)}.mobile-contact-bar .button{width:100%;min-height:48px}
+    }
   </style>
 </head>
 <body>
   <header class="site-header">
     <a class="logo" href="/" aria-label="CRS Digital — início"><span class="logo-mark">CRS</span><span data-crs-brand>CRS Digital</span></a>
-    <nav aria-label="Navegação principal"><a href="#servicos">Serviços</a><a href="#projetos">Projetos</a><a href="#processo">Como funciona</a><a href="/">Ferramentas</a></nav>
+    <nav aria-label="Navegação principal"><a href="#servicos">Serviços</a><a href="#projetos">Projetos</a><a href="#processo">Como funciona</a><a href="/">Ferramentas</a><a class="contact-nav" href="#contato">Contato</a></nav>
   </header>
 
   <main>
@@ -46,9 +54,10 @@
         <h1>Organize dados.<br><span>Reduza trabalho manual.</span></h1>
         <p>Planilhas, dashboards, tratamento de dados e automações operacionais simples para transformar controles espalhados em processos mais claros e fáceis de acompanhar.</p>
         <div class="services-actions">
-          <a class="button primary" href="https://www.instagram.com/crsdigital.solucoes/" target="_blank" rel="noopener noreferrer">Falar pelo Instagram</a>
-          <a class="button secondary" href="mailto:comprasemachismo@gmail.com?subject=Or%C3%A7amento%20-%20CRS%20Digital">Solicitar orçamento por e-mail</a>
+          <a class="button primary" data-crs-track-content="servicos-hero-instagram" href="https://www.instagram.com/crsdigital.solucoes/" target="_blank" rel="noopener noreferrer">Falar pelo Instagram</a>
+          <a class="button secondary" data-crs-track-content="servicos-hero-email" href="mailto:comprasemachismo@gmail.com?subject=Or%C3%A7amento%20-%20CRS%20Digital">Solicitar orçamento por e-mail</a>
         </div>
+        <ul class="services-trust" aria-label="Diferenciais"><li>Projetos publicados para testar</li><li>Solução proporcional ao problema</li><li>Contato direto para orçamento</li></ul>
       </div>
       <aside class="service-panel" aria-label="Principais soluções">
         <strong>Onde a CRS Digital pode ajudar</strong>
@@ -94,11 +103,13 @@
       </div>
     </section>
 
-    <section class="services-cta">
+    <section class="services-cta" id="contato">
       <div><span class="eyebrow">Tem um processo para organizar?</span><h2>Explique o problema. A solução começa daí.</h2><p>Envie uma mensagem com o que você faz hoje, quais arquivos utiliza e o que gostaria de simplificar.</p></div>
-      <div class="services-actions"><a class="button primary" href="https://www.instagram.com/crsdigital.solucoes/" target="_blank" rel="noopener noreferrer">Chamar no Instagram</a><a class="button secondary" href="mailto:comprasemachismo@gmail.com?subject=Or%C3%A7amento%20-%20CRS%20Digital">Enviar e-mail</a></div>
+      <div class="services-actions"><a class="button primary" data-crs-track-content="servicos-final-instagram" href="https://www.instagram.com/crsdigital.solucoes/" target="_blank" rel="noopener noreferrer">Chamar no Instagram</a><a class="button secondary" data-crs-track-content="servicos-final-email" href="mailto:comprasemachismo@gmail.com?subject=Or%C3%A7amento%20-%20CRS%20Digital">Enviar e-mail</a></div>
     </section>
   </main>
+
+  <div class="mobile-contact-bar" aria-label="Contato rápido"><a class="button primary" data-crs-track-content="servicos-mobile-instagram" href="https://www.instagram.com/crsdigital.solucoes/" target="_blank" rel="noopener noreferrer">Falar sobre meu projeto</a></div>
 
   <footer>
     <div><a class="logo footer-logo" href="/"><span class="logo-mark">CRS</span><span>CRS Digital</span></a><p>Planilhas, dados e automações para empresas.</p></div>
