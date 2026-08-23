@@ -1,6 +1,6 @@
 {
-  "configVersion": "0.4.0",
-  "updatedAt": "2026-08-23T20:30:00-03:00",
+  "configVersion": "0.4.1",
+  "updatedAt": "2026-08-23T20:35:00-03:00",
   "defaults": {
     "city": "Joinville",
     "maxPrice": 500,
@@ -8,7 +8,8 @@
     "minProfit": 100,
     "defaultResaleMultiplier": 1.6,
     "offerDiscountPct": 8,
-    "messageTemplate": "Olá! Ainda está disponível? Está tudo funcionando normalmente e sem defeitos? Se estiver tudo certo, consigo retirar em {city}. Você consegue fazer {offer}?"
+    "strategyMode": "intermediar",
+    "messageTemplate": "Olá! Vi seu anúncio e tenho interesse em ajudar a vender. Posso divulgar esse produto por um valor um pouco maior e, se eu encontrar comprador, você recebe o valor que está pedindo e eu fico com a diferença? Só faria qualquer anúncio com sua autorização."
   },
   "platforms": {
     "testbed": {
