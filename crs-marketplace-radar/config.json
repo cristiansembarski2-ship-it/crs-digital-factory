@@ -1,0 +1,36 @@
+{
+  "configVersion": "0.2.0",
+  "updatedAt": "2026-08-23T20:05:00-03:00",
+  "defaults": {
+    "city": "Joinville",
+    "maxPrice": 500,
+    "minMarginPct": 40,
+    "minProfit": 100,
+    "defaultResaleMultiplier": 1.6,
+    "offerDiscountPct": 8,
+    "messageTemplate": "Olá! Ainda está disponível? Está tudo funcionando normalmente e sem defeitos? Se estiver tudo certo, consigo retirar em {city}. Você consegue fazer {offer}?"
+  },
+  "platforms": {
+    "testbed": {
+      "titleSelectors": ["h1"],
+      "priceSelectors": [".price"],
+      "locationSelectors": [".loc"],
+      "chatButtonTexts": ["enviar mensagem"],
+      "messageInputSelectors": ["#fakechat textarea", "textarea[placeholder*='Digite']"]
+    },
+    "facebook": {
+      "titleSelectors": ["h1", "[role='main'] h1", "[data-testid*='title' i]"],
+      "priceSelectors": ["[data-testid*='price' i]", "[aria-label*='preço' i]"],
+      "locationSelectors": ["[data-testid*='location' i]", "[aria-label*='localização' i]"],
+      "chatButtonTexts": ["enviar mensagem", "mensagem", "message"],
+      "messageInputSelectors": ["textarea", "[contenteditable='true'][role='textbox']", "[role='textbox']"]
+    },
+    "olx": {
+      "titleSelectors": ["h1", "[data-testid*='title' i]"],
+      "priceSelectors": ["[data-testid*='price' i]", "[class*='price' i]"],
+      "locationSelectors": ["[data-testid*='location' i]", "[class*='location' i]"],
+      "chatButtonTexts": ["chat", "mensagem", "falar com vendedor", "contatar"],
+      "messageInputSelectors": ["textarea", "input[placeholder*='mensagem' i]", "[contenteditable='true'][role='textbox']"]
+    }
+  }
+}
