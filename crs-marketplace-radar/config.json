@@ -1,6 +1,6 @@
 {
-  "configVersion": "0.2.0",
-  "updatedAt": "2026-08-23T20:05:00-03:00",
+  "configVersion": "0.3.0",
+  "updatedAt": "2026-08-23T20:20:00-03:00",
   "defaults": {
     "city": "Joinville",
     "maxPrice": 500,
@@ -29,8 +29,11 @@
       "titleSelectors": ["h1", "[data-testid*='title' i]"],
       "priceSelectors": ["[data-testid*='price' i]", "[class*='price' i]"],
       "locationSelectors": ["[data-testid*='location' i]", "[class*='location' i]"],
-      "chatButtonTexts": ["chat", "mensagem", "falar com vendedor", "contatar"],
+      "chatButtonTexts": ["chat"],
       "messageInputSelectors": ["textarea", "input[placeholder*='mensagem' i]", "[contenteditable='true'][role='textbox']"]
+    },
+    "olxChat": {
+      "messageInputSelectors": ["textarea", "input[placeholder*='mensagem' i]", "[contenteditable='true'][role='textbox']", "[role='textbox']"]
     }
   }
 }
