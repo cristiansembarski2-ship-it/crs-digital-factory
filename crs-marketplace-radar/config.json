@@ -1,6 +1,6 @@
 {
-  "configVersion": "0.3.1",
-  "updatedAt": "2026-08-23T20:23:00-03:00",
+  "configVersion": "0.4.0",
+  "updatedAt": "2026-08-23T20:30:00-03:00",
   "defaults": {
     "city": "Joinville",
     "maxPrice": 500,
@@ -15,25 +15,42 @@
       "titleSelectors": ["h1"],
       "priceSelectors": [".price"],
       "locationSelectors": [".loc"],
-      "chatButtonTexts": ["enviar mensagem"],
+      "chatButtonRules": {
+        "selectors": ["#openchat"],
+        "texts": ["enviar mensagem"],
+        "excludeAncestors": ["#crs-radar-panel"],
+        "minTopPx": 0
+      },
       "messageInputSelectors": ["#fakechat textarea", "textarea[placeholder*='Digite']"]
     },
     "facebook": {
       "titleSelectors": ["h1", "[role='main'] h1", "[data-testid*='title' i]"],
       "priceSelectors": ["[data-testid*='price' i]", "[aria-label*='preço' i]"],
       "locationSelectors": ["[data-testid*='location' i]", "[aria-label*='localização' i]"],
-      "chatButtonTexts": ["enviar mensagem", "mensagem", "message"],
+      "chatButtonRules": {
+        "selectors": ["[role='main'] button", "[role='main'] [role='button']", "main button", "main [role='button']"],
+        "texts": ["enviar mensagem", "mensagem", "message"],
+        "excludeAncestors": ["header", "nav", "[role='navigation']", "#crs-radar-panel"],
+        "minTopPx": 150
+      },
       "messageInputSelectors": ["textarea", "[contenteditable='true'][role='textbox']", "[role='textbox']"]
     },
     "olx": {
       "titleSelectors": ["h1", "[data-testid*='title' i]"],
       "priceSelectors": ["[data-testid*='price' i]", "[class*='price' i]"],
       "locationSelectors": ["[data-testid*='location' i]", "[class*='location' i]"],
-      "chatButtonTexts": ["enviar mensagem", "falar com vendedor", "contatar", "mensagem"],
-      "messageInputSelectors": ["textarea", "input[placeholder*='mensagem' i]", "[contenteditable='true'][role='textbox']"]
+      "chatButtonRules": {
+        "selectors": ["main button", "main a", "[role='main'] button", "[role='main'] a", "button", "a", "[role='button']"],
+        "texts": ["chat", "enviar mensagem", "falar com vendedor", "contatar", "mensagem"],
+        "excludeAncestors": ["header", "nav", "[role='navigation']", "#crs-radar-panel"],
+        "minTopPx": 160,
+        "preferLowerOnPage": true
+      },
+      "messageInputSelectors": ["textarea", "input[placeholder*='mensagem' i]", "[contenteditable='true'][role='textbox']", "[role='textbox']"]
     },
     "olxChat": {
-      "messageInputSelectors": ["textarea", "input[placeholder*='mensagem' i]", "[contenteditable='true'][role='textbox']", "[role='textbox']"]
+      "messageInputSelectors": ["textarea", "input[placeholder*='mensagem' i]", "[contenteditable='true'][role='textbox']", "[role='textbox']"],
+      "conversationSelectors": ["[data-testid*='conversation' i]", "[class*='conversation' i]", "[class*='message' i]"]
     }
   }
 }
